@@ -1,0 +1,84 @@
+
+    
+        /* Custom styles for precise visual fidelity */
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f0eb;
+            margin: 0;
+            padding: 0;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* Footer Container with subtle background image overlay */
+        .ag-footer {
+            position: relative;
+            background-color: #e6e5df;
+            background-image:
+                radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.7) 0%, rgba(230, 229, 223, 0.4) 70%),
+                url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center bottom;
+            background-blend-mode: overlay;
+            overflow: hidden;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Top soft gradient mask for smooth blend */
+        .ag-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, #f1f0eb 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Bottom haze fog layer behind giant text */
+        .ag-footer::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to top, rgba(230, 229, 223, 0.95) 0%, rgba(230, 229, 223, 0.6) 50%, transparent 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Giant Watermark Typography touching the very bottom */
+        .giant-ag-care {
+            font-size: clamp(5.5rem, 18.5vw, 23rem);
+            font-weight: 800;
+            line-height: 0.76;
+            letter-spacing: -0.05em;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            user-select: none;
+            margin-bottom: -0.04em;
+            /* Touch exact bottom edge */
+            white-space: nowrap;
+        }
+
+        /* Hover links styling */
+        .footer-link {
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: #000000;
+            transform: translateX(2px);
+        }
+
+        /* Code modal overlay */
+        .code-modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+    

@@ -1,0 +1,3442 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+     <title>Rise Care Foundation</title>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+     <script src="https://cdn.tailwindcss.com"></script>
+     <script>
+          tailwind.config = {
+               theme: {
+                    extend: {
+                         colors: {
+                              skyTop: '#0a58d6',
+                              skyMid: '#1a7cf0',
+                              skyLow: '#4aa6ff',
+                              skyHaze: '#8fd0ff',
+                              ink: '#0b2a55',
+                              limeAccent: '#d9fb6e'
+                         },
+                         fontFamily: {
+                              display: ['"Instrument Sans"', 'sans-serif'],
+                              mono: ['"DM Mono"', 'monospace']
+                         }
+                    }
+               }
+          }
+     </script>
+     <style>
+          :root {
+               color-scheme: light;
+               box-sizing: border-box;
+               padding-top: env(safe-area-inset-top, 0px);
+               padding-bottom: env(safe-area-inset-bottom, 0px);
+
+               --white: #ffffff;
+               --mist: #f2f7ff;
+               --mist-2: #e2edff;
+               --line: #d6e3f8;
+               --blue: #1668e3;
+               --blue-deep: #0a3fa8;
+               --sky-top: #0a58d6;
+               --sky-mid: #1a7cf0;
+               --sky-low: #4aa6ff;
+               --sky-haze: #8fd0ff;
+               --yellow: #ffd23f;
+               --yellow-deep: #f2b705;
+               --black: #0a0e18;
+               --ink: #0b2a55;
+               --muted: #4f6a92;
+               --snow-dim: rgba(255, 255, 255, .7);
+               --glass: rgba(6, 44, 110, .55);
+               --font-display: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+               --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+               --gutter: clamp(16px, 4vw, 40px);
+               --ease: cubic-bezier(.2, .8, .2, 1);
+               color-scheme: light;
+          }
+
+          * {
+               box-sizing: border-box;
+          }
+
+          html {
+               scroll-padding-top: env(safe-area-inset-top, 0px);
+               scroll-behavior: smooth;
+               background: var(--white);
+          }
+
+          body {
+               margin: 0;
+               padding: 10px;
+               min-height: 100vh;
+
+               background: var(--white);
+               color: var(--ink);
+               font-family: var(--font-display);
+               font-size: 16px;
+               line-height: 1.5;
+               padding: 0;
+               overflow-x: clip;
+          }
+
+          body.intro-lock {
+               overflow: hidden;
+          }
+
+          a {
+               color: inherit;
+               text-decoration: none;
+          }
+
+          button,
+          input,
+          select,
+          textarea {
+               font: inherit;
+               color: inherit;
+               cursor: pointer;
+          }
+
+          img,
+          svg {
+               max-width: 100%;
+          }
+
+          :focus-visible {
+               outline: 2px solid var(--yellow);
+               outline-offset: 3px;
+          }
+
+          .mono {
+               font-family: var(--font-mono);
+               font-size: 12px;
+               text-transform: uppercase;
+               letter-spacing: .14em;
+          }
+
+          .ic {
+               width: 1em;
+               height: 1em;
+               fill: none;
+               stroke: currentColor;
+               stroke-width: 1.8;
+               stroke-linecap: round;
+               stroke-linejoin: round;
+               flex: none;
+          }
+
+          section[id] {
+               scroll-margin-top: 70px;
+          }
+
+          #home {
+               scroll-margin-top: 0;
+          }
+
+          /* ---------- Progress bar and nav ---------- */
+          .progress {
+               position: fixed;
+               top: 0;
+               left: 0;
+               right: 0;
+               height: 3px;
+               z-index: 70;
+               background: transparent;
+               pointer-events: none;
+          }
+
+          .progress i {
+               display: block;
+               height: 100%;
+               width: 100%;
+               background: var(--yellow);
+               transform-origin: 0 50%;
+               transform: scaleX(0);
+          }
+
+
+          /* ---------- Hero & 3D Carousel Layout ---------- */
+          .site {
+               transform-origin: 50% 40%;
+               will-change: transform, filter;
+          }
+
+          .hero {
+               position: relative;
+               overflow: hidden;
+               border-radius: 26px;
+               background:
+                    radial-gradient(120% 60% at 50% 105%, #8fd0ff 0%, rgba(143, 208, 255, 0) 60%),
+                    linear-gradient(180deg, #0a58d6 0%, #1a7cf0 38%, #4aa6ff 78%, #8fd0ff 100%);
+               color: #ffffff;
+               isolation: isolate;
+               display: flex;
+               flex-direction: column;
+               min-height: 740px;
+          }
+
+          .clouds {
+               position: absolute;
+               inset: 0;
+               z-index: 0;
+               pointer-events: none;
+               overflow: hidden;
+          }
+
+          .cloud-layer {
+               position: absolute;
+               inset: 0;
+               animation: drift var(--dur, 70s) ease-in-out infinite alternate;
+          }
+
+          .puff {
+               position: absolute;
+               border-radius: 50%;
+               background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .96) 0%, rgba(255, 255, 255, .85) 32%, rgba(255, 255, 255, 0) 70%);
+          }
+
+          @keyframes drift {
+               from {
+                    transform: translateX(-3%);
+               }
+
+               to {
+                    transform: translateX(3%);
+               }
+          }
+
+
+          .btn {
+               display: inline-flex;
+               align-items: center;
+               justify-content: center;
+               gap: 12px;
+               height: 46px;
+               padding: 0 22px;
+               border-radius: 999px;
+               border: 0;
+               cursor: pointer;
+               white-space: nowrap;
+               transition: transform .2s var(--ease), box-shadow .2s, background .2s;
+          }
+
+          .btn:hover {
+               transform: translateY(-2px);
+          }
+
+          .btn:active {
+               transform: translateY(0);
+          }
+
+          .btn-yellow {
+               background: var(--yellow);
+               color: var(--black);
+               box-shadow: 0 10px 26px -12px rgba(255, 210, 63, .95);
+          }
+
+          .btn-yellow:hover {
+               background: #ffdc66;
+          }
+
+          .btn-yellow.small {
+               height: 40px;
+               padding: 0 18px;
+          }
+
+          .btn-glass {
+               background: var(--glass);
+               color: #d6e8ff;
+               border: 1px solid rgba(255, 255, 255, .2);
+               backdrop-filter: blur(8px);
+               -webkit-backdrop-filter: blur(8px);
+          }
+
+          .btn-blue {
+               background: var(--blue);
+               color: var(--white);
+               box-shadow: 0 12px 28px -14px rgba(22, 104, 227, .9);
+          }
+
+          .btn-blue:hover {
+               background: #2a77ee;
+          }
+
+          .btn-line {
+               background: transparent;
+               color: var(--ink);
+               border: 1.5px solid var(--ink);
+          }
+
+          .btn-line:hover {
+               background: var(--ink);
+               color: var(--white);
+          }
+
+          .btn-dark {
+               background: var(--black);
+               color: var(--white);
+          }
+
+          .btn .go {
+               width: 30px;
+               height: 30px;
+               border-radius: 50%;
+               background: var(--black);
+               display: grid;
+               place-items: center;
+               margin-right: -12px;
+               color: var(--yellow);
+               transition: transform .25s var(--ease);
+          }
+
+          .btn:hover .go {
+               transform: translateX(3px) rotate(-8deg);
+          }
+
+          .btn .go .ic {
+               width: 13px;
+               height: 13px;
+               stroke-width: 2;
+          }
+
+          /* ---------- Shared section styles ---------- */
+          .wrap {
+               width: 100%;
+               max-width: 1200px;
+               margin-inline: auto;
+               padding-inline: var(--gutter);
+          }
+
+          .sec {
+               padding-block: clamp(64px, 9vw, 120px);
+               position: relative;
+          }
+
+          .sec.tint {
+               background: var(--mist);
+          }
+
+          .eyebrow {
+               display: inline-flex;
+               align-items: center;
+               gap: 10px;
+               color: var(--blue);
+               margin: 0 0 16px;
+          }
+
+          .eyebrow::before {
+               content: "";
+               width: 22px;
+               height: 2px;
+               background: var(--yellow-deep);
+               border-radius: 2px;
+          }
+
+          2 {
+               margin: 0;
+               font-weight: 500;
+               font-size: clamp(2rem, 4.6vw, 3.4rem);
+               line-height: 1.04;
+               letter-spacing: -.04em;
+               text-wrap: balance;
+               color: var(--ink);
+          }
+
+          h3 {
+               margin: 0;
+               font-weight: 500;
+               letter-spacing: -.025em;
+               text-wrap: balance;
+          }
+
+
+          /* ---------- 3D Carousel & Image Cards ---------- */
+          .stage {
+               position: relative;
+               z-index: 2;
+               margin-top: auto;
+               padding-top: 24px;
+               padding-bottom: 12px;
+          }
+
+          .scene {
+               position: relative;
+               width: 100%;
+          }
+
+          .scaler {
+               position: absolute;
+               left: 50%;
+               top: 50%;
+               width: 0;
+               height: 0;
+               transform-style: preserve-3d;
+               transform-origin: 0 0;
+          }
+
+          .ring {
+               position: absolute;
+               left: 0;
+               top: 0;
+               width: 0;
+               height: 0;
+               transform-style: preserve-3d;
+               animation: spin 90s linear infinite;
+          }
+
+          .stage:hover .ring {
+               animation-play-state: paused;
+          }
+
+          @keyframes spin {
+               from {
+                    transform: translateZ(calc(var(--R) * -1)) rotateY(0deg);
+               }
+
+               to {
+                    transform: translateZ(calc(var(--R) * -1)) rotateY(360deg);
+               }
+          }
+
+          .card {
+               position: absolute;
+               left: 0;
+               top: 0;
+               width: 185px;
+               height: 235px;
+               border-radius: 20px;
+               overflow: hidden;
+               backface-visibility: hidden;
+               -webkit-backface-visibility: hidden;
+               box-shadow: 0 24px 48px -12px rgba(5, 25, 70, 0.6);
+               border: 1px solid rgba(255, 255, 255, 0.35);
+               display: flex;
+               flex-direction: column;
+               justify-content: flex-end;
+               padding: 16px;
+               color: #ffffff;
+          }
+
+          /* Full-bleed background image with gradient overlay */
+          .card-bg {
+               position: absolute;
+               inset: 0;
+               width: 100%;
+               height: 100%;
+               object-fit: cover;
+               z-index: 0;
+               transition: transform 0.5s ease;
+          }
+
+          .card:hover .card-bg {
+               transform: scale(1.08);
+          }
+
+          .card-overlay {
+               position: absolute;
+               inset: 0;
+               background: linear-gradient(180deg, rgba(8, 24, 55, 0.15) 0%, rgba(8, 24, 55, 0.75) 60%, rgba(8, 24, 55, 0.95) 100%);
+               z-index: 1;
+          }
+
+          .card-content {
+               position: relative;
+               z-index: 2;
+          }
+
+          /* ---------- Portal Intro Overlay ---------- */
+          .intro {
+               position: fixed;
+               inset: 0;
+               z-index: 100;
+               background: #fff;
+               display: grid;
+               place-items: center;
+               -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent var(--r, 0px), #000 calc(var(--r, 0px) + 2px));
+               mask-image: radial-gradient(circle at 50% 50%, transparent var(--r, 0px), #000 calc(var(--r, 0px) + 2px));
+          }
+
+          .intro[hidden] {
+               display: none !important;
+          }
+
+          .intro-name {
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               gap: 18px;
+               color: #0b2a55;
+               transform-origin: 50% 50%;
+          }
+
+          .intro-name h2 {
+               margin: 0;
+               display: flex;
+               flex-wrap: wrap;
+               justify-content: center;
+               column-gap: .3em;
+               font-weight: 500;
+               font-size: clamp(2.2rem, 8vw, 5.2rem);
+               letter-spacing: -.045em;
+               line-height: 1;
+               text-align: center;
+               padding-inline: 16px;
+          }
+
+          .word {
+               display: inline-flex;
+               overflow: hidden;
+               padding-bottom: .12em;
+          }
+
+          .ch {
+               display: inline-block;
+               transform: translateY(110%);
+               opacity: 0;
+               animation: rise .9s cubic-bezier(.2, .8, .2, 1) forwards;
+               animation-delay: calc(var(--i) * 55ms + 250ms);
+          }
+
+          @keyframes rise {
+               to {
+                    transform: none;
+                    opacity: 1;
+               }
+          }
+
+          .sun {
+               width: clamp(60px, 11vw, 110px);
+               height: auto;
+               overflow: visible;
+          }
+
+          .sun .arc {
+               fill: #d9fb6e;
+               transform-origin: 50% 100%;
+               transform: translateY(100%);
+               animation: sunrise 1.1s cubic-bezier(.2, .8, .2, 1) 1.1s forwards;
+          }
+
+          .sun .ray {
+               stroke: #0a58d6;
+               stroke-width: 3;
+               stroke-linecap: round;
+               opacity: 0;
+               animation: fadein .6s ease 1.9s forwards;
+          }
+
+          .sun .ground {
+               stroke: #0a58d6;
+               stroke-width: 3;
+               stroke-linecap: round;
+               stroke-dasharray: 100;
+               stroke-dashoffset: 100;
+               animation: draw .9s ease .9s forwards;
+          }
+
+          @keyframes sunrise {
+               to {
+                    transform: none;
+               }
+          }
+
+          @keyframes fadein {
+               to {
+                    opacity: 1;
+               }
+          }
+
+          @keyframes draw {
+               to {
+                    stroke-dashoffset: 0;
+               }
+          }
+
+          .intro-sub {
+               font-family: "DM Mono", monospace;
+               font-size: 11px;
+               letter-spacing: .22em;
+               text-transform: uppercase;
+               color: #5b7aa8;
+               opacity: 0;
+               animation: fadein .8s ease 1.7s forwards;
+          }
+
+          .portal-ring {
+               position: fixed;
+               left: 50%;
+               top: 50%;
+               z-index: 101;
+               pointer-events: none;
+               width: 0;
+               height: 0;
+               translate: -50% -50%;
+               border-radius: 50%;
+               border: 3px solid #d9fb6e;
+               box-shadow: 0 0 0 2px rgba(255, 255, 255, .7), 0 0 50px 14px rgba(30, 120, 255, .65), inset 0 0 50px 10px rgba(30, 120, 255, .5);
+               opacity: 0;
+          }
+
+          .skip {
+               position: fixed;
+               z-index: 102;
+               right: 18px;
+               bottom: 16px;
+               background: none;
+               border: 0;
+               cursor: pointer;
+               color: #5b7aa8;
+               padding: 8px;
+          }
+
+          .skip:hover {
+               color: #0b2a55;
+          }
+     </style>
+     <style>
+          .sec-head {
+               display: grid;
+               grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+               gap: 24px 56px;
+               align-items: end;
+               margin-bottom: clamp(32px, 5vw, 56px);
+          }
+
+          .sec-head p {
+               margin: 0;
+               color: var(--muted);
+               font-size: 1.05rem;
+               max-width: 52ch;
+          }
+
+          .lead {
+               color: var(--muted);
+               font-size: 1.05rem;
+               max-width: 56ch;
+          }
+
+          .note {
+               font-family: var(--font-mono);
+               font-size: 10.5px;
+               letter-spacing: .08em;
+               text-transform: uppercase;
+               color: #7a90b3;
+               margin: 18px 0 0;
+          }
+
+          [data-r].pre {
+               opacity: 0;
+          }
+
+          [data-r].in {
+               animation: rvUp .8s var(--ease) var(--d, 0s) backwards;
+          }
+
+          [data-r="left"].in {
+               animation-name: rvLeft;
+          }
+
+          [data-r="right"].in {
+               animation-name: rvRight;
+          }
+
+          [data-r="zoom"].in {
+               animation-name: rvZoom;
+          }
+
+          @keyframes rvUp {
+               from {
+                    opacity: 0;
+                    transform: translateY(28px);
+               }
+          }
+
+          @keyframes rvLeft {
+               from {
+                    opacity: 0;
+                    transform: translateX(-34px);
+               }
+          }
+
+          @keyframes rvRight {
+               from {
+                    opacity: 0;
+                    transform: translateX(34px);
+               }
+          }
+
+          @keyframes rvZoom {
+               from {
+                    opacity: 0;
+                    transform: scale(.94);
+               }
+          }
+
+          /* ---------- Impact strip ---------- */
+          .impact {
+               position: relative;
+               z-index: 5;
+               margin-top: -48px;
+               padding-inline: calc(var(--gutter) + 6px);
+          }
+
+          .impact-card {
+               max-width: 1120px;
+               margin-inline: auto;
+               background: var(--white);
+               border-radius: 26px;
+               box-shadow: 0 30px 60px -28px rgba(10, 42, 120, .45), 0 0 0 1px rgba(11, 42, 85, .05);
+               display: grid;
+               grid-template-columns: repeat(4, minmax(0, 1fr));
+          }
+
+          .stat {
+               padding: clamp(22px, 3vw, 34px) clamp(18px, 2.6vw, 32px);
+               position: relative;
+          }
+
+          .stat+.stat::before {
+               content: "";
+               position: absolute;
+               left: 0;
+               top: 24%;
+               bottom: 24%;
+               width: 1px;
+               background: var(--line);
+          }
+
+          .stat b {
+               display: block;
+               font-weight: 500;
+               font-size: clamp(2rem, 4vw, 3.1rem);
+               letter-spacing: -.045em;
+               line-height: 1;
+               font-variant-numeric: tabular-nums;
+               color: var(--blue);
+          }
+
+          .stat b sup {
+               font-size: .5em;
+               color: var(--yellow-deep);
+               vertical-align: top;
+               margin-left: 2px;
+               position: relative;
+               top: .1em;
+          }
+
+          .stat span {
+               display: block;
+               margin-top: 10px;
+               color: var(--muted);
+               font-size: .92rem;
+               line-height: 1.35;
+          }
+
+          .impact .note {
+               text-align: center;
+          }
+
+          /* ---------- About ---------- */
+          .about {
+               display: grid;
+               grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+               gap: clamp(32px, 6vw, 80px);
+               align-items: center;
+          }
+
+          .about h2 {
+               margin-bottom: 22px;
+          }
+
+          .pillars {
+               display: grid;
+               grid-template-columns: repeat(2, minmax(0, 1fr));
+               gap: 14px;
+               margin-top: 30px;
+          }
+
+          .pillar {
+               display: flex;
+               gap: 14px;
+               align-items: flex-start;
+               padding: 16px;
+               border-radius: 18px;
+               background: var(--mist);
+               border: 1px solid transparent;
+               transition: transform .3s var(--ease), border-color .3s, background .3s;
+          }
+
+          .pillar:hover {
+               transform: translateY(-4px);
+               border-color: var(--yellow);
+               background: var(--white);
+          }
+
+          .pillar .ico {
+               width: 42px;
+               height: 42px;
+               border-radius: 50%;
+               background: var(--blue);
+               color: var(--yellow);
+               display: grid;
+               place-items: center;
+               font-size: 20px;
+               flex: none;
+               transition: transform .4s var(--ease);
+          }
+
+          .pillar:hover .ico {
+               transform: rotate(-10deg) scale(1.08);
+          }
+
+          .pillar strong {
+               display: block;
+               font-weight: 500;
+               letter-spacing: -.02em;
+          }
+
+          .pillar p {
+               margin: 2px 0 0;
+               color: var(--muted);
+               font-size: .9rem;
+               line-height: 1.4;
+          }
+
+          .art {
+               position: relative;
+               border-radius: 28px;
+               overflow: hidden;
+               box-shadow: 0 30px 60px -30px rgba(10, 42, 120, .55);
+          }
+
+          .art svg {
+               display: block;
+               width: 100%;
+               height: auto;
+          }
+
+          .art .float {
+               position: absolute;
+               background: var(--white);
+               border-radius: 14px;
+               padding: 10px 14px;
+               box-shadow: 0 16px 34px -14px rgba(0, 30, 100, .55);
+               display: flex;
+               gap: 10px;
+               align-items: center;
+               animation: bob 5s ease-in-out infinite;
+          }
+
+          .art .float.a {
+               left: 4%;
+               top: 8%;
+          }
+
+          .art .float.b {
+               right: 4%;
+               bottom: 8%;
+               animation-delay: -2.4s;
+          }
+
+          .art .float i {
+               width: 30px;
+               height: 30px;
+               border-radius: 50%;
+               background: var(--yellow);
+               color: var(--black);
+               display: grid;
+               place-items: center;
+               font-style: normal;
+          }
+
+          .art .float small {
+               display: block;
+               color: var(--muted);
+               font-size: 11px;
+               line-height: 1.2;
+          }
+
+          .art .float strong {
+               font-weight: 500;
+               font-size: 15px;
+               letter-spacing: -.02em;
+               line-height: 1.2;
+          }
+
+          @keyframes bob {
+
+               0%,
+               100% {
+                    transform: translateY(0);
+               }
+
+               50% {
+                    transform: translateY(-9px);
+               }
+          }
+
+          .sunrays {
+               transform-origin: 340px 250px;
+               animation: turn 60s linear infinite;
+          }
+
+          @keyframes turn {
+               to {
+                    transform: rotate(360deg);
+               }
+          }
+
+          .cl {
+               animation: cdrift 22s ease-in-out infinite alternate;
+          }
+
+          .cl.two {
+               animation-duration: 30s;
+               animation-direction: alternate-reverse;
+          }
+
+          @keyframes cdrift {
+               from {
+                    transform: translateX(-18px);
+               }
+
+               to {
+                    transform: translateX(18px);
+               }
+          }
+
+          /* ---------- Programs ---------- */
+          .progs {
+               display: flex;
+               gap: 14px;
+               height: 480px;
+          }
+
+          .prog {
+               position: relative;
+               flex: 1;
+               border-radius: 26px;
+               overflow: hidden;
+               cursor: pointer;
+               transition: flex .7s var(--ease);
+               min-width: 0;
+               text-align: left;
+               border: 0;
+               padding: 0;
+               display: block;
+          }
+
+          .prog.active {
+               flex: 3.4;
+               cursor: default;
+          }
+
+          .prog.p1 {
+               background: var(--blue);
+               color: var(--white);
+          }
+
+          .prog.p2 {
+               background: var(--yellow);
+               color: var(--black);
+          }
+
+          .prog.p3 {
+               background: var(--black);
+               color: var(--white);
+          }
+
+          .prog.p4 {
+               background: var(--mist-2);
+               color: var(--ink);
+          }
+
+          .prog .bgic {
+               position: absolute;
+               right: -30px;
+               bottom: -40px;
+               width: 300px;
+               height: 300px;
+               opacity: .12;
+               stroke-width: 1.1;
+               transition: transform .8s var(--ease);
+          }
+
+          .prog.active .bgic {
+               transform: rotate(-8deg) scale(1.08);
+          }
+
+          .prog .vt {
+               position: absolute;
+               left: 0;
+               right: 0;
+               bottom: 0;
+               top: 0;
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               justify-content: space-between;
+               padding: 26px 0;
+               transition: opacity .35s;
+          }
+
+          .prog .vt span {
+               writing-mode: vertical-rl;
+               transform: rotate(180deg);
+               font-size: 1.25rem;
+               letter-spacing: -.02em;
+               font-weight: 500;
+          }
+
+          .prog .vt .ic {
+               font-size: 26px;
+          }
+
+          .prog.active .vt {
+               opacity: 0;
+               pointer-events: none;
+          }
+
+          .prog .full {
+               position: absolute;
+               inset: 0;
+               padding: 30px;
+               display: flex;
+               flex-direction: column;
+               justify-content: space-between;
+               opacity: 0;
+               transition: opacity .4s;
+               pointer-events: none;
+          }
+
+          .prog.active .full {
+               opacity: 1;
+               pointer-events: auto;
+               transition-delay: .25s;
+          }
+
+          .prog .full .top {
+               display: flex;
+               align-items: center;
+               gap: 12px;
+          }
+
+          .prog .full .top .ic {
+               font-size: 28px;
+          }
+
+          .prog .full h3 {
+               font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+          }
+
+          .prog .full p {
+               margin: 12px 0 0;
+               max-width: 40ch;
+               opacity: .88;
+          }
+
+          .prog .full .meta {
+               display: flex;
+               flex-wrap: wrap;
+               align-items: center;
+               gap: 12px 18px;
+          }
+
+          .prog .full .price {
+               font-family: var(--font-mono);
+               font-size: 12px;
+               letter-spacing: .1em;
+               text-transform: uppercase;
+               opacity: .85;
+          }
+
+          .prog .btn {
+               height: 42px;
+          }
+
+          .prog.p1 .btn,
+          .prog.p3 .btn {
+               background: var(--yellow);
+               color: var(--black);
+          }
+
+          .prog.p2 .btn {
+               background: var(--black);
+               color: var(--white);
+          }
+
+          .prog.p4 .btn {
+               background: var(--blue);
+               color: var(--white);
+          }
+
+          /* ---------- Give ---------- */
+          .give {
+               background: linear-gradient(180deg, var(--blue-deep) 0%, var(--blue) 100%);
+               color: var(--white);
+               overflow: hidden;
+               isolation: isolate;
+          }
+
+          .give::before,
+          .give::after {
+               content: "";
+               position: absolute;
+               z-index: -1;
+               border-radius: 50%;
+               background: radial-gradient(circle, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 65%);
+          }
+
+          .give::before {
+               width: 720px;
+               height: 420px;
+               left: -200px;
+               top: -120px;
+          }
+
+          .give::after {
+               width: 820px;
+               height: 460px;
+               right: -260px;
+               bottom: -160px;
+          }
+
+          .give h2 {
+               color: var(--white);
+          }
+
+          .give .eyebrow {
+               color: var(--yellow);
+          }
+
+          .give .sec-head p {
+               color: rgba(255, 255, 255, .8);
+          }
+
+          .give-grid {
+               display: grid;
+               grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+               gap: 22px;
+               align-items: stretch;
+          }
+
+          .panel {
+               background: var(--white);
+               color: var(--ink);
+               border-radius: 26px;
+               padding: clamp(22px, 3vw, 34px);
+               display: flex;
+               flex-direction: column;
+               gap: 22px;
+               box-shadow: 0 34px 70px -34px rgba(0, 20, 80, .8);
+          }
+
+          .field-label {
+               display: block;
+               margin-bottom: 10px;
+               color: var(--muted);
+          }
+
+          .seg {
+               position: relative;
+               display: grid;
+               grid-template-columns: 1fr 1fr;
+               padding: 5px;
+               border-radius: 999px;
+               background: var(--mist-2);
+          }
+
+          .seg .thumb {
+               position: absolute;
+               top: 5px;
+               bottom: 5px;
+               left: 5px;
+               width: calc(50% - 5px);
+               border-radius: 999px;
+               background: var(--yellow);
+               transition: transform .4s var(--ease);
+               box-shadow: 0 6px 16px -8px rgba(242, 183, 5, .9);
+          }
+
+          .seg[data-v="monthly"] .thumb {
+               transform: translateX(100%);
+          }
+
+          .seg button {
+               position: relative;
+               z-index: 1;
+               height: 42px;
+               border: 0;
+               background: none;
+               cursor: pointer;
+               border-radius: 999px;
+               font-weight: 500;
+               color: var(--muted);
+               transition: color .2s;
+          }
+
+          .seg button[aria-checked="true"] {
+               color: var(--black);
+          }
+
+          .amounts {
+               display: grid;
+               grid-template-columns: repeat(4, minmax(0, 1fr));
+               gap: 10px;
+          }
+
+          .amt {
+               height: 52px;
+               border-radius: 14px;
+               border: 1.5px solid var(--line);
+               background: var(--white);
+               cursor: pointer;
+               font-size: 1.1rem;
+               font-weight: 500;
+               letter-spacing: -.02em;
+               font-variant-numeric: tabular-nums;
+               transition: transform .2s var(--ease), border-color .2s, background .2s, color .2s;
+          }
+
+          .amt:hover {
+               border-color: var(--blue);
+               transform: translateY(-2px);
+          }
+
+          .amt[aria-pressed="true"] {
+               background: var(--blue);
+               border-color: var(--blue);
+               color: var(--white);
+          }
+
+          .custom {
+               position: relative;
+               margin-top: 10px;
+          }
+
+          .custom span {
+               position: absolute;
+               left: 16px;
+               top: 50%;
+               transform: translateY(-50%);
+               color: var(--muted);
+               font-weight: 500;
+          }
+
+          .custom input {
+               width: 100%;
+               height: 50px;
+               border-radius: 14px;
+               border: 1.5px solid var(--line);
+               padding: 0 16px 0 34px;
+               background: var(--white);
+               font-variant-numeric: tabular-nums;
+          }
+
+          .custom input:focus {
+               outline: none;
+               border-color: var(--blue);
+               box-shadow: 0 0 0 4px rgba(22, 104, 227, .15);
+          }
+
+          .chips-row {
+               display: flex;
+               flex-wrap: wrap;
+               gap: 8px;
+          }
+
+          .pchip {
+               height: 40px;
+               padding: 0 16px;
+               border-radius: 999px;
+               border: 1.5px solid var(--line);
+               background: var(--white);
+               cursor: pointer;
+               font-weight: 500;
+               transition: background .2s, border-color .2s, color .2s, transform .2s var(--ease);
+          }
+
+          .pchip:hover {
+               border-color: var(--blue);
+               transform: translateY(-1px);
+          }
+
+          .pchip[aria-pressed="true"] {
+               background: var(--black);
+               border-color: var(--black);
+               color: var(--white);
+          }
+
+          .summary {
+               background: var(--black);
+               color: var(--white);
+               border-radius: 26px;
+               padding: clamp(22px, 3vw, 34px);
+               display: flex;
+               flex-direction: column;
+               gap: 18px;
+               position: relative;
+               overflow: hidden;
+               box-shadow: 0 34px 70px -34px rgba(0, 0, 0, .8);
+          }
+
+          .summary::after {
+               content: "";
+               position: absolute;
+               right: -80px;
+               top: -80px;
+               width: 240px;
+               height: 240px;
+               border-radius: 50%;
+               background: radial-gradient(circle, rgba(255, 210, 63, .35), rgba(255, 210, 63, 0) 70%);
+               pointer-events: none;
+          }
+
+          .summary .lab {
+               color: #8fa6d4;
+          }
+
+          .summary .gift {
+               font-size: clamp(2.4rem, 5vw, 3.4rem);
+               letter-spacing: -.05em;
+               line-height: 1;
+               font-weight: 500;
+               font-variant-numeric: tabular-nums;
+          }
+
+          .summary .gift small {
+               font-size: 1rem;
+               letter-spacing: 0;
+               color: #8fa6d4;
+               margin-left: 6px;
+               font-weight: 400;
+          }
+
+          .summary hr {
+               width: 100%;
+               border: 0;
+               border-top: 1px solid rgba(255, 255, 255, .12);
+               margin: 0;
+          }
+
+          .fund-n {
+               display: flex;
+               align-items: baseline;
+               gap: 12px;
+          }
+
+          .fund-n b {
+               font-size: clamp(2.6rem, 5.4vw, 3.8rem);
+               font-weight: 500;
+               letter-spacing: -.05em;
+               color: var(--yellow);
+               line-height: 1;
+               font-variant-numeric: tabular-nums;
+          }
+
+          .fund-n span {
+               color: #c9d8f3;
+               line-height: 1.35;
+               max-width: 26ch;
+          }
+
+          .dots {
+               display: flex;
+               flex-wrap: wrap;
+               gap: 8px;
+               align-items: center;
+          }
+
+          .dots i {
+               width: 22px;
+               height: 22px;
+               border-radius: 50%;
+               background: rgba(255, 255, 255, .1);
+               transition: background .3s, transform .4s var(--ease);
+          }
+
+          .dots i.on {
+               background: var(--yellow);
+               transform: scale(1);
+               animation: dotin .5s var(--ease) backwards;
+               animation-delay: calc(var(--k) * 35ms);
+          }
+
+          @keyframes dotin {
+               from {
+                    transform: scale(.2);
+               }
+
+               to {
+                    transform: scale(1);
+               }
+          }
+
+          .dots em {
+               font-style: normal;
+               color: #c9d8f3;
+               font-size: .9rem;
+               margin-left: 4px;
+          }
+
+          .summary .year {
+               color: #c9d8f3;
+               font-size: .95rem;
+               min-height: 1.4em;
+          }
+
+          .summary .btn {
+               width: 100%;
+               height: 54px;
+               margin-top: auto;
+          }
+
+          .status {
+               margin: 0;
+               min-height: 1.4em;
+               font-size: .85rem;
+               color: #c9d8f3;
+          }
+
+          /* ---------- Where it goes + tiers ---------- */
+          .alloc {
+               display: grid;
+               grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+               gap: clamp(28px, 6vw, 80px);
+               align-items: center;
+          }
+
+          .abar {
+               display: flex;
+               height: 64px;
+               border-radius: 18px;
+               overflow: hidden;
+               background: var(--mist-2);
+               gap: 4px;
+          }
+
+          .abar div {
+               height: 100%;
+               width: 0;
+               transition: width 1.4s var(--ease);
+               display: grid;
+               place-items: center;
+               font-weight: 500;
+               font-size: .95rem;
+          }
+
+          .abar .s1 {
+               background: var(--blue);
+               color: var(--white);
+          }
+
+          .abar .s2 {
+               background: var(--yellow);
+               color: var(--black);
+          }
+
+          .abar .s3 {
+               background: var(--black);
+               color: var(--white);
+          }
+
+          .legend {
+               display: grid;
+               gap: 14px;
+               margin-top: 26px;
+          }
+
+          .legend li {
+               display: grid;
+               grid-template-columns: 14px minmax(0, 1fr);
+               gap: 14px;
+               align-items: start;
+               list-style: none;
+          }
+
+          .legend ul {
+               margin: 0;
+               padding: 0;
+               display: grid;
+               gap: 16px;
+          }
+
+          .legend i {
+               width: 14px;
+               height: 14px;
+               border-radius: 50%;
+               margin-top: 5px;
+          }
+
+          .legend strong {
+               font-weight: 500;
+               letter-spacing: -.02em;
+          }
+
+          .legend p {
+               margin: 2px 0 0;
+               color: var(--muted);
+               font-size: .92rem;
+          }
+
+          .tiers {
+               display: grid;
+               grid-template-columns: repeat(3, minmax(0, 1fr));
+               gap: 18px;
+               align-items: stretch;
+               margin-top: clamp(40px, 6vw, 72px);
+          }
+
+          .tier {
+               position: relative;
+               background: var(--white);
+               border-radius: 26px;
+               padding: clamp(22px, 2.6vw, 32px);
+               border: 1.5px solid var(--line);
+               display: flex;
+               flex-direction: column;
+               gap: 16px;
+               transition: transform .35s var(--ease), box-shadow .35s, border-color .35s;
+          }
+
+          .tier:hover {
+               transform: translateY(-8px);
+               box-shadow: 0 30px 50px -30px rgba(10, 42, 120, .5);
+               border-color: var(--blue);
+          }
+
+          .tier.hot {
+               background: var(--blue);
+               color: var(--white);
+               border-color: var(--blue);
+          }
+
+          .tier.hot:hover {
+               border-color: var(--yellow);
+          }
+
+          .tier .badge {
+               position: absolute;
+               top: 18px;
+               right: 18px;
+               background: var(--yellow);
+               color: var(--black);
+               padding: 5px 10px;
+               border-radius: 999px;
+          }
+
+          .tier .name {
+               color: var(--blue);
+          }
+
+          .tier.hot .name {
+               color: var(--yellow);
+          }
+
+          .tier .price {
+               font-size: clamp(2.2rem, 4vw, 3rem);
+               letter-spacing: -.05em;
+               font-weight: 500;
+               line-height: 1;
+          }
+
+          .tier .price small {
+               font-size: .95rem;
+               letter-spacing: 0;
+               font-weight: 400;
+               opacity: .7;
+               margin-left: 4px;
+          }
+
+          .tier .desc {
+               margin: 0;
+               color: var(--muted);
+          }
+
+          .tier.hot .desc {
+               color: rgba(255, 255, 255, .82);
+          }
+
+          .tier ul {
+               list-style: none;
+               margin: 0;
+               padding: 0;
+               display: grid;
+               gap: 11px;
+          }
+
+          .tier li {
+               display: flex;
+               gap: 10px;
+               align-items: flex-start;
+               line-height: 1.35;
+          }
+
+          .tier li .ic {
+               color: var(--blue);
+               margin-top: 2px;
+               stroke-width: 2.4;
+          }
+
+          .tier.hot li .ic {
+               color: var(--yellow);
+          }
+
+          .tier .btn {
+               margin-top: auto;
+               width: 100%;
+          }
+
+          .marquee {
+               margin-top: clamp(40px, 6vw, 64px);
+               overflow: hidden;
+               border-block: 1px solid var(--line);
+               padding-block: 18px;
+               -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+               mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+          }
+
+          .marquee .track {
+               display: flex;
+               width: max-content;
+               animation: scroll 40s linear infinite;
+          }
+
+          .marquee:hover .track {
+               animation-play-state: paused;
+          }
+
+          .marquee span {
+               display: inline-flex;
+               align-items: center;
+               gap: 28px;
+               padding-right: 28px;
+               font-size: clamp(1.3rem, 2.6vw, 2rem);
+               font-weight: 500;
+               letter-spacing: -.03em;
+               color: var(--ink);
+               white-space: nowrap;
+          }
+
+          .marquee span::after {
+               content: "";
+               width: 12px;
+               height: 12px;
+               border-radius: 50%;
+               background: var(--yellow);
+          }
+
+          @keyframes scroll {
+               to {
+                    transform: translateX(-50%);
+               }
+          }
+
+          .marquee-cap {
+               text-align: center;
+               margin: 0 0 14px;
+               color: var(--muted);
+          }
+
+          /* ---------- How it works (black) ---------- */
+          .how {
+               background: var(--black);
+               color: var(--white);
+               overflow: hidden;
+          }
+
+          .how h2 {
+               color: var(--white);
+          }
+
+          .how .eyebrow {
+               color: var(--yellow);
+          }
+
+          .how .sec-head p {
+               color: #9fb0cf;
+          }
+
+          .steps {
+               position: relative;
+               display: grid;
+               grid-template-columns: repeat(4, minmax(0, 1fr));
+               gap: 24px;
+          }
+
+          .steps .line {
+               position: absolute;
+               left: 22px;
+               right: 22px;
+               top: 22px;
+               height: 2px;
+               background: rgba(255, 255, 255, .14);
+          }
+
+          .steps .line i {
+               display: block;
+               height: 100%;
+               background: var(--yellow);
+               width: 0;
+               transition: width 2s var(--ease);
+          }
+
+          .step {
+               position: relative;
+               padding-top: 0;
+          }
+
+          .step .n {
+               width: 44px;
+               height: 44px;
+               border-radius: 50%;
+               background: var(--black);
+               border: 2px solid var(--yellow);
+               color: var(--yellow);
+               display: grid;
+               place-items: center;
+               font-family: var(--font-mono);
+               font-weight: 500;
+               position: relative;
+               z-index: 1;
+          }
+
+          .step h3 {
+               margin: 22px 0 8px;
+               font-size: 1.35rem;
+          }
+
+          .step p {
+               margin: 0;
+               color: #9fb0cf;
+               font-size: .96rem;
+          }
+
+          /* ---------- Projects ---------- */
+          .projects {
+               display: grid;
+               grid-template-columns: repeat(3, minmax(0, 1fr));
+               gap: 18px;
+          }
+
+          .proj {
+               background: var(--white);
+               border-radius: 26px;
+               overflow: hidden;
+               border: 1.5px solid var(--line);
+               display: flex;
+               flex-direction: column;
+               transition: transform .35s var(--ease), box-shadow .35s;
+          }
+
+          .proj:hover {
+               transform: translateY(-6px);
+               box-shadow: 0 30px 50px -32px rgba(10, 42, 120, .55);
+          }
+
+          .proj .pic {
+               height: 150px;
+               position: relative;
+               overflow: hidden;
+               display: grid;
+               place-items: center;
+          }
+
+          .proj .pic .ic {
+               font-size: 64px;
+               stroke-width: 1.2;
+               transition: transform .5s var(--ease);
+          }
+
+          .proj:hover .pic .ic {
+               transform: scale(1.12) rotate(-6deg);
+          }
+
+          .proj.a .pic {
+               background: var(--blue);
+               color: var(--yellow);
+          }
+
+          .proj.b .pic {
+               background: var(--yellow);
+               color: var(--black);
+          }
+
+          .proj.c .pic {
+               background: var(--black);
+               color: var(--yellow);
+          }
+
+          .proj .pic::after {
+               content: "";
+               position: absolute;
+               width: 220px;
+               height: 220px;
+               border-radius: 50%;
+               background: rgba(255, 255, 255, .1);
+               right: -70px;
+               top: -90px;
+          }
+
+          .proj .body {
+               padding: 22px;
+               display: flex;
+               flex-direction: column;
+               gap: 14px;
+               flex: 1;
+          }
+
+          .proj h3 {
+               font-size: 1.3rem;
+          }
+
+          .proj p {
+               margin: 0;
+               color: var(--muted);
+               font-size: .95rem;
+          }
+
+          .meter {
+               height: 10px;
+               border-radius: 999px;
+               background: var(--mist-2);
+               overflow: hidden;
+          }
+
+          .meter i {
+               display: block;
+               height: 100%;
+               width: 0;
+               background: linear-gradient(90deg, var(--blue), #4aa6ff);
+               border-radius: 999px;
+               transition: width 1.6s var(--ease);
+               position: relative;
+          }
+
+          .meter i::after {
+               content: "";
+               position: absolute;
+               right: 0;
+               top: 0;
+               bottom: 0;
+               width: 10px;
+               background: var(--yellow);
+               border-radius: 999px;
+          }
+
+          .fig {
+               display: flex;
+               justify-content: space-between;
+               gap: 10px;
+               font-variant-numeric: tabular-nums;
+               font-size: .92rem;
+               color: var(--muted);
+          }
+
+          .fig b {
+               color: var(--ink);
+               font-weight: 500;
+          }
+
+          .proj .btn {
+               margin-top: auto;
+               width: 100%;
+               height: 44px;
+          }
+
+          /* ---------- News ---------- */
+          .news {
+               display: grid;
+               grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+               gap: 18px;
+          }
+
+          .nitem {
+               display: flex;
+               flex-direction: column;
+               border-radius: 26px;
+               overflow: hidden;
+               background: var(--white);
+               border: 1.5px solid var(--line);
+               transition: transform .35s var(--ease), box-shadow .35s;
+          }
+
+          .nitem:hover {
+               transform: translateY(-6px);
+               box-shadow: 0 30px 50px -32px rgba(10, 42, 120, .5);
+          }
+
+          .nimg {
+               position: relative;
+               overflow: hidden;
+               min-height: 160px;
+               flex: none;
+          }
+
+          .nimg svg {
+               display: block;
+               width: 100%;
+               height: 100%;
+               transition: transform .8s var(--ease);
+          }
+
+          .nitem:hover .nimg svg {
+               transform: scale(1.06);
+          }
+
+          .nbody {
+               padding: 22px;
+               display: flex;
+               flex-direction: column;
+               gap: 10px;
+          }
+
+          .nmeta {
+               display: flex;
+               gap: 10px;
+               align-items: center;
+               color: var(--muted);
+          }
+
+          .tag {
+               background: var(--yellow);
+               color: var(--black);
+               padding: 4px 9px;
+               border-radius: 999px;
+          }
+
+          .nitem h3 {
+               font-size: 1.3rem;
+          }
+
+          .nitem p {
+               margin: 0;
+               color: var(--muted);
+               font-size: .95rem;
+          }
+
+          .nitem .more {
+               margin-top: 6px;
+               display: inline-flex;
+               align-items: center;
+               gap: 8px;
+               color: var(--blue);
+               font-weight: 500;
+          }
+
+          .nitem .more .ic {
+               transition: transform .25s var(--ease);
+          }
+
+          .nitem:hover .more .ic {
+               transform: translateX(5px);
+          }
+
+          .news .feat {
+               grid-row: span 2;
+          }
+
+          .news .feat .nimg {
+               min-height: 280px;
+               flex: 1;
+          }
+
+          .news .feat h3 {
+               font-size: clamp(1.5rem, 2.6vw, 2rem);
+          }
+
+          .news .side {
+               display: grid;
+               grid-template-rows: 1fr 1fr;
+               gap: 18px;
+               grid-row: span 2;
+          }
+
+          /* ---------- Get involved ---------- */
+          .involve {
+               background: linear-gradient(180deg, var(--sky-mid) 0%, var(--sky-low) 100%);
+               color: var(--white);
+               overflow: hidden;
+               isolation: isolate;
+          }
+
+          .involve::before {
+               content: "";
+               position: absolute;
+               z-index: -1;
+               inset: auto -10% -40% -10%;
+               height: 70%;
+               background: radial-gradient(60% 60% at 50% 100%, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0));
+          }
+
+          .involve h2 {
+               color: var(--white);
+          }
+
+          .involve .eyebrow {
+               color: var(--yellow);
+          }
+
+          .involve .sec-head p {
+               color: rgba(255, 255, 255, .86);
+          }
+
+          .ways {
+               display: grid;
+               grid-template-columns: repeat(3, minmax(0, 1fr));
+               gap: 18px;
+          }
+
+          .way {
+               display: flex;
+               flex-direction: column;
+               gap: 14px;
+               padding: clamp(22px, 3vw, 32px);
+               border-radius: 26px;
+               background: rgba(255, 255, 255, .16);
+               border: 1px solid rgba(255, 255, 255, .4);
+               backdrop-filter: blur(12px);
+               -webkit-backdrop-filter: blur(12px);
+               transition: transform .35s var(--ease), background .35s;
+          }
+
+          .way:hover {
+               transform: translateY(-8px);
+               background: rgba(255, 255, 255, .26);
+          }
+
+          .way .ico {
+               width: 54px;
+               height: 54px;
+               border-radius: 50%;
+               background: var(--yellow);
+               color: var(--black);
+               display: grid;
+               place-items: center;
+               font-size: 26px;
+               transition: transform .4s var(--ease);
+          }
+
+          .way:hover .ico {
+               transform: rotate(-12deg) scale(1.08);
+          }
+
+          .way h3 {
+               font-size: 1.5rem;
+          }
+
+          .way p {
+               margin: 0;
+               color: rgba(255, 255, 255, .9);
+          }
+
+          .way .lnk {
+               margin-top: auto;
+               display: inline-flex;
+               align-items: center;
+               gap: 10px;
+               font-weight: 500;
+               color: var(--white);
+          }
+
+          .way .lnk .ic {
+               transition: transform .25s var(--ease);
+          }
+
+          .way:hover .lnk .ic {
+               transform: translateX(6px);
+          }
+
+          /* ---------- Contact ---------- */
+          .contact {
+               display: grid;
+               grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+               gap: clamp(28px, 6vw, 80px);
+               align-items: start;
+          }
+
+          .contact h2 {
+               margin-bottom: 20px;
+          }
+
+          .cinfo {
+               display: grid;
+               gap: 16px;
+               margin-top: 28px;
+          }
+
+          .cinfo div {
+               padding: 16px 18px;
+               border-radius: 16px;
+               background: var(--mist);
+          }
+
+          .cinfo .mono {
+               color: var(--blue);
+               display: block;
+               margin-bottom: 4px;
+          }
+
+          .cinfo strong {
+               font-weight: 500;
+               user-select: all;
+               overflow-wrap: anywhere;
+          }
+
+          .form {
+               display: grid;
+               gap: 16px;
+               padding: clamp(22px, 3vw, 34px);
+               border-radius: 26px;
+               background: var(--white);
+               border: 1.5px solid var(--line);
+               box-shadow: 0 30px 60px -40px rgba(10, 42, 120, .5);
+          }
+
+          .two {
+               display: grid;
+               grid-template-columns: repeat(2, minmax(0, 1fr));
+               gap: 16px;
+          }
+
+          .form label {
+               display: block;
+          }
+
+          .form label span {
+               display: block;
+               margin-bottom: 8px;
+               color: var(--muted);
+          }
+
+          .form input,
+          .form select,
+          .form textarea {
+               width: 100%;
+               border-radius: 14px;
+               border: 1.5px solid var(--line);
+               background: var(--white);
+               padding: 14px 16px;
+          }
+
+          .form textarea {
+               min-height: 130px;
+               resize: vertical;
+          }
+
+          .form input:focus,
+          .form select:focus,
+          .form textarea:focus {
+               outline: none;
+               border-color: var(--blue);
+               box-shadow: 0 0 0 4px rgba(22, 104, 227, .15);
+          }
+
+          .form .status {
+               color: var(--muted);
+          }
+     </style>
+     <style>
+          :root {
+               color-scheme: light;
+               box-sizing: border-box;
+               padding-top: env(safe-area-inset-top, 0px);
+               padding-bottom: env(safe-area-inset-bottom, 0px)
+          }
+
+          html {
+               scroll-padding-top: env(safe-area-inset-top, 0px)
+          }
+
+          body {
+               margin: 0;
+               padding: 0;
+               font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+               background: #faf9f5;
+               color: #141413
+          }
+
+          img {
+               max-width: 100%
+          }
+
+          [hidden]:not([hidden=until-found i]) {
+               display: none !important
+          }
+     </style>
+</head>
+
+<body class="intro-lock">
+
+
+     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+          <defs>
+               <symbol id="i-heart" viewBox="0 0 24 24">
+                    <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.4A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" />
+               </symbol>
+               <symbol id="i-book" viewBox="0 0 24 24">
+                    <path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11" />
+               </symbol>
+               <symbol id="i-people" viewBox="0 0 24 24">
+                    <circle cx="9" cy="8" r="3" />
+                    <circle cx="17" cy="9" r="2.4" />
+                    <path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5M15.5 14.8c3 0 5.5 1.7 5.5 4.7" />
+               </symbol>
+               <symbol id="i-women" viewBox="0 0 24 24">
+                    <circle cx="12" cy="5" r="2.5" />
+                    <path d="M4.5 9l7.5 2 7.5-2M12 11v5M9 22l3-6 3 6" />
+               </symbol>
+               <symbol id="i-check" viewBox="0 0 24 24">
+                    <path d="M5 12.5l4.5 4.5L19 7.5" />
+               </symbol>
+               <symbol id="i-arrow" viewBox="0 0 24 24">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+               </symbol>
+               <symbol id="i-arrow-up" viewBox="0 0 14 14">
+                    <path d="M3.5 10.5l7-7M4.5 3.5h6v6" />
+               </symbol>
+               <symbol id="i-hand" viewBox="0 0 24 24">
+                    <path
+                         d="M7 12V6a1.5 1.5 0 0 1 3 0v5M10 11V4.5a1.5 1.5 0 0 1 3 0V11M13 11V5.5a1.5 1.5 0 0 1 3 0V12M16 11.5a1.5 1.5 0 0 1 3 0V15c0 4-2.5 6-6 6-3 0-4.5-1.5-6-4l-2.2-3.6a1.5 1.5 0 0 1 2.4-1.8L7 12" />
+               </symbol>
+               <symbol id="i-coin" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="8.5" />
+                    <path
+                         d="M12 7v10M9.5 9.6c0-1 1-1.7 2.5-1.7s2.5.7 2.5 1.7-1 1.5-2.5 1.8-2.5.8-2.5 1.8 1 1.7 2.5 1.7 2.5-.7 2.5-1.7" />
+               </symbol>
+               <symbol id="i-mega" viewBox="0 0 24 24">
+                    <path d="M4 10v4h3l8 4V6L7 10zM18 9.5a4 4 0 0 1 0 5" />
+               </symbol>
+               <symbol id="i-seed" viewBox="0 0 24 24">
+                    <path
+                         d="M12 21v-9M12 12c0-4 2.5-6.5 7-6.5 0 4-2.5 6.5-7 6.5zM12 14.5c0-3-2-5-5.5-5 0 3 2 5 5.5 5z" />
+               </symbol>
+               <symbol id="i-water" viewBox="0 0 24 24">
+                    <path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.600 6-11 6-11z" />
+               </symbol>
+          </defs>
+     </svg>
+
+     <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+     <div class="intro" id="intro" role="status" aria-label="Loading Rise Care Foundation">
+          <div class="intro-name" id="introName">
+               <svg class="sun" viewBox="0 0 120 70" aria-hidden="true">
+                    <path class="arc" d="M24 58a36 36 0 0 1 72 0z" />
+                    <line class="ray" x1="60" y1="4" x2="60" y2="-6" />
+                    <line class="ray" x1="22" y1="18" x2="14" y2="10" />
+                    <line class="ray" x1="98" y1="18" x2="106" y2="10" />
+                    <line class="ground" x1="8" y1="60" x2="112" y2="60" pathLength="100" />
+               </svg>
+               <h2 id="introTitle" aria-label="Rise Care Foundation"></h2>
+               <div class="intro-sub">Community &middot; Education &middot; Women's empowerment</div>
+          </div>
+          <button class="skip font-mono text-xs uppercase tracking-widest" id="skipBtn" type="button">Skip
+               intro</button>
+     </div>
+     <div class="portal-ring" id="portalRing" aria-hidden="true"></div>
+
+     <div class="site" id="site">
+          <section class="hero" id="hero">
+               <div class="clouds" id="clouds" aria-hidden="true"></div>
+
+               <header class="relative z-10 grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-6 pt-6 md:px-8">
+                    <a class="inline-flex items-center gap-2.5 font-medium text-lg tracking-tight justify-self-start"
+                         href="#home" aria-label="Rise Care Foundation home">
+                         <svg class="w-7 h-7 flex-none" viewBox="0 0 32 32" aria-hidden="true">
+                              <path d="M5 22a11 11 0 0 1 22 0z" fill="#d9fb6e" />
+                              <path d="M16 3v3M6.5 8l2 2M25.5 8l-2 2" stroke="#fff" stroke-width="2.2"
+                                   stroke-linecap="round" />
+                              <path d="M3 26.5h26" stroke="#fff" stroke-width="2.4" stroke-linecap="round" />
+                         </svg>
+                         Rise Care
+                    </a>
+                    <ul class="hidden md:flex items-center gap-8 list-string m-0 p-0 font-mono text-xs uppercase tracking-wider"
+                         id="navLinks">
+                         <li class="relative"><a href="#home"
+                                   class="text-white/90 hover:text-white hover:underline underline-offset-8 py-2 block">Home</a>
+                         </li>
+                         <li class="relative"><a href="#about"
+                                   class="text-white/90 hover:text-white hover:underline underline-offset-8 py-2 block">About
+                                   Us</a></li>
+                         <li class="relative"><a href="#programs"
+                                   class="text-white/90 hover:text-white hover:underline underline-offset-8 py-2 block">Our
+                                   Programs</a></li>
+                         <li class="relative"><a href="#news"
+                                   class="text-white/90 hover:text-white hover:underline underline-offset-8 py-2 block">News
+                                   &amp; Impact</a></li>
+                         <li class="relative">
+                              <button
+                                   class="more-btn text-white/90 hover:text-white py-2 bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5"
+                                   id="moreBtn" type="button" aria-expanded="false" aria-haspopup="true"
+                                   aria-controls="moreMenu">
+                                   More Links
+                                   <svg class="w-2.5 h-2.5 transition-transform duration-200" viewBox="0 0 10 10"
+                                        fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M1.5 3.5 5 7l3.5-3.5" />
+                                   </svg>
+                              </button>
+                              <ul class="dropdown absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-52 list-none m-0 p-2 rounded-2xl bg-white/95 text-ink shadow-2xl backdrop-blur-md hidden"
+                                   id="moreMenu">
+                                   <li><a href="#get-involved"
+                                             class="block text-ink px-3.5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">Get
+                                             Involved</a></li>
+                                   <li><a href="#projects"
+                                             class="block text-ink px-3.5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">Ongoing
+                                             Projects</a></li>
+                                   <li><a href="#contact"
+                                             class="block text-ink px-3.5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">Contact
+                                             Us</a></li>
+                                   <li><a href="#partner"
+                                             class="block text-ink px-3.5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">Partner
+                                             with Us</a></li>
+                              </ul>
+                         </li>
+                    </ul>
+                    <div class="justify-self-end flex items-center gap-3">
+                         <a class="hidden md:inline-flex items-center justify-center h-10 px-5 rounded-full bg-limeAccent text-ink font-mono text-xs uppercase font-medium tracking-wider shadow-lg shadow-limeAccent/20 hover:scale-105 transition-transform"
+                              href="#donate">Donate</a>
+                         <button
+                              class="md:hidden w-10 h-10 rounded-full bg-white/20 border border-white/30 grid place-items-center cursor-pointer backdrop-blur-md"
+                              id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false"
+                              aria-controls="navLinks">
+                              <svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.8"
+                                   stroke-linecap="round">
+                                   <path d="M3 6h14M3 14h14" />
+                              </svg>
+                         </button>
+                    </div>
+               </header>
+
+               <div class="relative z-10 text-center px-6 pt-12 md:pt-16 max-w-4xl mx-auto flex flex-col items-center">
+                    <h1 class="m-0 font-medium text-4xl sm:text-6xl lg:text-7xl leading-none tracking-tight">
+                         Touching Lives, <span class="text-white/70 block mt-1">One at a Time</span>
+                    </h1>
+                    <p class="mt-6 max-w-xl text-base sm:text-lg text-white/90 leading-relaxed">
+                         Fostering Hope, Dignity and Opportunity - equally for all through education, health, and
+                         community
+                         support.
+                    </p>
+                    <div class="flex gap-4 mt-8 flex-wrap justify-center">
+                         <a class="inline-flex items-center gap-3 h-12 px-7 rounded-full bg-white/15 border border-white/30 backdrop-blur-md text-white font-mono text-xs uppercase tracking-wider hover:bg-white/25 hover:-translate-y-0.5 transition-all"
+                              href="#partner">Partner with Us</a>
+                         <a class="inline-flex items-center gap-3 h-12 px-7 rounded-full bg-limeAccent text-ink font-mono text-xs uppercase tracking-wider font-semibold shadow-xl shadow-limeAccent/30 hover:-translate-y-0.5 transition-all"
+                              href="#donate">
+                              Donate Now
+                              <span class="w-7 h-7 rounded-full bg-ink grid place-items-center -mr-3 text-limeAccent">
+                                   <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M3.5 10.5l7-7M4.5 3.5h6v6" />
+                                   </svg>
+                              </span>
+                         </a>
+                    </div>
+               </div>
+
+               <div class="stage">
+                    <div class="scene" id="scene">
+                         <div class="scaler" id="scaler">
+                              <div class="ring" id="ring"></div>
+                         </div>
+                    </div>
+               </div>
+               <p class="relative z-10 text-center py-6 font-mono text-[11px] uppercase tracking-widest text-white/80">
+                    Charity &middot; Community support &middot; Education &middot; Women empowerment
+               </p>
+          </section>
+     </div>
+
+
+
+     <div class="intro" id="intro" role="status" aria-label="Loading Rise Care Foundation">
+          <div class="intro-name" id="introName">
+               <svg class="sun" viewBox="0 0 120 70" aria-hidden="true">
+                    <path class="arc" d="M24 58a36 36 0 0 1 72 0z" />
+                    <line class="ray" x1="60" y1="4" x2="60" y2="-6" />
+                    <line class="ray" x1="22" y1="18" x2="14" y2="10" />
+                    <line class="ray" x1="98" y1="18" x2="106" y2="10" />
+                    <line class="ground" x1="8" y1="60" x2="112" y2="60" pathLength="100" />
+               </svg>
+               <h2 id="introTitle" aria-label="Rise Care Foundation"></h2>
+               <div class="intro-sub">Community &middot; Education &middot; Women's empowerment</div>
+          </div>
+          <button class="skip mono" id="skipBtn" type="button">Skip intro</button>
+     </div>
+     <div class="portal-ring" id="portalRing" aria-hidden="true"></div>
+
+     <div id="site" class="origin-[50%_40%] will-change-[transform,filter] px-[10px] pt-[10px]">
+          <section id="home"
+               class="relative isolate flex min-h-[720px] flex-col overflow-hidden rounded-[26px] bg-sky-hero pb-14 text-white max-[900px]:min-h-[640px]">
+
+               <div id="clouds" aria-hidden="true" class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+               </div>
+
+               <div class="relative z-[3] flex flex-col items-center px-5 pt-[clamp(112px,13vw,148px)] text-center">
+                    <h1
+                         class="m-0 text-balance text-[clamp(2.5rem,6.6vw,4.6rem)] font-medium leading-[1.02] tracking-[-.045em]">
+                         Touching Lives, <span class="block text-white/70">One at a Time</span>
+                    </h1>
+                    <p
+                         class="mb-0 mt-[22px] max-w-[40ch] text-balance text-[clamp(.95rem,1.5vw,1.05rem)] leading-[1.55] text-white/90">
+                         Fostering Hope, Dignity and Opportunity - equally for all</p>
+                    <div class="mt-[30px] flex flex-wrap justify-center gap-[14px]">
+                         <a href="#partner" data-interest="Corporate partnership"
+                              class="inline-flex h-[46px] items-center justify-center gap-3 whitespace-nowrap rounded-full border border-solid border-white/20 bg-[rgba(6,44,110,.55)] px-[22px] font-mono text-[12px] uppercase tracking-[.14em] text-[#d6e8ff] backdrop-blur-lg transition duration-200 hover:-translate-y-0.5 active:translate-y-0 max-[560px]:h-11 max-[560px]:px-[18px]">Partner
+                              with Us</a>
+                         <a href="#donate"
+                              class="group/btn inline-flex h-[46px] items-center justify-center gap-3 whitespace-nowrap rounded-full bg-rise-sun px-[22px] font-mono text-[12px] uppercase tracking-[.14em] text-rise-night shadow-[0_10px_26px_-12px_rgba(255,210,63,.95)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#ffdc66] active:translate-y-0 max-[560px]:h-11 max-[560px]:px-[18px]">
+                              Donate
+                              <span
+                                   class="-mr-3 grid h-[30px] w-[30px] place-items-center rounded-full bg-rise-night text-rise-sun transition-transform duration-[250ms] group-hover/btn:translate-x-[3px] group-hover/btn:-rotate-[8deg] max-[560px]:hidden">
+                                   <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                                        class="h-[13px] w-[13px]">
+                                        <path d="M3.5 10.5l7-7M4.5 3.5h6v6" />
+                                   </svg>
+                              </span>
+                         </a>
+                    </div>
+               </div>
+
+               <!-- Carousel: a 3D cylinder of photos that turns forever, left to right. Pauses on hover. -->
+               <div class="group/stage relative z-[2] mt-auto pt-[18px]">
+                    <div id="scene" class="relative w-full">
+                         <div id="scaler"
+                              class="absolute left-1/2 top-1/2 h-0 w-0 origin-top-left [transform-style:preserve-3d]">
+                              <div id="ring"
+                                   class="absolute left-0 top-0 h-0 w-0 animate-spin3d [transform-style:preserve-3d] group-hover/stage:[animation-play-state:paused] motion-reduce:[animation-duration:240s]">
+                              </div>
+                         </div>
+                    </div>
+               </div>
+
+               <p
+                    class="relative z-[3] m-0 px-5 pt-2 text-center font-mono text-[12px] uppercase tracking-[.14em] text-white/90">
+                    Charity &middot; Community support &middot; Education &middot; Women empowerment</p>
+          </section>
+     </div>
+
+     <main>
+          <!-- Impact -->
+          <div class="impact">
+               <div class="impact-card" data-r="zoom">
+                    <div class="stat"><b><span class="count" data-to="12400">12,400</span><sup>+</sup></b><span>Lives
+                              touched
+                              through our programs</span></div>
+                    <div class="stat"><b><span class="count" data-to="2670">2,670</span></b><span>Girls supported to
+                              stay in
+                              school</span></div>
+                    <div class="stat"><b><span class="count" data-to="520"
+                                   data-suffix="k">520k</span><sup>+</sup></b><span>Meals
+                              shared with families</span></div>
+                    <div class="stat"><b><span class="count" data-to="1200">1,200</span></b><span>Women mentored and
+                              trained</span>
+                    </div>
+               </div>
+               <p class="note" data-r>Sample figures. Replace with your verified numbers.</p>
+          </div>
+
+          <!-- About -->
+          <section class="sec" id="about">
+               <div class="wrap about">
+                    <div>
+                         <p class="eyebrow mono" data-r>About Us</p>
+                         <h2 data-r data-d="1">Hope grows fastest when a whole community is lifted together.</h2>
+                         <p class="lead" data-r data-d="2">Rise Care Foundation is a non-profit that works alongside
+                              families, schools
+                              and local leaders. We meet urgent needs today and build the skills and opportunities that
+                              last, with a
+                              special focus on girls and women.</p>
+                         <div class="pillars">
+                              <div class="pillar" data-r data-d="2"><span class="ico"><svg class="ic">
+                                             <use href="#i-heart" />
+                                        </svg></span>
+                                   <div><strong>Charity</strong>
+                                        <p>Relief and care for households in need.</p>
+                                   </div>
+                              </div>
+                              <div class="pillar" data-r data-d="3"><span class="ico"><svg class="ic">
+                                             <use href="#i-people" />
+                                        </svg></span>
+                                   <div><strong>Community support</strong>
+                                        <p>Food, health and safe spaces that neighbours share.</p>
+                                   </div>
+                              </div>
+                              <div class="pillar" data-r data-d="4"><span class="ico"><svg class="ic">
+                                             <use href="#i-book" />
+                                        </svg></span>
+                                   <div><strong>Education</strong>
+                                        <p>Fees, kits and mentors that keep children learning.</p>
+                                   </div>
+                              </div>
+                              <div class="pillar" data-r data-d="5"><span class="ico"><svg class="ic">
+                                             <use href="#i-women" />
+                                        </svg></span>
+                                   <div><strong>Women empowerment</strong>
+                                        <p>Skills, savings and leadership for lasting independence.</p>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="art" data-r="right">
+                         <svg viewBox="0 0 560 460" role="img" aria-label="Illustration of a village school at sunrise">
+                              <defs>
+                                   <linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0" stop-color="#0a58d6" />
+                                        <stop offset=".7" stop-color="#4aa6ff" />
+                                        <stop offset="1" stop-color="#bfe3ff" />
+                                   </linearGradient>
+                              </defs>
+                              <rect width="560" height="460" fill="url(#skyg)" />
+                              <g class="sunrays" stroke="#ffd23f" stroke-width="5" stroke-linecap="round" opacity=".7">
+                                   <path
+                                        d="M340 150v-26M340 350v26M240 250h-26M440 250h26M269 179l-18-18M411 321l18 18M411 179l18-18M269 321l-18 18" />
+                              </g>
+                              <circle cx="340" cy="250" r="66" fill="#ffd23f" />
+                              <g fill="#fff" opacity=".95">
+                                   <g class="cl">
+                                        <ellipse cx="110" cy="90" rx="62" ry="20" />
+                                        <ellipse cx="150" cy="78" rx="42" ry="20" />
+                                        <ellipse cx="78" cy="82" rx="34" ry="16" />
+                                   </g>
+                                   <g class="cl two">
+                                        <ellipse cx="440" cy="64" rx="54" ry="17" />
+                                        <ellipse cx="474" cy="54" rx="34" ry="16" />
+                                   </g>
+                              </g>
+                              <path d="M0 322C110 258 230 262 330 318S500 322 560 296V460H0z" fill="#2f86f0" />
+                              <path d="M0 382C130 330 260 350 360 376S500 368 560 352V460H0z" fill="#0e4fc4" />
+                              <path d="M0 430C150 396 300 412 560 398V460H0z" fill="#0a0e18" />
+                              <g>
+                                   <rect x="372" y="318" width="124" height="62" fill="#fff" />
+                                   <path d="M362 318L434 276L506 318z" fill="#ffd23f" />
+                                   <rect x="424" y="344" width="22" height="36" fill="#0a58d6" />
+                                   <rect x="385" y="334" width="20" height="18" fill="#0a58d6" />
+                                   <rect x="463" y="334" width="20" height="18" fill="#0a58d6" />
+                                   <path d="M434 276V248" stroke="#0a0e18" stroke-width="3" />
+                                   <path d="M434 248l22 7-22 7z" fill="#ffd23f" />
+                              </g>
+                              <g>
+                                   <rect x="60" y="352" width="52" height="38" fill="#fff" />
+                                   <path d="M52 352L86 326L120 352z" fill="#ffd23f" />
+                                   <rect x="80" y="368" width="12" height="22" fill="#0a58d6" />
+                                   <rect x="140" y="366" width="46" height="34" fill="#fff" />
+                                   <path d="M132 366L163 342L194 366z" fill="#ffd23f" />
+                                   <rect x="157" y="380" width="11" height="20" fill="#0a58d6" />
+                                   <rect x="238" y="384" width="40" height="30" fill="#fff" />
+                                   <path d="M231 384L258 362L285 384z" fill="#ffd23f" />
+                                   <rect x="252" y="396" width="10" height="18" fill="#0a58d6" />
+                              </g>
+                              <g fill="#0a0e18">
+                                   <circle cx="318" cy="394" r="6" />
+                                   <path d="M310 424c0-14 5-24 8-24s8 10 8 24z" />
+                                   <circle cx="338" cy="398" r="5.5" />
+                                   <path d="M331 426c0-12 4-21 7-21s7 9 7 21z" />
+                                   <circle cx="356" cy="402" r="5" />
+                                   <path d="M350 428c0-11 3-19 6-19s6 8 6 19z" />
+                              </g>
+                              <g>
+                                   <circle cx="332" cy="388" r="0" />
+                              </g>
+                              <g fill="#0a3a92">
+                                   <circle cx="30" cy="388" r="22" />
+                                   <circle cx="520" cy="392" r="20" />
+                              </g>
+                              <g fill="#0a0e18">
+                                   <rect x="28" y="404" width="4" height="22" />
+                                   <rect x="518" y="406" width="4" height="22" />
+                              </g>
+                         </svg>
+                         <div class="float a"><i><svg class="ic">
+                                        <use href="#i-book" />
+                                   </svg></i>
+                              <div><small>Sample</small><strong>2,670 girls in school</strong></div>
+                         </div>
+                         <div class="float b"><i><svg class="ic">
+                                        <use href="#i-people" />
+                                   </svg></i>
+                              <div><small>Sample</small><strong>1,200 women trained</strong></div>
+                         </div>
+                    </div>
+               </div>
+          </section>
+
+          <!-- Programs -->
+          <section class="sec tint" id="programs">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>Our Programs</p>
+                              <h2 data-r data-d="1">Four ways your support reaches people.</h2>
+                         </div>
+                         <p data-r data-d="2">Choose a program to see what a gift makes possible. Every program can be
+                              sponsored
+                              monthly or as a one-time gift.</p>
+                    </div>
+                    <div class="progs" id="progs" data-r>
+                         <article class="prog p1" tabindex="0" aria-label="Charity and relief">
+                              <svg class="ic bgic">
+                                   <use href="#i-heart" />
+                              </svg>
+                              <div class="vt"><svg class="ic">
+                                        <use href="#i-heart" />
+                                   </svg><span>Charity and relief</span></div>
+                              <div class="full">
+                                   <div>
+                                        <div class="top"><svg class="ic">
+                                                  <use href="#i-heart" />
+                                             </svg><span class="mono">Program 01</span></div>
+                                        <h3 style="margin-top:18px">Charity and relief</h3>
+                                        <p>Emergency packs, medical support and shelter help for households facing a
+                                             crisis, delivered quickly
+                                             through trusted local volunteers.</p>
+                                   </div>
+                                   <div class="meta"><a class="btn mono" href="#donate" data-give
+                                             data-program="charity">Sponsor this
+                                             program</a><span class="price">From $20 a pack</span></div>
+                              </div>
+                         </article>
+                         <article class="prog p2" tabindex="0" aria-label="Community support">
+                              <svg class="ic bgic">
+                                   <use href="#i-people" />
+                              </svg>
+                              <div class="vt"><svg class="ic">
+                                        <use href="#i-people" />
+                                   </svg><span>Community support</span></div>
+                              <div class="full">
+                                   <div>
+                                        <div class="top"><svg class="ic">
+                                                  <use href="#i-people" />
+                                             </svg><span class="mono">Program 02</span></div>
+                                        <h3 style="margin-top:18px">Community support</h3>
+                                        <p>Monthly food and hygiene packs, health outreach and safe gathering spaces
+                                             that keep neighbourhoods
+                                             strong and connected.</p>
+                                   </div>
+                                   <div class="meta"><a class="btn mono" href="#donate" data-give
+                                             data-program="community">Sponsor this
+                                             program</a><span class="price">From $25 a family</span></div>
+                              </div>
+                         </article>
+                         <article class="prog p3 active" tabindex="0" aria-label="Education">
+                              <svg class="ic bgic">
+                                   <use href="#i-book" />
+                              </svg>
+                              <div class="vt"><svg class="ic">
+                                        <use href="#i-book" />
+                                   </svg><span>Education</span></div>
+                              <div class="full">
+                                   <div>
+                                        <div class="top"><svg class="ic">
+                                                  <use href="#i-book" />
+                                             </svg><span class="mono">Program 03</span></div>
+                                        <h3 style="margin-top:18px">Education</h3>
+                                        <p>School fees, learning kits, uniforms and mentors so that every child can
+                                             start the term and finish
+                                             the year.</p>
+                                   </div>
+                                   <div class="meta"><a class="btn mono" href="#donate" data-give
+                                             data-program="education">Sponsor this
+                                             program</a><span class="price">From $40 a child</span></div>
+                              </div>
+                         </article>
+                         <article class="prog p4" tabindex="0" aria-label="Women empowerment">
+                              <svg class="ic bgic">
+                                   <use href="#i-women" />
+                              </svg>
+                              <div class="vt"><svg class="ic">
+                                        <use href="#i-women" />
+                                   </svg><span>Women empowerment</span></div>
+                              <div class="full">
+                                   <div>
+                                        <div class="top"><svg class="ic">
+                                                  <use href="#i-women" />
+                                             </svg><span class="mono">Program 04</span></div>
+                                        <h3 style="margin-top:18px">Women empowerment</h3>
+                                        <p>Skills training, small business support and savings groups that turn a first
+                                             step into lasting
+                                             independence.</p>
+                                   </div>
+                                   <div class="meta"><a class="btn mono" href="#donate" data-give
+                                             data-program="women">Sponsor this
+                                             program</a><span class="price">From $120 a seat</span></div>
+                              </div>
+                         </article>
+                    </div>
+               </div>
+          </section>
+
+          <!-- Give -->
+          <section class="sec give" id="donate">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>Donate</p>
+                              <h2 data-r data-d="1">See what your gift does before you give it.</h2>
+                         </div>
+                         <p data-r data-d="2">Pick an amount and a focus. The panel shows what that gift can fund, so
+                              sponsors know
+                              exactly where their support lands.</p>
+                    </div>
+                    <div class="give-grid">
+                         <div class="panel" data-r="left">
+                              <div>
+                                   <span class="field-label mono">Frequency</span>
+                                   <div class="seg" id="seg" data-v="monthly" role="radiogroup"
+                                        aria-label="Giving frequency">
+                                        <span class="thumb"></span>
+                                        <button type="button" role="radio" aria-checked="false"
+                                             data-freq="once">One-time</button>
+                                        <button type="button" role="radio" aria-checked="true"
+                                             data-freq="monthly">Monthly</button>
+                                   </div>
+                              </div>
+                              <div>
+                                   <span class="field-label mono">Amount (USD)</span>
+                                   <div class="amounts" id="amounts">
+                                        <button type="button" class="amt" data-amt="25"
+                                             aria-pressed="false">$25</button>
+                                        <button type="button" class="amt" data-amt="50" aria-pressed="true">$50</button>
+                                        <button type="button" class="amt" data-amt="100"
+                                             aria-pressed="false">$100</button>
+                                        <button type="button" class="amt" data-amt="250"
+                                             aria-pressed="false">$250</button>
+                                   </div>
+                                   <div class="custom"><span>$</span><input id="customAmt" type="number"
+                                             inputmode="numeric" min="5" max="100000" step="1"
+                                             placeholder="Other amount" aria-label="Other amount in US dollars"></div>
+                              </div>
+                              <div>
+                                   <span class="field-label mono">Focus</span>
+                                   <div class="chips-row" id="focus">
+                                        <button type="button" class="pchip" data-program="all" aria-pressed="true">Where
+                                             it is needed
+                                             most</button>
+                                        <button type="button" class="pchip" data-program="education"
+                                             aria-pressed="false">Education</button>
+                                        <button type="button" class="pchip" data-program="women"
+                                             aria-pressed="false">Women empowerment</button>
+                                        <button type="button" class="pchip" data-program="community"
+                                             aria-pressed="false">Community
+                                             support</button>
+                                        <button type="button" class="pchip" data-program="charity"
+                                             aria-pressed="false">Charity and
+                                             relief</button>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="summary" data-r="right">
+                              <div>
+                                   <span class="lab mono">Your gift</span>
+                                   <div class="gift"><span id="giftAmt">$50</span><small id="giftFreq">a month</small>
+                                   </div>
+                              </div>
+                              <hr>
+                              <div>
+                                   <span class="lab mono">It can fund</span>
+                                   <div class="fund-n" style="margin-top:10px"><b id="fundN">2</b><span
+                                             id="fundTxt">children with school
+                                             supplies</span></div>
+                              </div>
+                              <div class="dots" id="dots" aria-hidden="true"></div>
+                              <p class="year" id="yearTxt"></p>
+                              <button class="btn btn-yellow mono" id="checkout" type="button">Continue to
+                                   checkout</button>
+                              <p class="status" id="giveStatus" role="status" aria-live="polite"></p>
+                         </div>
+                    </div>
+                    <p class="note" style="color:rgba(255,255,255,.6)" data-r>Sample unit costs. Set your real costs in
+                         the page
+                         settings.</p>
+               </div>
+          </section>
+
+          <!-- Where it goes + Tiers -->
+          <section class="sec" id="partner">
+               <div class="wrap">
+                    <div class="alloc">
+                         <div>
+                              <p class="eyebrow mono" data-r>Transparency</p>
+                              <h2 data-r data-d="1">Where every dollar goes.</h2>
+                              <p class="lead" data-r data-d="2" style="margin-top:20px">Sponsors give with confidence
+                                   when they can see
+                                   the split. We publish how funds are used and report back on results.</p>
+                         </div>
+                         <div data-r="right">
+                              <div class="abar" id="abar" role="img"
+                                   aria-label="82 percent programs, 12 percent operations, 6 percent fundraising">
+                                   <div class="s1" data-w="82">82%</div>
+                                   <div class="s2" data-w="12">12%</div>
+                                   <div class="s3" data-w="6">6%</div>
+                              </div>
+                              <ul class="legend" style="padding:0;margin:26px 0 0">
+                                   <li><i style="background:var(--blue)"></i>
+                                        <div><strong>Programs, 82%</strong>
+                                             <p>Direct delivery of education, relief, community and women's programs.
+                                             </p>
+                                        </div>
+                                   </li>
+                                   <li><i style="background:var(--yellow)"></i>
+                                        <div><strong>Operations, 12%</strong>
+                                             <p>Field staff, transport, safeguarding and reporting.</p>
+                                        </div>
+                                   </li>
+                                   <li><i style="background:var(--black)"></i>
+                                        <div><strong>Fundraising, 6%</strong>
+                                             <p>Campaigns and the care we give to our sponsors.</p>
+                                        </div>
+                                   </li>
+                              </ul>
+                              <p class="note">Sample split. Replace with your audited figures.</p>
+                         </div>
+                    </div>
+
+                    <div style="margin-top:clamp(56px,8vw,96px)">
+                         <div class="sec-head" style="margin-bottom:0">
+                              <div>
+                                   <p class="eyebrow mono" data-r>Partner with Us</p>
+                                   <h2 data-r data-d="1">Sponsorship that fits you or your organisation.</h2>
+                              </div>
+                              <p data-r data-d="2">Individuals, companies, schools and congregations all sponsor through
+                                   Rise Care. Pick a
+                                   level, or talk to us about a custom partnership.</p>
+                         </div>
+                         <div class="tiers">
+                              <div class="tier" data-r data-d="1">
+                                   <span class="name mono">Friend</span>
+                                   <div class="price">$25<small>a month</small></div>
+                                   <p class="desc">For individuals who want steady, simple impact.</p>
+                                   <ul>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Supports a family food and hygiene pack each month</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Quarterly impact summary by email</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Optional name on our supporters list</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Pause or cancel at any time</li>
+                                   </ul>
+                                   <a class="btn btn-line mono" href="#donate" data-give data-amount="25"
+                                        data-freq="monthly" data-program="community">Become a Friend</a>
+                              </div>
+                              <div class="tier hot" data-r data-d="2">
+                                   <span class="badge mono">Core sponsor</span>
+                                   <span class="name mono">Champion</span>
+                                   <div class="price">$100<small>a month</small></div>
+                                   <p class="desc">For sponsors who want to follow a program closely.</p>
+                                   <ul>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Everything in Friend</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Choose the program you sponsor</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Progress reports with project photos</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Invitation to our annual community day</li>
+                                   </ul>
+                                   <a class="btn btn-yellow mono" href="#donate" data-give data-amount="100"
+                                        data-freq="monthly" data-program="education">Become a Champion</a>
+                              </div>
+                              <div class="tier" data-r data-d="3">
+                                   <span class="name mono">Partner</span>
+                                   <div class="price">Custom<small>from $1,000 a month</small></div>
+                                   <p class="desc">For companies, schools, foundations and clubs.</p>
+                                   <ul>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Co-branded impact campaigns</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Employee volunteering days</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Site visits and an annual impact review</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Reporting shaped around your CSR goals</li>
+                                   </ul>
+                                   <a class="btn btn-blue mono" href="#contact"
+                                        data-interest="Corporate partnership">Partner with Us</a>
+                              </div>
+                         </div>
+                         <div class="marquee" data-r>
+                              <p class="marquee-cap mono">Who sponsors with us</p>
+                              <div class="track" aria-hidden="true" id="track"></div>
+                         </div>
+                    </div>
+               </div>
+          </section>
+
+          <!-- How it works -->
+          <section class="sec how">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>How sponsorship works</p>
+                              <h2 data-r data-d="1">From your gift to a changed life, in four steps.</h2>
+                         </div>
+                         <p data-r data-d="2">You always know where your support is going and what it achieved.</p>
+                    </div>
+                    <div class="steps" id="steps">
+                         <div class="line"><i id="stepLine"></i></div>
+                         <div class="step" data-r data-d="1">
+                              <div class="n">1</div>
+                              <h3>Choose a focus</h3>
+                              <p>Pick a program or a project, or let us direct your gift where the need is greatest.</p>
+                         </div>
+                         <div class="step" data-r data-d="2">
+                              <div class="n">2</div>
+                              <h3>Give your way</h3>
+                              <p>Give once or monthly. Change the amount or pause whenever you need to.</p>
+                         </div>
+                         <div class="step" data-r data-d="3">
+                              <div class="n">3</div>
+                              <h3>Get updates</h3>
+                              <p>Receive progress reports with the numbers, stories and photos from the field.</p>
+                         </div>
+                         <div class="step" data-r data-d="4">
+                              <div class="n">4</div>
+                              <h3>See the change</h3>
+                              <p>Join community days and site visits to meet the people your support reaches.</p>
+                         </div>
+                    </div>
+               </div>
+          </section>
+
+          <!-- Projects -->
+          <section class="sec" id="projects">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>Ongoing Projects</p>
+                              <h2 data-r data-d="1">Fund a project from start to finish.</h2>
+                         </div>
+                         <p data-r data-d="2">Each project has a clear goal and a live progress bar. Help us close the
+                              gap.</p>
+                    </div>
+                    <div class="projects">
+                         <article class="proj a" data-r data-d="1">
+                              <div class="pic"><svg class="ic">
+                                        <use href="#i-book" />
+                                   </svg></div>
+                              <div class="body">
+                                   <h3>Girls' Learning Hub</h3>
+                                   <p>A safe study centre with mentors, books and evening classes for girls preparing
+                                        for exams.</p>
+                                   <div class="meter" role="progressbar" aria-valuenow="72" aria-valuemin="0"
+                                        aria-valuemax="100" aria-label="Girls' Learning Hub funding"><i data-fill="72"
+                                             style="width:72%"></i></div>
+                                   <div class="fig"><span><b>$17,300</b> raised</span><span>Goal $24,000</span></div>
+                                   <a class="btn btn-blue mono" href="#donate" data-give data-program="education">Fund
+                                        this project</a>
+                              </div>
+                         </article>
+                         <article class="proj b" data-r data-d="2">
+                              <div class="pic"><svg class="ic">
+                                        <use href="#i-water" />
+                                   </svg></div>
+                              <div class="body">
+                                   <h3>Community Meals and Hygiene</h3>
+                                   <p>Monthly food and hygiene packs for families, delivered with local volunteer teams.
+                                   </p>
+                                   <div class="meter" role="progressbar" aria-valuenow="64" aria-valuemin="0"
+                                        aria-valuemax="100" aria-label="Community Meals and Hygiene funding"><i
+                                             data-fill="64" style="width:64%"></i></div>
+                                   <div class="fig"><span><b>$9,600</b> raised</span><span>Goal $15,000</span></div>
+                                   <a class="btn btn-blue mono" href="#donate" data-give data-program="community">Fund
+                                        this project</a>
+                              </div>
+                         </article>
+                         <article class="proj c" data-r data-d="3">
+                              <div class="pic"><svg class="ic">
+                                        <use href="#i-seed" />
+                                   </svg></div>
+                              <div class="body">
+                                   <h3>Women's Enterprise Fund</h3>
+                                   <p>Start-up grants and business coaching for women launching small enterprises.</p>
+                                   <div class="meter" role="progressbar" aria-valuenow="43" aria-valuemin="0"
+                                        aria-valuemax="100" aria-label="Women's Enterprise Fund funding"><i
+                                             data-fill="43" style="width:43%"></i></div>
+                                   <div class="fig"><span><b>$12,900</b> raised</span><span>Goal $30,000</span></div>
+                                   <a class="btn btn-blue mono" href="#donate" data-give data-program="women">Fund this
+                                        project</a>
+                              </div>
+                         </article>
+                    </div>
+                    <p class="note" data-r>Sample projects and figures. Replace with your own.</p>
+               </div>
+          </section>
+
+          <!-- News -->
+          <section class="sec tint" id="news">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>News &amp; Impact</p>
+                              <h2 data-r data-d="1">Stories and updates from the field.</h2>
+                         </div>
+                         <p data-r data-d="2">Short reports on what our sponsors have made possible, as it happens.</p>
+                    </div>
+                    <div class="news">
+                         <a class="nitem feat" href="#news" data-r data-d="1">
+                              <div class="nimg">
+                                   <svg viewBox="0 0 600 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                                        <defs>
+                                             <linearGradient id="n1" x1="0" y1="0" x2="1" y2="1">
+                                                  <stop offset="0" stop-color="#0a58d6" />
+                                                  <stop offset="1" stop-color="#4aa6ff" />
+                                             </linearGradient>
+                                        </defs>
+                                        <rect width="600" height="340" fill="url(#n1)" />
+                                        <circle cx="470" cy="120" r="70" fill="#ffd23f" />
+                                        <path d="M0 250C120 200 240 220 340 250S520 250 600 220V340H0z"
+                                             fill="#0e4fc4" />
+                                        <path d="M0 300C140 270 300 290 600 276V340H0z" fill="#0a0e18" />
+                                        <g fill="#fff">
+                                             <rect x="90" y="214" width="70" height="50" />
+                                             <path d="M80 214L125 180L170 214z" fill="#ffd23f" />
+                                        </g>
+                                   </svg>
+                              </div>
+                              <div class="nbody">
+                                   <div class="nmeta mono"><span class="tag">Sample story</span><span>Oct 2026</span>
+                                   </div>
+                                   <h3>Girls' Learning Hub opens its doors for a new term</h3>
+                                   <p>Evening classes, mentors and a quiet study space are now open to more girls in the
+                                        community.</p><span class="more">Read the update <svg class="ic">
+                                             <use href="#i-arrow" />
+                                        </svg></span>
+                              </div>
+                         </a>
+                         <div class="side">
+                              <a class="nitem" href="#news" data-r data-d="2">
+                                   <div class="nbody">
+                                        <div class="nmeta mono"><span class="tag">Sample story</span><span>Sep
+                                                  2026</span></div>
+                                        <h3>Meal drive reaches new neighbourhoods</h3>
+                                        <p>Volunteer teams expanded monthly food and hygiene packs to more families.</p>
+                                        <span class="more">Read
+                                             the update <svg class="ic">
+                                                  <use href="#i-arrow" />
+                                             </svg></span>
+                                   </div>
+                              </a>
+                              <a class="nitem" href="#news" data-r data-d="3">
+                                   <div class="nbody">
+                                        <div class="nmeta mono"><span class="tag">Sample story</span><span>Sep
+                                                  2026</span></div>
+                                        <h3>Women's cohort graduates and starts businesses</h3>
+                                        <p>A new group completed training and received their first start-up support.</p>
+                                        <span class="more">Read
+                                             the update <svg class="ic">
+                                                  <use href="#i-arrow" />
+                                             </svg></span>
+                                   </div>
+                              </a>
+                         </div>
+                    </div>
+               </div>
+          </section>
+
+          <!-- Get involved -->
+          <section class="sec involve" id="get-involved">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>Get Involved</p>
+                              <h2 data-r data-d="1">There is a place for you in this work.</h2>
+                         </div>
+                         <p data-r data-d="2">Not everyone gives in the same way. Pick the way that suits you.</p>
+                    </div>
+                    <div class="ways">
+                         <a class="way" href="#contact" data-interest="Volunteering" data-r data-d="1"><span
+                                   class="ico"><svg class="ic">
+                                        <use href="#i-hand" />
+                                   </svg></span>
+                              <h3>Volunteer</h3>
+                              <p>Give your time and skills at community days, classrooms and training sessions.</p><span
+                                   class="lnk">Offer
+                                   your time <svg class="ic">
+                                        <use href="#i-arrow" />
+                                   </svg></span>
+                         </a>
+                         <a class="way" href="#contact" data-interest="Fundraising for Rise Care" data-r
+                              data-d="2"><span class="ico"><svg class="ic">
+                                        <use href="#i-coin" />
+                                   </svg></span>
+                              <h3>Fundraise</h3>
+                              <p>Run a challenge, a school drive or a workplace campaign and rally others to give.</p>
+                              <span class="lnk">Start a campaign <svg class="ic">
+                                        <use href="#i-arrow" />
+                                   </svg></span>
+                         </a>
+                         <a class="way" href="#contact" data-interest="Corporate partnership" data-r data-d="3"><span
+                                   class="ico"><svg class="ic">
+                                        <use href="#i-mega" />
+                                   </svg></span>
+                              <h3>Partner</h3>
+                              <p>Bring your organisation on board with a sponsorship that grows with your goals.</p>
+                              <span class="lnk">Partner with us <svg class="ic">
+                                        <use href="#i-arrow" />
+                                   </svg></span>
+                         </a>
+                    </div>
+               </div>
+          </section>
+
+          <!-- Contact -->
+          <section class="sec" id="contact">
+               <div class="wrap contact">
+                    <div>
+                         <p class="eyebrow mono" data-r>Contact Us</p>
+                         <h2 data-r data-d="1">Let's talk about your support.</h2>
+                         <p class="lead" data-r data-d="2" style="margin-top:20px">Ask about sponsorship, a partnership
+                              or a visit. We
+                              will help you find the right fit.</p>
+                         <div class="cinfo">
+                              <div data-r data-d="2"><span class="mono">Email</span><strong>hello@risecare.org</strong>
+                              </div>
+                              <div data-r data-d="3"><span
+                                        class="mono">Partnerships</span><strong>partners@risecare.org</strong></div>
+                         </div>
+                         <p class="note">Sample contact details. Replace with your own.</p>
+                    </div>
+                    <form class="form" id="contactForm" data-r="right" novalidate>
+                         <div class="two">
+                              <label><span class="mono">Full name</span><input id="cName" name="name" type="text"
+                                        autocomplete="name" placeholder="Your name" required></label>
+                              <label><span class="mono">Email</span><input id="cEmail" name="email" type="email"
+                                        autocomplete="email" placeholder="you@example.com" required></label>
+                         </div>
+                         <label><span class="mono">I'm interested in</span>
+                              <select id="cInterest" name="interest">
+                                   <option>Sponsoring a program</option>
+                                   <option>Corporate partnership</option>
+                                   <option>Volunteering</option>
+                                   <option>Fundraising for Rise Care</option>
+                                   <option>General question</option>
+                              </select>
+                         </label>
+                         <label><span class="mono">Message</span><textarea id="cMsg" name="message"
+                                   placeholder="Tell us how you would like to help"></textarea></label>
+                         <button class="btn btn-blue mono" type="submit">Send message</button>
+                         <p class="status" id="formStatus" role="status" aria-live="polite"></p>
+                    </form>
+               </div>
+          </section>
+     </main>
+
+
+
+
+
+
+
+
+
+
+
+     <script>
+               (function () {
+                    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    var $ = function (id) { return document.getElementById(id); };
+
+                    /* ---------- Background Clouds Generator ---------- */
+                    function buildClouds() {
+                         var host = $('clouds');
+                         if (!host) return;
+                         host.innerHTML = '';
+                         var layers = [
+                              {
+                                   dur: 90, opacity: .9, puffs: [
+                                        [-8, 64, 380, 240], [12, 76, 520, 260], [34, 84, 460, 220], [58, 80, 560, 260], [80, 72, 500, 250], [100, 66, 420, 230],
+                                        [-4, 22, 300, 130], [4, 12, 260, 110]
+                                   ]
+                              },
+                              {
+                                   dur: 60, opacity: .75, puffs: [
+                                        [6, 92, 360, 170], [28, 96, 420, 180], [50, 94, 380, 170], [74, 96, 440, 190], [96, 92, 360, 170],
+                                        [90, 26, 240, 90]
+                                   ]
+                              }
+                         ];
+                         layers.forEach(function (L, li) {
+                              var layer = document.createElement('div');
+                              layer.className = 'cloud-layer';
+                              layer.style.setProperty('--dur', L.dur + 's');
+                              layer.style.opacity = L.opacity;
+                              if (li === 1) layer.style.animationDirection = 'alternate-reverse';
+                              L.puffs.forEach(function (p) {
+                                   var d = document.createElement('div');
+                                   d.className = 'puff';
+                                   d.style.left = 'calc(' + p[0] + '% - ' + p[2] / 2 + 'px)';
+                                   d.style.top = 'calc(' + p[1] + '% - ' + p[3] / 2 + 'px)';
+                                   d.style.width = p[2] + 'px';
+                                   d.style.height = p[3] + 'px';
+                                   layer.appendChild(d);
+                              });
+                              host.appendChild(layer);
+                         });
+                    }
+
+                    /* ---------- Carousel Card Designs with Full-Bleed Images & Text Layered Above ---------- */
+                    var checkIcon = '<svg class="w-3.5 h-3.5 text-white" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.2l2 2L8 3"/></svg>';
+
+                    var cardDesigns = [
+                         {
+                              img: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&auto=format&fit=crop&q=80',
+                              html: '<div class="font-mono text-[10px] tracking-wider uppercase text-sky-200">Lives Touched</div>' +
+                                   '<div class="text-3xl font-bold tracking-tight mt-1 text-white">12.4k+</div>' +
+                                   '<p class="text-xs text-slate-200 mt-2 leading-snug">Empowering underprivileged youth through quality education & mentorship.</p>' +
+                                   '<div class="mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-limeAccent/20 text-limeAccent font-mono text-[10px]">Active Impact</div>'
+                         },
+                         {
+                              img: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop&q=80',
+                              html: '<div class="font-mono text-[10px] tracking-wider uppercase text-sky-200">Scholarship Fund</div>' +
+                                   '<div class="text-base font-semibold text-white mt-0.5">School Kits & Fees</div>' +
+                                   '<div class="space-y-1.5 mt-3 text-[11px]">' +
+                                   '<div class="flex items-center gap-2 bg-white/10 p-1.5 rounded-lg backdrop-blur-sm"><span class="w-4 h-4 rounded-full bg-sky-500 grid place-items-center">' + checkIcon + '</span><span class="text-white font-medium">Tuition Covered</span></div>' +
+                                   '<div class="flex items-center gap-2 bg-white/10 p-1.5 rounded-lg backdrop-blur-sm"><span class="w-4 h-4 rounded-full bg-sky-500 grid place-items-center">' + checkIcon + '</span><span class="text-white font-medium">Books Provided</span></div>' +
+                                   '</div>'
+                         },
+                         {
+                              img: 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=600&auto=format&fit=crop&q=80',
+                              html: '<div class="font-mono text-[10px] tracking-wider uppercase text-sky-200">Women Empowerment</div>' +
+                                   '<div class="text-xl font-bold text-white mt-1">Vocational Hub</div>' +
+                                   '<p class="text-xs text-slate-200 mt-2 leading-snug">Providing professional skills training & micro-loans for financial independence.</p>' +
+                                   '<div class="mt-3 flex gap-1.5">' +
+                                   '<span class="px-2 py-0.5 rounded bg-white/20 text-[10px] text-white">Crafts</span>' +
+                                   '<span class="px-2 py-0.5 rounded bg-limeAccent text-[10px] text-ink font-semibold">Leadership</span>' +
+                                   '</div>'
+                         },
+                         {
+                              img: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=600&auto=format&fit=crop&q=80',
+                              html: '<div class="font-mono text-[10px] tracking-wider uppercase text-sky-200">Healthcare Outreach</div>' +
+                                   '<div class="text-3xl font-bold tracking-tight mt-1 text-white">45+</div>' +
+                                   '<p class="text-xs text-slate-200 mt-2 leading-snug">Free rural health clinics, medical checkups, and nutritional support camps.</p>' +
+                                   '<div class="mt-3 text-[11px] text-limeAccent font-mono">100% Free Care</div>'
+                         },
+                         {
+                              img: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&auto=format&fit=crop&q=80',
+                              html: '<div class="font-mono text-[10px] tracking-wider uppercase text-sky-200">Community Growth</div>' +
+                                   '<div class="text-base font-semibold text-white mt-0.5">Mentorship & Leadership</div>' +
+                                   '<p class="text-xs text-slate-200 mt-2 leading-snug">Guiding the next generation of community change-makers and leaders.</p>' +
+                                   '<div class="mt-3 h-1.5 bg-white/20 rounded-full overflow-hidden"><div class="h-full bg-limeAccent w-4/5"></div></div>'
+                         },
+                         {
+                              img: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&auto=format&fit=crop&q=80',
+                              html: '<div class="font-mono text-[10px] tracking-wider uppercase text-sky-200">Nutrition Support</div>' +
+                                   '<div class="text-3xl font-bold tracking-tight mt-1 text-white">520k+</div>' +
+                                   '<p class="text-xs text-slate-200 mt-2 leading-snug">Healthy meals shared across rural schools and shelter centers.</p>' +
+                                   '<div class="mt-3 inline-flex items-center gap-1 text-[11px] text-limeAccent font-medium">Daily distribution</div>'
+                         },
+                         {
+                              img: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&auto=format&fit=crop&q=80',
+                              html: '<div class="font-mono text-[10px] tracking-wider uppercase text-sky-200">Modern Facilities</div>' +
+                                   '<div class="text-base font-semibold text-white mt-0.5">Community Libraries</div>' +
+                                   '<p class="text-xs text-slate-200 mt-2 leading-snug">Equipping safe spaces with books, computers, and learning resources.</p>' +
+                                   '<div class="mt-3 text-[10px] font-mono bg-white/20 px-2 py-1 rounded text-center text-white">OPEN DAILY</div>'
+                         },
+                         {
+                              img: 'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=600&auto=format&fit=crop&q=80',
+                              html: '<div class="font-mono text-[10px] tracking-wider uppercase text-sky-200">Global Partners</div>' +
+                                   '<div class="text-3xl font-bold tracking-tight mt-1 text-white">150+</div>' +
+                                   '<p class="text-xs text-slate-200 mt-2 leading-snug">Collaborating with international volunteers and donors for lasting impact.</p>' +
+                                   '<div class="mt-3 text-[11px] text-limeAccent font-medium">Join our mission &rarr;</div>'
+                         }
+                    ];
+
+                    var dy = [0, -8, 6, -4, 10, -10, 4, -6];
+                    var N = 24, W = 185;
+                    var cards = [];
+
+                    function buildCards() {
+                         var ring = $('ring');
+                         if (!ring) return;
+                         ring.innerHTML = '';
+                         for (var i = 0; i < N; i++) {
+                              var d = cardDesigns[(i * 3) % cardDesigns.length];
+                              var c = document.createElement('div');
+                              c.className = 'card';
+                              c.innerHTML = '<img class="card-bg" src="' + d.img + '" alt="Rise Care Foundation Impact" loading="lazy" />' +
+                                   '<div class="card-overlay"></div>' +
+                                   '<div class="card-content">' + d.html + '</div>';
+                              c.dataset.a = (i * 360 / N);
+                              c.dataset.dy = dy[i % dy.length];
+                              ring.appendChild(c);
+                              cards.push(c);
+                         }
+                    }
+
+                    function layout() {
+                         var hero = $('hero'), scene = $('scene'), scaler = $('scaler'), ring = $('ring');
+                         if (!hero || !scene || !scaler || !ring) return;
+                         var vw = hero.clientWidth;
+                         var s = Math.min(1.15, Math.max(0.55, vw / 1300));
+                         var R = (W + 24) / (2 * Math.sin(Math.PI / N));
+                         scene.style.perspective = Math.round(1100 * s) + 'px';
+                         scene.style.height = Math.round(320 * s) + 'px';
+                         scaler.style.transform = 'scale(' + s + ')';
+                         ring.style.setProperty('--R', R + 'px');
+                         cards.forEach(function (c) {
+                              c.style.transform = 'rotateY(' + c.dataset.a + 'deg) translateZ(' + R + 'px) translate(-50%, calc(-50% + ' + c.dataset.dy + 'px))';
+                         });
+                    }
+
+                    /* ---------- Nav & Menu Interactions ---------- */
+                    var moreBtn = $('moreBtn'), moreMenu = $('moreMenu');
+                    function setMore(open) {
+                         if (!moreBtn || !moreMenu) return;
+                         moreBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                         if (open) {
+                              moreMenu.classList.remove('hidden');
+                         } else {
+                              moreMenu.classList.add('hidden');
+                         }
+                    }
+                    if (moreBtn && moreMenu) {
+                         moreBtn.addEventListener('click', function (e) {
+                              e.stopPropagation();
+                              setMore(moreMenu.classList.contains('hidden'));
+                         });
+                         document.addEventListener('click', function (e) { if (!moreMenu.contains(e.target)) setMore(false); });
+                    }
+
+                    var menuBtn = $('menuBtn'), navLinks = $('navLinks');
+                    function closeMenu() {
+                         if (navLinks && menuBtn) {
+                              navLinks.classList.remove('open', 'flex');
+                              navLinks.classList.add('hidden');
+                              menuBtn.setAttribute('aria-expanded', 'false');
+                         }
+                    }
+                    if (menuBtn && navLinks) {
+                         menuBtn.addEventListener('click', function (e) {
+                              e.stopPropagation();
+                              var isOpen = navLinks.classList.contains('open');
+                              if (isOpen) {
+                                   closeMenu();
+                              } else {
+                                   navLinks.classList.remove('hidden');
+                                   navLinks.classList.add('open', 'flex', 'flex-col', 'absolute', 'top-full', 'left-4', 'right-4', 'bg-skyTop/95', 'backdrop-blur-xl', 'p-4', 'rounded-2xl', 'shadow-2xl', 'z-50');
+                                   menuBtn.setAttribute('aria-expanded', 'true');
+                              }
+                         });
+                    }
+
+                    document.addEventListener('keydown', function (e) {
+                         if (e.key === 'Escape') {
+                              setMore(false);
+                              closeMenu();
+                         }
+                    });
+
+                    /* ---------- Portal Opening Animation ---------- */
+                    var intro = $('intro'), ringEl = $('portalRing'), site = $('site'), nameEl = $('introName'), title = $('introTitle');
+
+                    if (title) {
+                         var idx = 0;
+                         'Rise Care Foundation'.split(' ').forEach(function (w) {
+                              var word = document.createElement('span');
+                              word.className = 'word';
+                              w.split('').forEach(function (ch) {
+                                   var s = document.createElement('span');
+                                   s.className = 'ch';
+                                   s.style.setProperty('--i', idx++);
+                                   s.textContent = ch;
+                                   word.appendChild(s);
+                              });
+                              idx++;
+                              title.appendChild(word);
+                         });
+                    }
+
+                    var started = false, timer = null;
+                    function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+
+                    function finish() {
+                         if (!intro) return;
+                         intro.hidden = true;
+                         if (ringEl) ringEl.style.display = 'none';
+                         if (site) {
+                              site.style.transform = '';
+                              site.style.filter = '';
+                         }
+                         document.body.classList.remove('intro-lock');
+                    }
+
+                    function openPortal() {
+                         if (started) return;
+                         started = true;
+                         clearTimeout(timer);
+                         var skipBtn = $('skipBtn');
+                         if (skipBtn) skipBtn.style.display = 'none';
+                         if (reduce) { finish(); return; }
+                         var vw = window.innerWidth, vh = window.innerHeight;
+                         var maxR = Math.hypot(vw, vh) / 2 + 40;
+                         var dur = 1700, t0 = performance.now();
+                         if (ringEl) ringEl.style.opacity = 1;
+
+                         (function frame(now) {
+                              var p = Math.min(1, (now - t0) / dur), e = ease(p);
+                              var r = e * maxR;
+                              if (intro) intro.style.setProperty('--r', r + 'px');
+                              if (ringEl) {
+                                   ringEl.style.width = ringEl.style.height = (r * 2) + 'px';
+                                   ringEl.style.opacity = p < .85 ? 1 : (1 - p) / .15;
+                              }
+                              if (nameEl) {
+                                   nameEl.style.transform = 'scale(' + (1 + e * 3.2) + ')';
+                                   nameEl.style.opacity = Math.max(0, 1 - e * 1.6);
+                              }
+                              if (site) {
+                                   site.style.transform = 'scale(' + (1.65 - .65 * e) + ')';
+                                   site.style.filter = 'blur(' + (12 * (1 - e)).toFixed(2) + 'px)';
+                              }
+                              if (p < 1) requestAnimationFrame(frame); else finish();
+                         })(t0);
+                    }
+
+                    function start() {
+                         buildClouds();
+                         buildCards();
+                         layout();
+                         window.addEventListener('resize', layout);
+                         if (reduce) { finish(); return; }
+                         document.body.classList.add('intro-lock');
+                         if (site) {
+                              site.style.transform = 'scale(1.65)';
+                              site.style.filter = 'blur(12px)';
+                         }
+                         var skipBtn = $('skipBtn');
+                         if (skipBtn) skipBtn.addEventListener('click', openPortal);
+                         timer = setTimeout(openPortal, 3300);
+                    }
+
+                    if (document.fonts && document.fonts.ready) {
+                         document.fonts.ready.then(start);
+                    } else {
+                         window.addEventListener('load', start);
+                    }
+               })();
+     </script>
+
+
+</body>
+
+</html>

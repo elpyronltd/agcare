@@ -1,0 +1,3801 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+     <title>AG Care Ghana</title>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Lora:wght@400;500&display=swap">
+     <style>
+          /* Layout: full-bleed photo hero with glass pills and photo cards (like the reference), then the sponsor path:
+   proof > story > programs > give > where money goes > tiers > how it works > projects > news > involve > contact.
+   Palette is white, yellow, blue and a little black. All colours are tokens on :root. */
+          :root {
+               --white: #ffffff;
+               --mist: #f2f7ff;
+               --mist-2: #e2edff;
+               --line: #d6e3f8;
+               --blue: #1668e3;
+               --blue-deep: #0a3fa8;
+               --sky-mid: #1a7cf0;
+               --sky-low: #4aa6ff;
+               --yellow: #ffd23f;
+               --yellow-deep: #f2b705;
+               --black: #0a0e18;
+               --ink: #0b2a55;
+               --muted: #4f6a92;
+               --glass: rgba(6, 44, 110, .55);
+               --glass-line: rgba(255, 255, 255, .28);
+               --font-display: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+               --font-serif: "Lora", Georgia, "Times New Roman", serif;
+               --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+               --gutter: clamp(16px, 4vw, 40px);
+               --ease: cubic-bezier(.2, .8, .2, 1);
+               color-scheme: light;
+          }
+
+          * {
+               box-sizing: border-box;
+          }
+
+          html {
+               scroll-behavior: smooth;
+               background: var(--white);
+          }
+
+          body {
+               margin: 0;
+               background: var(--white);
+               color: var(--ink);
+               font-family: var(--font-display);
+               font-size: 16px;
+               line-height: 1.5;
+               overflow-x: clip;
+          }
+
+          body.intro-lock {
+               overflow: hidden;
+          }
+
+          a {
+               color: inherit;
+               text-decoration: none;
+          }
+
+          button,
+          input,
+          select,
+          textarea {
+               font: inherit;
+               color: inherit;
+          }
+
+          img,
+          svg {
+               max-width: 100%;
+          }
+
+          img {
+               display: block;
+          }
+
+          ul {
+               margin: 0;
+               padding: 0;
+          }
+
+          :focus-visible {
+               outline: 2px solid var(--yellow);
+               outline-offset: 3px;
+          }
+
+          [hidden] {
+               display: none !important;
+          }
+
+          .mono {
+               font-family: var(--font-mono);
+               font-size: 12px;
+               text-transform: uppercase;
+               letter-spacing: .14em;
+          }
+
+          .ic {
+               width: 1em;
+               height: 1em;
+               fill: none;
+               stroke: currentColor;
+               stroke-width: 1.8;
+               stroke-linecap: round;
+               stroke-linejoin: round;
+               flex: none;
+          }
+
+          .ph {
+               object-fit: cover;
+               width: 100%;
+               height: 100%;
+               background: linear-gradient(135deg, var(--sky-low), var(--blue-deep));
+          }
+
+          section[id] {
+               scroll-margin-top: 80px;
+          }
+
+          #home {
+               scroll-margin-top: 0;
+          }
+
+          .progress {
+               position: fixed;
+               top: 0;
+               left: 0;
+               right: 0;
+               height: 3px;
+               z-index: 70;
+               pointer-events: none;
+          }
+
+          .progress i {
+               display: block;
+               height: 100%;
+               width: 100%;
+               background: var(--yellow);
+               transform-origin: 0 50%;
+               transform: scaleX(0);
+          }
+
+          /* ---------- Buttons ---------- */
+          .btn {
+               display: inline-flex;
+               align-items: center;
+               justify-content: center;
+               gap: 12px;
+               height: 46px;
+               padding: 0 22px;
+               border-radius: 999px;
+               border: 0;
+               cursor: pointer;
+               white-space: nowrap;
+               transition: transform .2s var(--ease), box-shadow .2s, background .2s;
+          }
+
+          .btn:hover {
+               transform: translateY(-2px);
+          }
+
+          .btn-yellow {
+               background: var(--yellow);
+               color: var(--black);
+               box-shadow: 0 10px 26px -12px rgba(255, 210, 63, .95);
+          }
+
+          .btn-yellow:hover {
+               background: #ffdc66;
+          }
+
+          .btn-glass {
+               background: var(--glass);
+               color: #e6f0ff;
+               border: 1px solid var(--glass-line);
+               backdrop-filter: blur(10px);
+               -webkit-backdrop-filter: blur(10px);
+          }
+
+          .btn-blue {
+               background: var(--blue);
+               color: var(--white);
+               box-shadow: 0 12px 28px -14px rgba(22, 104, 227, .9);
+          }
+
+          .btn-blue:hover {
+               background: #2a77ee;
+          }
+
+          .btn-line {
+               background: transparent;
+               color: var(--ink);
+               border: 1.5px solid var(--ink);
+          }
+
+          .btn-line:hover {
+               background: var(--ink);
+               color: var(--white);
+          }
+
+          .btn .go {
+               width: 30px;
+               height: 30px;
+               border-radius: 50%;
+               background: var(--black);
+               display: grid;
+               place-items: center;
+               margin-right: -12px;
+               color: var(--yellow);
+               transition: transform .25s var(--ease);
+          }
+
+          .btn:hover .go {
+               transform: translateX(3px) rotate(-8deg);
+          }
+
+          .btn .go .ic {
+               width: 13px;
+               height: 13px;
+               stroke-width: 2;
+          }
+
+          /* ---------- Top nav: three glass pills ---------- */
+          .topnav {
+               position: fixed;
+               inset: 0 0 auto 0;
+               z-index: 60;
+               padding: calc(14px + env(safe-area-inset-top, 0px)) clamp(12px, 3vw, 40px) 0;
+               opacity: 0;
+               transform: translateY(-10px);
+               pointer-events: none;
+               transition: opacity .5s var(--ease), transform .5s var(--ease);
+          }
+
+          .topnav[data-show="true"] {
+               opacity: 1;
+               transform: none;
+               pointer-events: auto;
+          }
+
+          .nav-row {
+               position: relative;
+               max-width: 1280px;
+               margin-inline: auto;
+               display: grid;
+               grid-template-columns: 1fr auto 1fr;
+               align-items: center;
+               gap: 14px;
+          }
+
+          .pill {
+               background: var(--glass);
+               border: 1px solid var(--glass-line);
+               backdrop-filter: blur(14px);
+               -webkit-backdrop-filter: blur(14px);
+               color: var(--white);
+               border-radius: 999px;
+               box-shadow: 0 14px 30px -18px rgba(0, 20, 80, .7);
+               transition: background .3s;
+          }
+
+          .topnav[data-scrolled="true"] .pill {
+               background: rgba(8, 40, 100, .88);
+          }
+
+          .logo-pill {
+               justify-self: start;
+               display: inline-flex;
+               align-items: center;
+               gap: 10px;
+               padding: 6px 18px 6px 6px;
+               font-size: 1.05rem;
+               font-weight: 500;
+               letter-spacing: -.02em;
+               white-space: nowrap;
+          }
+
+          .logo-img {
+               height: 38px;
+               width: auto;
+               max-width: 90px;
+               object-fit: contain;
+               background: var(--white);
+               border-radius: 999px;
+               padding: 4px 8px;
+          }
+
+          .nav-pill {
+               padding: 6px;
+          }
+
+          .nav-pill>ul {
+               list-style: none;
+               display: flex;
+               align-items: center;
+               gap: 4px;
+          }
+
+          .nav-pill li {
+               position: relative;
+          }
+
+          .nav-pill a.lk,
+          .nav-pill button.lk {
+               display: inline-flex;
+               align-items: center;
+               gap: 6px;
+               height: 38px;
+               padding: 0 18px;
+               border-radius: 999px;
+               border: 0;
+               background: transparent;
+               cursor: pointer;
+               font-family: var(--font-serif);
+               font-size: .95rem;
+               text-transform: none;
+               letter-spacing: 0;
+               color: rgba(255, 255, 255, .92);
+               transition: background .25s, color .25s;
+          }
+
+          .nav-pill a.lk:hover,
+          .nav-pill button.lk:hover {
+               background: rgba(255, 255, 255, .14);
+          }
+
+          .nav-pill a.lk[data-active="true"] {
+               background: var(--white);
+               color: var(--ink);
+          }
+
+          .more-menu {
+               position: absolute;
+               top: calc(100% + 12px);
+               left: 50%;
+               translate: -50% 0;
+               min-width: 210px;
+               list-style: none;
+               background: rgba(255, 255, 255, .98);
+               border-radius: 18px;
+               padding: 8px;
+               box-shadow: 0 24px 50px -16px rgba(0, 30, 100, .55);
+          }
+
+          .more-menu a {
+               display: block;
+               padding: 11px 14px;
+               border-radius: 10px;
+               color: var(--ink);
+               font-size: 14px;
+          }
+
+          .more-menu a:hover {
+               background: var(--mist);
+          }
+
+          .cta-pill {
+               justify-self: end;
+               display: inline-flex;
+               align-items: center;
+               gap: 12px;
+               padding: 6px 6px 6px 22px;
+               font-family: var(--font-serif);
+               font-size: .95rem;
+          }
+
+          .cta-pill .go {
+               width: 34px;
+               height: 34px;
+               border-radius: 50%;
+               background: var(--white);
+               color: var(--ink);
+               display: grid;
+               place-items: center;
+               transition: transform .25s var(--ease);
+          }
+
+          .cta-pill:hover .go {
+               transform: rotate(-12deg) scale(1.06);
+          }
+
+          .cta-pill .go .ic {
+               width: 15px;
+               height: 15px;
+               stroke-width: 2.2;
+          }
+
+          .menu-btn {
+               display: none;
+               width: 42px;
+               height: 42px;
+               border-radius: 50%;
+               place-items: center;
+               cursor: pointer;
+               border: 1px solid var(--glass-line);
+               background: var(--glass);
+               color: var(--white);
+          }
+
+          /* ---------- Hero ---------- */
+          #site {
+               padding: 10px 10px 0;
+               transform-origin: 50% 40%;
+               will-change: transform, filter;
+          }
+
+          .hero {
+               position: relative;
+               isolation: isolate;
+               overflow: hidden;
+               border-radius: 26px;
+               min-height: 820px;
+               display: flex;
+               flex-direction: column;
+               color: var(--white);
+          }
+
+          .hero-bg {
+               position: absolute;
+               inset: 0;
+               z-index: -2;
+               width: 100%;
+               height: 100%;
+               object-fit: cover;
+          }
+
+          .hero::before {
+               content: "";
+               position: absolute;
+               inset: 0;
+               z-index: -1;
+               background:
+                    linear-gradient(180deg, rgba(10, 88, 214, .78) 0%, rgba(10, 63, 168, .5) 38%, rgba(10, 14, 24, .55) 70%, rgba(10, 14, 24, .88) 100%);
+          }
+
+          .hero-top {
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               text-align: center;
+               padding: clamp(116px, 14vw, 150px) 20px 0;
+          }
+
+          .chip {
+               display: inline-flex;
+               align-items: center;
+               justify-content: center;
+               padding: 9px 22px;
+               border-radius: 999px;
+               background: rgba(255, 255, 255, .16);
+               border: 1px solid var(--glass-line);
+               backdrop-filter: blur(10px);
+               -webkit-backdrop-filter: blur(10px);
+               font-family: var(--font-serif);
+               font-size: .9rem;
+               color: #eaf3ff;
+               text-align: center;
+          }
+
+          .hero h1 {
+               margin: 26px 0 0;
+               font-family: var(--font-serif);
+               font-weight: 400;
+               font-size: clamp(2.4rem, 6.4vw, 4.8rem);
+               line-height: 1.12;
+               letter-spacing: -.02em;
+               text-wrap: balance;
+               text-shadow: 0 6px 30px rgba(0, 20, 80, .55);
+          }
+
+          .hero h1 span {
+               display: block;
+               color: rgba(255, 255, 255, .78);
+          }
+
+          .hero-row {
+               margin-top: auto;
+               padding: 40px clamp(16px, 4vw, 56px) clamp(24px, 3vw, 40px);
+               display: grid;
+               grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) minmax(0, .42fr) minmax(0, .42fr);
+               gap: 18px;
+               align-items: end;
+          }
+
+          .glass {
+               background: rgba(30, 60, 110, .42);
+               border: 1px solid var(--glass-line);
+               backdrop-filter: blur(16px);
+               -webkit-backdrop-filter: blur(16px);
+               border-radius: 30px;
+               box-shadow: 0 30px 60px -30px rgba(0, 10, 50, .8);
+          }
+
+          .hero-card {
+               padding: 22px 26px 26px;
+               display: flex;
+               flex-direction: column;
+               gap: 18px;
+               font-family: var(--font-serif);
+          }
+
+          .avatars {
+               display: flex;
+               align-items: center;
+               gap: 0;
+          }
+
+          .avatars img {
+               width: 38px;
+               height: 38px;
+               border-radius: 50%;
+               object-fit: cover;
+               border: 2px solid rgba(255, 255, 255, .85);
+               margin-left: -8px;
+               background: var(--sky-low);
+          }
+
+          .avatars img:first-child {
+               margin-left: 0;
+          }
+
+          .avatars .count {
+               margin-left: -8px;
+               min-width: 44px;
+               height: 38px;
+               padding: 0 8px;
+               border-radius: 999px;
+               display: grid;
+               place-items: center;
+               font-family: var(--font-mono);
+               font-size: 11px;
+               background: rgba(255, 255, 255, .22);
+               border: 1px solid var(--glass-line);
+          }
+
+          .avatars .lbl {
+               margin-left: 14px;
+               font-size: .95rem;
+               color: #eaf3ff;
+          }
+
+          .hero-card p {
+               margin: 0;
+               font-size: 1.05rem;
+               line-height: 1.55;
+               color: #f2f7ff;
+               max-width: 34ch;
+          }
+
+          .hero-card .acts {
+               display: flex;
+               flex-wrap: wrap;
+               gap: 12px;
+          }
+
+          .hero-card .btn {
+               height: 42px;
+               font-family: var(--font-serif);
+               text-transform: none;
+               letter-spacing: 0;
+               font-size: .95rem;
+          }
+
+          .hero-card .btn.btn-yellow {
+               padding-right: 6px;
+          }
+
+          .hero-card .btn .go {
+               margin-right: 0;
+               width: 30px;
+               height: 30px;
+               background: var(--white);
+               color: var(--ink);
+          }
+
+          .feat-card {
+               padding: 12px 12px 18px;
+          }
+
+          .feat-card .pic {
+               height: 220px;
+               border-radius: 22px;
+               overflow: hidden;
+          }
+
+          .feat-card .pic img {
+               transition: transform .8s var(--ease);
+          }
+
+          .feat-card:hover .pic img {
+               transform: scale(1.06);
+          }
+
+          .feat-card h3 {
+               margin: 14px 8px 4px;
+               font-family: var(--font-serif);
+               font-weight: 400;
+               font-size: 1.05rem;
+               letter-spacing: 0;
+          }
+
+          .feat-card p {
+               margin: 0 8px;
+               font-family: var(--font-serif);
+               font-size: .8rem;
+               line-height: 1.5;
+               color: #dbe8fb;
+          }
+
+          .tall {
+               position: relative;
+               border-radius: 26px;
+               overflow: hidden;
+               border: 1px solid var(--glass-line);
+               box-shadow: 0 30px 60px -30px rgba(0, 10, 50, .8);
+               transition: transform .4s var(--ease);
+          }
+
+          .tall:hover {
+               transform: translateY(-6px);
+          }
+
+          .tall.t1 {
+               height: 320px;
+          }
+
+          .tall.t2 {
+               height: 370px;
+          }
+
+          .tall figcaption {
+               position: absolute;
+               inset: auto 0 0 0;
+               padding: 40px 12px 12px;
+               background: linear-gradient(0deg, rgba(5, 20, 60, .85), transparent);
+               font-family: var(--font-serif);
+               font-size: .8rem;
+               line-height: 1.3;
+          }
+
+          .tall figcaption b {
+               display: block;
+               font-family: var(--font-mono);
+               font-weight: 400;
+               font-size: 9.5px;
+               letter-spacing: .1em;
+               text-transform: uppercase;
+               color: var(--yellow);
+               margin-bottom: 2px;
+          }
+
+          /* ---------- Shared section styles ---------- */
+          .wrap {
+               width: 100%;
+               max-width: 1200px;
+               margin-inline: auto;
+               padding-inline: var(--gutter);
+          }
+
+          .sec {
+               padding-block: clamp(64px, 9vw, 120px);
+               position: relative;
+          }
+
+          .sec.tint {
+               background: var(--mist);
+          }
+
+          .eyebrow {
+               display: inline-flex;
+               align-items: center;
+               gap: 10px;
+               color: var(--blue);
+               margin: 0 0 16px;
+          }
+
+          .eyebrow::before {
+               content: "";
+               width: 22px;
+               height: 2px;
+               background: var(--yellow-deep);
+               border-radius: 2px;
+          }
+
+          h2 {
+               margin: 0;
+               font-weight: 500;
+               font-size: clamp(2rem, 4.6vw, 3.4rem);
+               line-height: 1.04;
+               letter-spacing: -.04em;
+               text-wrap: balance;
+               color: var(--ink);
+          }
+
+          h3 {
+               margin: 0;
+               font-weight: 500;
+               letter-spacing: -.025em;
+               text-wrap: balance;
+          }
+
+          .sec-head {
+               display: grid;
+               grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+               gap: 24px 56px;
+               align-items: end;
+               margin-bottom: clamp(32px, 5vw, 56px);
+          }
+
+          .sec-head p {
+               margin: 0;
+               color: var(--muted);
+               font-size: 1.05rem;
+               max-width: 52ch;
+          }
+
+          .lead {
+               color: var(--muted);
+               font-size: 1.05rem;
+               max-width: 56ch;
+          }
+
+          .note {
+               font-family: var(--font-mono);
+               font-size: 10.5px;
+               letter-spacing: .08em;
+               text-transform: uppercase;
+               color: #7a90b3;
+               margin: 18px 0 0;
+          }
+
+          [data-r].pre {
+               opacity: 0;
+          }
+
+          [data-r].in {
+               animation: rvUp .8s var(--ease) var(--d, 0s) backwards;
+          }
+
+          [data-r="left"].in {
+               animation-name: rvLeft;
+          }
+
+          [data-r="right"].in {
+               animation-name: rvRight;
+          }
+
+          [data-r="zoom"].in {
+               animation-name: rvZoom;
+          }
+
+          @keyframes rvUp {
+               from {
+                    opacity: 0;
+                    transform: translateY(28px);
+               }
+          }
+
+          @keyframes rvLeft {
+               from {
+                    opacity: 0;
+                    transform: translateX(-34px);
+               }
+          }
+
+          @keyframes rvRight {
+               from {
+                    opacity: 0;
+                    transform: translateX(34px);
+               }
+          }
+
+          @keyframes rvZoom {
+               from {
+                    opacity: 0;
+                    transform: scale(.94);
+               }
+          }
+
+          /* ---------- Impact ---------- */
+          .impact {
+               position: relative;
+               z-index: 5;
+               margin-top: -48px;
+               padding-inline: calc(var(--gutter) + 6px);
+          }
+
+          .impact-card {
+               max-width: 1120px;
+               margin-inline: auto;
+               background: var(--white);
+               border-radius: 26px;
+               box-shadow: 0 30px 60px -28px rgba(10, 42, 120, .45), 0 0 0 1px rgba(11, 42, 85, .05);
+               display: grid;
+               grid-template-columns: repeat(4, minmax(0, 1fr));
+          }
+
+          .stat {
+               padding: clamp(22px, 3vw, 34px) clamp(18px, 2.6vw, 32px);
+               position: relative;
+          }
+
+          .stat+.stat::before {
+               content: "";
+               position: absolute;
+               left: 0;
+               top: 24%;
+               bottom: 24%;
+               width: 1px;
+               background: var(--line);
+          }
+
+          .stat b {
+               display: block;
+               font-weight: 500;
+               font-size: clamp(2rem, 4vw, 3.1rem);
+               letter-spacing: -.045em;
+               line-height: 1;
+               font-variant-numeric: tabular-nums;
+               color: var(--blue);
+          }
+
+          .stat b sup {
+               font-size: .5em;
+               color: var(--yellow-deep);
+               vertical-align: top;
+               margin-left: 2px;
+               position: relative;
+               top: .1em;
+          }
+
+          .stat span {
+               display: block;
+               margin-top: 10px;
+               color: var(--muted);
+               font-size: .92rem;
+               line-height: 1.35;
+          }
+
+          .impact .note {
+               text-align: center;
+          }
+
+          /* ---------- About ---------- */
+          .about {
+               display: grid;
+               grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+               gap: clamp(32px, 6vw, 80px);
+               align-items: center;
+          }
+
+          .about h2 {
+               margin-bottom: 22px;
+          }
+
+          .pillars {
+               display: grid;
+               grid-template-columns: repeat(2, minmax(0, 1fr));
+               gap: 14px;
+               margin-top: 30px;
+          }
+
+          .pillar {
+               display: flex;
+               gap: 14px;
+               align-items: flex-start;
+               padding: 16px;
+               border-radius: 18px;
+               background: var(--mist);
+               border: 1px solid transparent;
+               transition: transform .3s var(--ease), border-color .3s, background .3s;
+          }
+
+          .pillar:hover {
+               transform: translateY(-4px);
+               border-color: var(--yellow);
+               background: var(--white);
+          }
+
+          .pillar .thumb {
+               width: 56px;
+               height: 56px;
+               border-radius: 50%;
+               overflow: hidden;
+               flex: none;
+               border: 2px solid var(--white);
+               box-shadow: 0 8px 18px -10px rgba(10, 42, 120, .6);
+               transition: transform .4s var(--ease);
+          }
+
+          .pillar:hover .thumb {
+               transform: rotate(-8deg) scale(1.08);
+          }
+
+          .pillar strong {
+               display: block;
+               font-weight: 500;
+               letter-spacing: -.02em;
+          }
+
+          .pillar p {
+               margin: 2px 0 0;
+               color: var(--muted);
+               font-size: .9rem;
+               line-height: 1.4;
+          }
+
+          .art {
+               position: relative;
+               border-radius: 28px;
+               overflow: hidden;
+               box-shadow: 0 30px 60px -30px rgba(10, 42, 120, .55);
+               aspect-ratio: 5 / 4.6;
+          }
+
+          .art>img {
+               position: absolute;
+               inset: 0;
+          }
+
+          .art::after {
+               content: "";
+               position: absolute;
+               inset: 0;
+               background: linear-gradient(180deg, rgba(10, 88, 214, .18), rgba(10, 14, 24, .35));
+          }
+
+          .art .float {
+               position: absolute;
+               z-index: 2;
+               background: var(--white);
+               border-radius: 14px;
+               padding: 10px 14px;
+               box-shadow: 0 16px 34px -14px rgba(0, 30, 100, .55);
+               display: flex;
+               gap: 10px;
+               align-items: center;
+               animation: bob 5s ease-in-out infinite;
+          }
+
+          .art .float.a {
+               left: 4%;
+               top: 8%;
+          }
+
+          .art .float.b {
+               right: 4%;
+               bottom: 8%;
+               animation-delay: -2.4s;
+          }
+
+          .art .float img {
+               width: 34px;
+               height: 34px;
+               border-radius: 50%;
+               object-fit: cover;
+               border: 2px solid var(--yellow);
+          }
+
+          .art .float small {
+               display: block;
+               color: var(--muted);
+               font-size: 11px;
+               line-height: 1.2;
+          }
+
+          .art .float strong {
+               font-weight: 500;
+               font-size: 15px;
+               letter-spacing: -.02em;
+               line-height: 1.2;
+          }
+
+          @keyframes bob {
+
+               0%,
+               100% {
+                    transform: translateY(0);
+               }
+
+               50% {
+                    transform: translateY(-9px);
+               }
+          }
+
+          /* ---------- Programs (photo panels) ---------- */
+          .progs {
+               display: flex;
+               gap: 14px;
+               height: 520px;
+          }
+
+          .prog {
+               position: relative;
+               flex: 1;
+               border-radius: 26px;
+               overflow: hidden;
+               cursor: pointer;
+               transition: flex .7s var(--ease);
+               min-width: 0;
+               color: var(--white);
+               background: var(--blue-deep);
+          }
+
+          .prog.active {
+               flex: 3.4;
+               cursor: default;
+          }
+
+          .prog>img {
+               position: absolute;
+               inset: 0;
+               transition: transform 1s var(--ease);
+          }
+
+          .prog.active>img {
+               transform: scale(1.06);
+          }
+
+          .prog::after {
+               content: "";
+               position: absolute;
+               inset: 0;
+               background: linear-gradient(180deg, rgba(10, 63, 168, .15) 0%, rgba(10, 14, 24, .85) 100%);
+               pointer-events: none;
+          }
+
+          .prog .vt {
+               position: absolute;
+               inset: 0;
+               z-index: 2;
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               justify-content: flex-end;
+               padding: 26px 0;
+               transition: opacity .35s;
+          }
+
+          .prog .vt span {
+               writing-mode: vertical-rl;
+               transform: rotate(180deg);
+               font-size: 1.25rem;
+               letter-spacing: -.02em;
+               font-weight: 500;
+               text-shadow: 0 2px 12px rgba(0, 0, 0, .5);
+          }
+
+          .prog.active .vt {
+               opacity: 0;
+               pointer-events: none;
+          }
+
+          .prog .full {
+               position: absolute;
+               inset: 0;
+               z-index: 2;
+               padding: 30px;
+               display: flex;
+               flex-direction: column;
+               justify-content: space-between;
+               opacity: 0;
+               transition: opacity .4s;
+               pointer-events: none;
+          }
+
+          .prog.active .full {
+               opacity: 1;
+               pointer-events: auto;
+               transition-delay: .25s;
+          }
+
+          .prog .full .tag {
+               align-self: flex-start;
+               background: rgba(255, 255, 255, .18);
+               border: 1px solid var(--glass-line);
+               backdrop-filter: blur(8px);
+               -webkit-backdrop-filter: blur(8px);
+               padding: 7px 14px;
+               border-radius: 999px;
+          }
+
+          .prog .full h3 {
+               font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+          }
+
+          .prog .full p {
+               margin: 12px 0 0;
+               max-width: 40ch;
+               color: rgba(255, 255, 255, .92);
+          }
+
+          .prog .full .meta {
+               display: flex;
+               flex-wrap: wrap;
+               align-items: center;
+               gap: 12px 18px;
+          }
+
+          .prog .full .price {
+               font-family: var(--font-mono);
+               font-size: 12px;
+               letter-spacing: .1em;
+               text-transform: uppercase;
+          }
+
+          .prog .btn {
+               height: 42px;
+               background: var(--yellow);
+               color: var(--black);
+          }
+
+          /* ---------- Give ---------- */
+          .give {
+               background: linear-gradient(180deg, var(--blue-deep) 0%, var(--blue) 100%);
+               color: var(--white);
+               overflow: hidden;
+               isolation: isolate;
+          }
+
+          .give::before,
+          .give::after {
+               content: "";
+               position: absolute;
+               z-index: -1;
+               border-radius: 50%;
+               background: radial-gradient(circle, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 65%);
+          }
+
+          .give::before {
+               width: 720px;
+               height: 420px;
+               left: -200px;
+               top: -120px;
+          }
+
+          .give::after {
+               width: 820px;
+               height: 460px;
+               right: -260px;
+               bottom: -160px;
+          }
+
+          .give h2 {
+               color: var(--white);
+          }
+
+          .give .eyebrow {
+               color: var(--yellow);
+          }
+
+          .give .sec-head p {
+               color: rgba(255, 255, 255, .8);
+          }
+
+          .give-grid {
+               display: grid;
+               grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+               gap: 22px;
+               align-items: stretch;
+          }
+
+          .panel {
+               background: var(--white);
+               color: var(--ink);
+               border-radius: 26px;
+               padding: clamp(22px, 3vw, 34px);
+               display: flex;
+               flex-direction: column;
+               gap: 22px;
+               box-shadow: 0 34px 70px -34px rgba(0, 20, 80, .8);
+          }
+
+          .field-label {
+               display: block;
+               margin-bottom: 10px;
+               color: var(--muted);
+          }
+
+          .seg {
+               position: relative;
+               display: grid;
+               grid-template-columns: 1fr 1fr;
+               padding: 5px;
+               border-radius: 999px;
+               background: var(--mist-2);
+          }
+
+          .seg .thumb {
+               position: absolute;
+               top: 5px;
+               bottom: 5px;
+               left: 5px;
+               width: calc(50% - 5px);
+               border-radius: 999px;
+               background: var(--yellow);
+               transition: transform .4s var(--ease);
+               box-shadow: 0 6px 16px -8px rgba(242, 183, 5, .9);
+          }
+
+          .seg[data-v="monthly"] .thumb {
+               transform: translateX(100%);
+          }
+
+          .seg button {
+               position: relative;
+               z-index: 1;
+               height: 42px;
+               border: 0;
+               background: none;
+               cursor: pointer;
+               border-radius: 999px;
+               font-weight: 500;
+               color: var(--muted);
+               transition: color .2s;
+          }
+
+          .seg button[aria-checked="true"] {
+               color: var(--black);
+          }
+
+          .amounts {
+               display: grid;
+               grid-template-columns: repeat(4, minmax(0, 1fr));
+               gap: 10px;
+          }
+
+          .amt {
+               height: 52px;
+               border-radius: 14px;
+               border: 1.5px solid var(--line);
+               background: var(--white);
+               cursor: pointer;
+               font-size: 1.1rem;
+               font-weight: 500;
+               letter-spacing: -.02em;
+               font-variant-numeric: tabular-nums;
+               transition: transform .2s var(--ease), border-color .2s, background .2s, color .2s;
+          }
+
+          .amt:hover {
+               border-color: var(--blue);
+               transform: translateY(-2px);
+          }
+
+          .amt[aria-pressed="true"] {
+               background: var(--blue);
+               border-color: var(--blue);
+               color: var(--white);
+          }
+
+          .custom {
+               position: relative;
+               margin-top: 10px;
+          }
+
+          .custom span {
+               position: absolute;
+               left: 16px;
+               top: 50%;
+               transform: translateY(-50%);
+               color: var(--muted);
+               font-weight: 500;
+          }
+
+          .custom input {
+               width: 100%;
+               height: 50px;
+               border-radius: 14px;
+               border: 1.5px solid var(--line);
+               padding: 0 16px 0 34px;
+               background: var(--white);
+               font-variant-numeric: tabular-nums;
+          }
+
+          .custom input:focus {
+               outline: none;
+               border-color: var(--blue);
+               box-shadow: 0 0 0 4px rgba(22, 104, 227, .15);
+          }
+
+          .chips-row {
+               display: flex;
+               flex-wrap: wrap;
+               gap: 8px;
+          }
+
+          .pchip {
+               height: 40px;
+               padding: 0 16px;
+               border-radius: 999px;
+               border: 1.5px solid var(--line);
+               background: var(--white);
+               cursor: pointer;
+               font-weight: 500;
+               transition: background .2s, border-color .2s, color .2s, transform .2s var(--ease);
+          }
+
+          .pchip:hover {
+               border-color: var(--blue);
+               transform: translateY(-1px);
+          }
+
+          .pchip[aria-pressed="true"] {
+               background: var(--black);
+               border-color: var(--black);
+               color: var(--white);
+          }
+
+          .summary {
+               background: var(--black);
+               color: var(--white);
+               border-radius: 26px;
+               padding: clamp(22px, 3vw, 34px);
+               display: flex;
+               flex-direction: column;
+               gap: 18px;
+               position: relative;
+               overflow: hidden;
+               box-shadow: 0 34px 70px -34px rgba(0, 0, 0, .8);
+          }
+
+          .summary::after {
+               content: "";
+               position: absolute;
+               right: -80px;
+               top: -80px;
+               width: 240px;
+               height: 240px;
+               border-radius: 50%;
+               background: radial-gradient(circle, rgba(255, 210, 63, .35), rgba(255, 210, 63, 0) 70%);
+               pointer-events: none;
+          }
+
+          .summary .lab {
+               color: #8fa6d4;
+          }
+
+          .summary .gift {
+               font-size: clamp(2.4rem, 5vw, 3.4rem);
+               letter-spacing: -.05em;
+               line-height: 1;
+               font-weight: 500;
+               font-variant-numeric: tabular-nums;
+          }
+
+          .summary .gift small {
+               font-size: 1rem;
+               letter-spacing: 0;
+               color: #8fa6d4;
+               margin-left: 6px;
+               font-weight: 400;
+          }
+
+          .summary hr {
+               width: 100%;
+               border: 0;
+               border-top: 1px solid rgba(255, 255, 255, .12);
+               margin: 0;
+          }
+
+          .fund-n {
+               display: flex;
+               align-items: baseline;
+               gap: 12px;
+          }
+
+          .fund-n b {
+               font-size: clamp(2.6rem, 5.4vw, 3.8rem);
+               font-weight: 500;
+               letter-spacing: -.05em;
+               color: var(--yellow);
+               line-height: 1;
+               font-variant-numeric: tabular-nums;
+          }
+
+          .fund-n span {
+               color: #c9d8f3;
+               line-height: 1.35;
+               max-width: 26ch;
+          }
+
+          .dots {
+               display: flex;
+               flex-wrap: wrap;
+               gap: 8px;
+               align-items: center;
+          }
+
+          .dots i {
+               width: 22px;
+               height: 22px;
+               border-radius: 50%;
+               background: rgba(255, 255, 255, .1);
+               transition: background .3s, transform .4s var(--ease);
+          }
+
+          .dots i.on {
+               background: var(--yellow);
+               animation: dotin .5s var(--ease) backwards;
+               animation-delay: calc(var(--k) * 35ms);
+          }
+
+          @keyframes dotin {
+               from {
+                    transform: scale(.2);
+               }
+
+               to {
+                    transform: scale(1);
+               }
+          }
+
+          .dots em {
+               font-style: normal;
+               color: #c9d8f3;
+               font-size: .9rem;
+               margin-left: 4px;
+          }
+
+          .summary .year {
+               color: #c9d8f3;
+               font-size: .95rem;
+               min-height: 1.4em;
+               margin: 0;
+          }
+
+          .summary .btn {
+               width: 100%;
+               height: 54px;
+               margin-top: auto;
+          }
+
+          .status {
+               margin: 0;
+               min-height: 1.4em;
+               font-size: .85rem;
+               color: #c9d8f3;
+          }
+
+          /* ---------- Where it goes + tiers ---------- */
+          .alloc {
+               display: grid;
+               grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+               gap: clamp(28px, 6vw, 80px);
+               align-items: center;
+          }
+
+          .abar {
+               display: flex;
+               height: 64px;
+               border-radius: 18px;
+               overflow: hidden;
+               background: var(--mist-2);
+               gap: 4px;
+          }
+
+          .abar div {
+               height: 100%;
+               width: 0;
+               transition: width 1.4s var(--ease);
+               display: grid;
+               place-items: center;
+               font-weight: 500;
+               font-size: .95rem;
+          }
+
+          .abar .s1 {
+               background: var(--blue);
+               color: var(--white);
+          }
+
+          .abar .s2 {
+               background: var(--yellow);
+               color: var(--black);
+          }
+
+          .abar .s3 {
+               background: var(--black);
+               color: var(--white);
+          }
+
+          .legend {
+               display: grid;
+               gap: 16px;
+               margin: 26px 0 0;
+               padding: 0;
+               list-style: none;
+          }
+
+          .legend li {
+               display: grid;
+               grid-template-columns: 14px minmax(0, 1fr);
+               gap: 14px;
+               align-items: start;
+          }
+
+          .legend i {
+               width: 14px;
+               height: 14px;
+               border-radius: 50%;
+               margin-top: 5px;
+          }
+
+          .legend strong {
+               font-weight: 500;
+               letter-spacing: -.02em;
+          }
+
+          .legend p {
+               margin: 2px 0 0;
+               color: var(--muted);
+               font-size: .92rem;
+          }
+
+          .tiers {
+               display: grid;
+               grid-template-columns: repeat(3, minmax(0, 1fr));
+               gap: 18px;
+               align-items: stretch;
+               margin-top: clamp(40px, 6vw, 72px);
+          }
+
+          .tier {
+               position: relative;
+               background: var(--white);
+               border-radius: 26px;
+               padding: 12px 12px clamp(22px, 2.6vw, 30px);
+               border: 1.5px solid var(--line);
+               display: flex;
+               flex-direction: column;
+               gap: 16px;
+               transition: transform .35s var(--ease), box-shadow .35s, border-color .35s;
+          }
+
+          .tier>*:not(.tpic) {
+               margin-inline: clamp(10px, 1.4vw, 18px);
+          }
+
+          .tier:hover {
+               transform: translateY(-8px);
+               box-shadow: 0 30px 50px -30px rgba(10, 42, 120, .5);
+               border-color: var(--blue);
+          }
+
+          .tier.hot {
+               background: var(--blue);
+               color: var(--white);
+               border-color: var(--blue);
+          }
+
+          .tier.hot:hover {
+               border-color: var(--yellow);
+          }
+
+          .tier .tpic {
+               height: 170px;
+               border-radius: 18px;
+               overflow: hidden;
+               position: relative;
+          }
+
+          .tier .tpic img {
+               transition: transform .8s var(--ease);
+          }
+
+          .tier:hover .tpic img {
+               transform: scale(1.07);
+          }
+
+          .tier .badge {
+               position: absolute;
+               top: 22px;
+               right: 22px;
+               z-index: 2;
+               margin: 0 !important;
+               background: var(--yellow);
+               color: var(--black);
+               padding: 5px 10px;
+               border-radius: 999px;
+          }
+
+          .tier .name {
+               color: var(--blue);
+          }
+
+          .tier.hot .name {
+               color: var(--yellow);
+          }
+
+          .tier .price {
+               font-size: clamp(2.2rem, 4vw, 3rem);
+               letter-spacing: -.05em;
+               font-weight: 500;
+               line-height: 1;
+          }
+
+          .tier .price small {
+               font-size: .95rem;
+               letter-spacing: 0;
+               font-weight: 400;
+               opacity: .7;
+               margin-left: 4px;
+          }
+
+          .tier .desc {
+               margin-block: 0;
+               color: var(--muted);
+          }
+
+          .tier.hot .desc {
+               color: rgba(255, 255, 255, .82);
+          }
+
+          .tier ul {
+               list-style: none;
+               display: grid;
+               gap: 11px;
+          }
+
+          .tier li {
+               display: flex;
+               gap: 10px;
+               align-items: flex-start;
+               line-height: 1.35;
+          }
+
+          .tier li .ic {
+               color: var(--blue);
+               margin-top: 2px;
+               stroke-width: 2.4;
+          }
+
+          .tier.hot li .ic {
+               color: var(--yellow);
+          }
+
+          .tier .btn {
+               margin-top: auto;
+          }
+
+          .marquee {
+               margin-top: clamp(40px, 6vw, 64px);
+               overflow: hidden;
+               border-block: 1px solid var(--line);
+               padding-block: 18px;
+               -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+               mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+          }
+
+          .marquee .track {
+               display: flex;
+               width: max-content;
+               animation: scroll 40s linear infinite;
+          }
+
+          .marquee:hover .track {
+               animation-play-state: paused;
+          }
+
+          .marquee span {
+               display: inline-flex;
+               align-items: center;
+               gap: 28px;
+               padding-right: 28px;
+               font-size: clamp(1.3rem, 2.6vw, 2rem);
+               font-weight: 500;
+               letter-spacing: -.03em;
+               color: var(--ink);
+               white-space: nowrap;
+          }
+
+          .marquee span::after {
+               content: "";
+               width: 12px;
+               height: 12px;
+               border-radius: 50%;
+               background: var(--yellow);
+          }
+
+          @keyframes scroll {
+               to {
+                    transform: translateX(-50%);
+               }
+          }
+
+          .marquee-cap {
+               text-align: center;
+               margin: 0 0 14px;
+               color: var(--muted);
+          }
+
+          /* ---------- How it works ---------- */
+          .how {
+               background: var(--black);
+               color: var(--white);
+               overflow: hidden;
+          }
+
+          .how h2 {
+               color: var(--white);
+          }
+
+          .how .eyebrow {
+               color: var(--yellow);
+          }
+
+          .how .sec-head p {
+               color: #9fb0cf;
+          }
+
+          .steps {
+               position: relative;
+               display: grid;
+               grid-template-columns: repeat(4, minmax(0, 1fr));
+               gap: 24px;
+          }
+
+          .steps .line {
+               position: absolute;
+               left: 22px;
+               right: 22px;
+               top: 22px;
+               height: 2px;
+               background: rgba(255, 255, 255, .14);
+          }
+
+          .steps .line i {
+               display: block;
+               height: 100%;
+               background: var(--yellow);
+               width: 0;
+               transition: width 2s var(--ease);
+          }
+
+          .step {
+               position: relative;
+          }
+
+          .step .n {
+               width: 44px;
+               height: 44px;
+               border-radius: 50%;
+               background: var(--black);
+               border: 2px solid var(--yellow);
+               color: var(--yellow);
+               display: grid;
+               place-items: center;
+               font-family: var(--font-mono);
+               font-weight: 500;
+               position: relative;
+               z-index: 1;
+          }
+
+          .step .spic {
+               margin-top: 20px;
+               height: 140px;
+               border-radius: 18px;
+               overflow: hidden;
+          }
+
+          .step .spic img {
+               transition: transform .8s var(--ease);
+          }
+
+          .step:hover .spic img {
+               transform: scale(1.08);
+          }
+
+          .step h3 {
+               margin: 18px 0 8px;
+               font-size: 1.35rem;
+          }
+
+          .step p {
+               margin: 0;
+               color: #9fb0cf;
+               font-size: .96rem;
+          }
+
+          /* ---------- Projects ---------- */
+          .projects {
+               display: grid;
+               grid-template-columns: repeat(3, minmax(0, 1fr));
+               gap: 18px;
+          }
+
+          .proj {
+               background: var(--white);
+               border-radius: 26px;
+               overflow: hidden;
+               border: 1.5px solid var(--line);
+               display: flex;
+               flex-direction: column;
+               transition: transform .35s var(--ease), box-shadow .35s;
+          }
+
+          .proj:hover {
+               transform: translateY(-6px);
+               box-shadow: 0 30px 50px -32px rgba(10, 42, 120, .55);
+          }
+
+          .proj .pic {
+               height: 200px;
+               position: relative;
+               overflow: hidden;
+          }
+
+          .proj .pic img {
+               transition: transform .8s var(--ease);
+          }
+
+          .proj:hover .pic img {
+               transform: scale(1.08);
+          }
+
+          .proj .body {
+               padding: 22px;
+               display: flex;
+               flex-direction: column;
+               gap: 14px;
+               flex: 1;
+          }
+
+          .proj h3 {
+               font-size: 1.3rem;
+          }
+
+          .proj p {
+               margin: 0;
+               color: var(--muted);
+               font-size: .95rem;
+          }
+
+          .meter {
+               height: 10px;
+               border-radius: 999px;
+               background: var(--mist-2);
+               overflow: hidden;
+          }
+
+          .meter i {
+               display: block;
+               height: 100%;
+               width: 0;
+               background: linear-gradient(90deg, var(--blue), #4aa6ff);
+               border-radius: 999px;
+               transition: width 1.6s var(--ease);
+               position: relative;
+          }
+
+          .meter i::after {
+               content: "";
+               position: absolute;
+               right: 0;
+               top: 0;
+               bottom: 0;
+               width: 10px;
+               background: var(--yellow);
+               border-radius: 999px;
+          }
+
+          .fig {
+               display: flex;
+               justify-content: space-between;
+               gap: 10px;
+               font-variant-numeric: tabular-nums;
+               font-size: .92rem;
+               color: var(--muted);
+          }
+
+          .fig b {
+               color: var(--ink);
+               font-weight: 500;
+          }
+
+          .proj .btn {
+               margin-top: auto;
+               width: 100%;
+               height: 44px;
+          }
+
+          /* ---------- News ---------- */
+          .news {
+               display: grid;
+               grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+               gap: 18px;
+          }
+
+          .nitem {
+               display: flex;
+               flex-direction: column;
+               border-radius: 26px;
+               overflow: hidden;
+               background: var(--white);
+               border: 1.5px solid var(--line);
+               transition: transform .35s var(--ease), box-shadow .35s;
+          }
+
+          .nitem:hover {
+               transform: translateY(-6px);
+               box-shadow: 0 30px 50px -32px rgba(10, 42, 120, .5);
+          }
+
+          .nimg {
+               position: relative;
+               overflow: hidden;
+               height: 150px;
+               flex: none;
+          }
+
+          .nimg img {
+               transition: transform .8s var(--ease);
+          }
+
+          .nitem:hover .nimg img {
+               transform: scale(1.06);
+          }
+
+          .nbody {
+               padding: 22px;
+               display: flex;
+               flex-direction: column;
+               gap: 10px;
+          }
+
+          .nmeta {
+               display: flex;
+               gap: 10px;
+               align-items: center;
+               color: var(--muted);
+          }
+
+          .tag {
+               background: var(--yellow);
+               color: var(--black);
+               padding: 4px 9px;
+               border-radius: 999px;
+          }
+
+          .nitem h3 {
+               font-size: 1.3rem;
+          }
+
+          .nitem p {
+               margin: 0;
+               color: var(--muted);
+               font-size: .95rem;
+          }
+
+          .nitem .more {
+               margin-top: 6px;
+               display: inline-flex;
+               align-items: center;
+               gap: 8px;
+               color: var(--blue);
+               font-weight: 500;
+          }
+
+          .nitem .more .ic {
+               transition: transform .25s var(--ease);
+          }
+
+          .nitem:hover .more .ic {
+               transform: translateX(5px);
+          }
+
+          .news .feat {
+               grid-row: span 2;
+          }
+
+          .news .feat .nimg {
+               height: auto;
+               min-height: 300px;
+               flex: 1;
+          }
+
+          .news .feat .nimg img {
+               position: absolute;
+               inset: 0;
+          }
+
+          .news .feat h3 {
+               font-size: clamp(1.5rem, 2.6vw, 2rem);
+          }
+
+          .news .side {
+               display: grid;
+               grid-template-rows: 1fr 1fr;
+               gap: 18px;
+               grid-row: span 2;
+          }
+
+          /* ---------- Get involved ---------- */
+          .involve {
+               background: linear-gradient(180deg, var(--sky-mid) 0%, var(--sky-low) 100%);
+               color: var(--white);
+               overflow: hidden;
+               isolation: isolate;
+          }
+
+          .involve::before {
+               content: "";
+               position: absolute;
+               z-index: -1;
+               inset: auto -10% -40% -10%;
+               height: 70%;
+               background: radial-gradient(60% 60% at 50% 100%, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0));
+          }
+
+          .involve h2 {
+               color: var(--white);
+          }
+
+          .involve .eyebrow {
+               color: var(--yellow);
+          }
+
+          .involve .sec-head p {
+               color: rgba(255, 255, 255, .86);
+          }
+
+          .ways {
+               display: grid;
+               grid-template-columns: repeat(3, minmax(0, 1fr));
+               gap: 18px;
+          }
+
+          .way {
+               display: flex;
+               flex-direction: column;
+               gap: 14px;
+               padding: 12px 12px clamp(22px, 3vw, 28px);
+               border-radius: 26px;
+               background: rgba(255, 255, 255, .16);
+               border: 1px solid rgba(255, 255, 255, .4);
+               backdrop-filter: blur(12px);
+               -webkit-backdrop-filter: blur(12px);
+               transition: transform .35s var(--ease), background .35s;
+          }
+
+          .way>*:not(.wpic) {
+               margin-inline: clamp(10px, 1.4vw, 18px);
+          }
+
+          .way:hover {
+               transform: translateY(-8px);
+               background: rgba(255, 255, 255, .26);
+          }
+
+          .way .wpic {
+               height: 180px;
+               border-radius: 18px;
+               overflow: hidden;
+          }
+
+          .way .wpic img {
+               transition: transform .8s var(--ease);
+          }
+
+          .way:hover .wpic img {
+               transform: scale(1.07);
+          }
+
+          .way h3 {
+               font-size: 1.5rem;
+          }
+
+          .way p {
+               margin-block: 0;
+               color: rgba(255, 255, 255, .9);
+          }
+
+          .way .lnk {
+               margin-top: auto;
+               display: inline-flex;
+               align-items: center;
+               gap: 10px;
+               font-weight: 500;
+          }
+
+          .way .lnk .ic {
+               transition: transform .25s var(--ease);
+          }
+
+          .way:hover .lnk .ic {
+               transform: translateX(6px);
+          }
+
+          /* ---------- Contact ---------- */
+          .contact {
+               display: grid;
+               grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+               gap: clamp(28px, 6vw, 80px);
+               align-items: start;
+          }
+
+          .contact h2 {
+               margin-bottom: 20px;
+          }
+
+          .cinfo {
+               display: grid;
+               gap: 16px;
+               margin-top: 28px;
+          }
+
+          .cinfo div {
+               padding: 16px 18px;
+               border-radius: 16px;
+               background: var(--mist);
+          }
+
+          .cinfo .mono {
+               color: var(--blue);
+               display: block;
+               margin-bottom: 4px;
+          }
+
+          .cinfo strong {
+               font-weight: 500;
+               user-select: all;
+               overflow-wrap: anywhere;
+          }
+
+          .form {
+               display: grid;
+               gap: 16px;
+               padding: clamp(22px, 3vw, 34px);
+               border-radius: 26px;
+               background: var(--white);
+               border: 1.5px solid var(--line);
+               box-shadow: 0 30px 60px -40px rgba(10, 42, 120, .5);
+          }
+
+          .two {
+               display: grid;
+               grid-template-columns: repeat(2, minmax(0, 1fr));
+               gap: 16px;
+          }
+
+          .form label {
+               display: block;
+          }
+
+          .form label span {
+               display: block;
+               margin-bottom: 8px;
+               color: var(--muted);
+          }
+
+          .form input,
+          .form select,
+          .form textarea {
+               width: 100%;
+               border-radius: 14px;
+               border: 1.5px solid var(--line);
+               background: var(--white);
+               padding: 14px 16px;
+          }
+
+          .form textarea {
+               min-height: 130px;
+               resize: vertical;
+          }
+
+          .form input:focus,
+          .form select:focus,
+          .form textarea:focus {
+               outline: none;
+               border-color: var(--blue);
+               box-shadow: 0 0 0 4px rgba(22, 104, 227, .15);
+          }
+
+          .form .status {
+               color: var(--muted);
+          }
+
+          .fab {
+               position: fixed;
+               z-index: 55;
+               left: 50%;
+               bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+               transform: translate(-50%, 140%);
+               display: none;
+               align-items: center;
+               gap: 10px;
+               height: 52px;
+               padding: 0 26px;
+               border-radius: 999px;
+               background: var(--yellow);
+               color: var(--black);
+               box-shadow: 0 18px 36px -12px rgba(10, 14, 24, .55);
+               transition: transform .5s var(--ease);
+               font-weight: 500;
+          }
+
+          .fab.show {
+               transform: translate(-50%, 0);
+          }
+
+          /* ---------- Footer ---------- */
+          .ag-footer {
+               background: linear-gradient(180deg, var(--white) 0%, var(--mist-2) 100%);
+               overflow: hidden;
+               margin-top: 0;
+          }
+
+          .footer-link {
+               transition: color .2s, transform .2s var(--ease);
+          }
+
+          .footer-link:hover {
+               color: var(--blue);
+               transform: translateX(3px);
+          }
+
+          .giant-ag-care {
+               margin: 0;
+               font-family: var(--font-display);
+               font-weight: 600;
+               font-size: 19vw;
+               line-height: .78;
+               white-space: nowrap;
+               color: rgba(22, 104, 227, .16);
+               margin-bottom: -.04em;
+          }
+
+          .foot-logo {
+               height: 42px;
+               width: auto;
+               max-width: 110px;
+               object-fit: contain;
+               background: var(--white);
+               border-radius: 12px;
+               padding: 4px 8px;
+               box-shadow: 0 6px 16px -8px rgba(10, 42, 120, .5);
+          }
+
+          /* ---------- Intro ---------- */
+          .intro {
+               position: fixed;
+               inset: 0;
+               z-index: 100;
+               background: #fff;
+               display: grid;
+               place-items: center;
+               -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent var(--r, 0px), #000 calc(var(--r, 0px) + 2px));
+               mask-image: radial-gradient(circle at 50% 50%, transparent var(--r, 0px), #000 calc(var(--r, 0px) + 2px));
+          }
+
+          .intro-name {
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               gap: 18px;
+               color: var(--ink);
+               transform-origin: 50% 50%;
+          }
+
+          .intro-logo {
+               height: clamp(70px, 12vw, 110px);
+               width: auto;
+               max-width: 70vw;
+               object-fit: contain;
+               opacity: 0;
+               transform: translateY(14px);
+               animation: fadeup .9s var(--ease) .2s forwards;
+          }
+
+          @keyframes fadeup {
+               to {
+                    opacity: 1;
+                    transform: none;
+               }
+          }
+
+          .intro-name h2 {
+               margin: 0;
+               display: flex;
+               flex-wrap: wrap;
+               justify-content: center;
+               column-gap: .3em;
+               font-weight: 500;
+               font-size: clamp(2.2rem, 8vw, 5.2rem);
+               letter-spacing: -.045em;
+               line-height: 1;
+               text-align: center;
+               padding-inline: 16px;
+          }
+
+          .word {
+               display: inline-flex;
+               overflow: hidden;
+               padding-bottom: .12em;
+          }
+
+          .ch {
+               display: inline-block;
+               transform: translateY(110%);
+               opacity: 0;
+               animation: rise .9s var(--ease) forwards;
+               animation-delay: calc(var(--i) * 55ms + 400ms);
+          }
+
+          @keyframes rise {
+               to {
+                    transform: none;
+                    opacity: 1;
+               }
+          }
+
+          .intro-sub {
+               font-family: var(--font-mono);
+               font-size: 11px;
+               letter-spacing: .22em;
+               text-transform: uppercase;
+               color: #5b7aa8;
+               opacity: 0;
+               animation: fadein .8s ease 1.5s forwards;
+               text-align: center;
+               padding-inline: 16px;
+          }
+
+          @keyframes fadein {
+               to {
+                    opacity: 1;
+               }
+          }
+
+          .portal-ring {
+               position: fixed;
+               left: 50%;
+               top: 50%;
+               z-index: 101;
+               pointer-events: none;
+               width: 0;
+               height: 0;
+               translate: -50% -50%;
+               border-radius: 50%;
+               border: 3px solid var(--yellow);
+               box-shadow: 0 0 0 2px rgba(255, 255, 255, .7), 0 0 50px 14px rgba(30, 120, 255, .65), inset 0 0 50px 10px rgba(30, 120, 255, .5);
+               opacity: 0;
+          }
+
+          .skip {
+               position: fixed;
+               z-index: 102;
+               right: 18px;
+               bottom: 16px;
+               background: none;
+               border: 0;
+               cursor: pointer;
+               color: #5b7aa8;
+               padding: 8px;
+          }
+
+          .skip:hover {
+               color: var(--ink);
+          }
+
+          /* ---------- Responsive ---------- */
+          @media (max-width: 1100px) {
+               .hero-row {
+                    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+               }
+
+               .hero-card {
+                    grid-column: 1 / -1;
+               }
+
+               .tall.t1,
+               .tall.t2 {
+                    height: 280px;
+               }
+
+               .feat-card {
+                    grid-column: 1 / 2;
+               }
+
+               .hero-row .tall.t1 {
+                    grid-column: 2 / 3;
+               }
+
+               .hero-row .tall.t2 {
+                    display: none;
+               }
+          }
+
+          @media (max-width: 1020px) {
+
+               .tiers,
+               .projects,
+               .ways {
+                    grid-template-columns: 1fr;
+                    max-width: 560px;
+                    margin-inline: auto;
+               }
+
+               .tier:hover {
+                    transform: none;
+               }
+
+               .steps {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    row-gap: 40px;
+               }
+
+               .steps .line {
+                    display: none;
+               }
+          }
+
+          @media (max-width: 900px) {
+               .nav-row {
+                    grid-template-columns: 1fr auto;
+               }
+
+               .cta-pill {
+                    display: none;
+               }
+
+               .menu-btn {
+                    display: grid;
+               }
+
+               .nav-pill {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: calc(100% + 8px);
+                    display: none;
+                    border-radius: 22px;
+                    padding: 10px;
+                    background: rgba(8, 40, 100, .96);
+               }
+
+               .nav-pill[data-open="true"] {
+                    display: block;
+               }
+
+               .nav-pill>ul {
+                    flex-direction: column;
+                    align-items: stretch;
+               }
+
+               .nav-pill a.lk,
+               .nav-pill button.lk {
+                    width: 100%;
+                    justify-content: space-between;
+               }
+
+               .more-menu {
+                    position: static;
+                    translate: none;
+                    margin-top: 4px;
+                    background: rgba(255, 255, 255, .1);
+                    box-shadow: none;
+               }
+
+               .more-menu a {
+                    color: #fff;
+               }
+
+               .more-menu a:hover {
+                    background: rgba(255, 255, 255, .12);
+               }
+
+               .fab {
+                    display: inline-flex;
+               }
+
+               .sec-head {
+                    grid-template-columns: 1fr;
+                    align-items: start;
+               }
+
+               .impact-card {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+               }
+
+               .stat:nth-child(3)::before {
+                    display: none;
+               }
+
+               .stat:nth-child(n+3) {
+                    border-top: 1px solid var(--line);
+               }
+
+               .about,
+               .alloc,
+               .contact,
+               .give-grid,
+               .news {
+                    grid-template-columns: 1fr;
+               }
+
+               .news .feat,
+               .news .side {
+                    grid-row: auto;
+               }
+
+               .news .side {
+                    grid-template-rows: none;
+               }
+
+               .news .feat .nimg {
+                    min-height: 240px;
+               }
+
+               .progs {
+                    flex-direction: column;
+                    height: auto;
+               }
+
+               .prog,
+               .prog.active {
+                    flex: none;
+                    cursor: default;
+               }
+
+               .prog .vt {
+                    display: none;
+               }
+
+               .prog .full {
+                    position: relative;
+                    opacity: 1;
+                    pointer-events: auto;
+                    padding: 26px;
+                    min-height: 340px;
+                    gap: 26px;
+               }
+
+               .hero {
+                    min-height: 0;
+               }
+          }
+
+          @media (max-width: 640px) {
+               .hero-row {
+                    grid-template-columns: 1fr;
+               }
+
+               .feat-card,
+               .hero-row .tall.t1 {
+                    grid-column: auto;
+               }
+
+               .hero-row .tall.t1 {
+                    height: 230px;
+               }
+
+               .logo-pill span {
+                    display: none;
+               }
+
+               .logo-pill {
+                    padding-right: 6px;
+               }
+          }
+
+          @media (max-width: 560px) {
+               .btn {
+                    height: 44px;
+                    padding: 0 18px;
+               }
+
+               .btn .go {
+                    display: none;
+               }
+
+               .pillars {
+                    grid-template-columns: 1fr;
+               }
+
+               .amounts {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+               }
+
+               .two {
+                    grid-template-columns: 1fr;
+               }
+
+               .steps {
+                    grid-template-columns: 1fr;
+               }
+
+               .stat {
+                    padding: 20px 16px;
+               }
+
+               .art .float {
+                    transform: scale(.85);
+                    transform-origin: left top;
+               }
+
+               .art .float.b {
+                    transform-origin: right bottom;
+               }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+               html {
+                    scroll-behavior: auto;
+               }
+
+               .marquee .track,
+               .art .float {
+                    animation: none;
+               }
+
+               [data-r],
+               .abar div,
+               .meter i,
+               .steps .line i {
+                    transition: none;
+               }
+
+               .ch,
+               .intro-logo,
+               .intro-sub {
+                    animation-duration: .01s;
+                    animation-delay: 0s;
+               }
+          }
+     </style>
+     <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+     <script>
+          /* Tailwind only styles the footer markup. Preflight is off so the rest of the page keeps its own styles. */
+          tailwind.config = { corePlugins: { preflight: false } };
+     </script>
+</head>
+
+<body>
+
+     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+          <defs>
+               <symbol id="i-heart" viewBox="0 0 24 24">
+                    <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.4A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" />
+               </symbol>
+               <symbol id="i-check" viewBox="0 0 24 24">
+                    <path d="M5 12.5l4.5 4.5L19 7.5" />
+               </symbol>
+               <symbol id="i-arrow" viewBox="0 0 24 24">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+               </symbol>
+               <symbol id="i-arrow-up" viewBox="0 0 14 14">
+                    <path d="M3.5 10.5l7-7M4.5 3.5h6v6" />
+               </symbol>
+          </defs>
+     </svg>
+
+     <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+     <!-- Navigation: logo pill, link pill, donate pill -->
+     <header id="topnav" class="topnav" data-show="false" data-scrolled="false">
+          <div class="nav-row">
+               <a href="#home" class="pill logo-pill" aria-label="AG Care Ghana home">
+                    <img class="logo-img" src="https://www.agghana.org/_nuxt/logo.TuZ7AZUr.png"
+                         alt="AG Care Ghana logo">
+                    <span>AG Care Ghana</span>
+               </a>
+
+               <nav class="pill nav-pill" id="navLinks" data-open="false" aria-label="Main">
+                    <ul class="mono">
+                         <li><a class="lk" href="#home" data-sec="home">Home</a></li>
+                         <li><a class="lk" href="#about" data-sec="about">About Us</a></li>
+                         <li><a class="lk" href="#programs" data-sec="programs">Our Programs</a></li>
+                         <li><a class="lk" href="#news" data-sec="news">News &amp; Impact</a></li>
+                         <li>
+                              <button id="moreBtn" class="lk" type="button" aria-expanded="false" aria-haspopup="true"
+                                   aria-controls="moreMenu">More Links
+                                   <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"
+                                        stroke-linecap="round" stroke-linejoin="round" width="9" height="9">
+                                        <path d="M1.5 3.5 5 7l3.5-3.5" />
+                                   </svg></button>
+                              <ul id="moreMenu" class="more-menu" hidden>
+                                   <li><a href="#get-involved">Get Involved</a></li>
+                                   <li><a href="#projects">Ongoing Projects</a></li>
+                                   <li><a href="#contact">Contact Us</a></li>
+                                   <li><a href="#partner" data-interest="Corporate partnership">Partner with Us</a></li>
+                              </ul>
+                         </li>
+                    </ul>
+               </nav>
+
+               <div style="justify-self:end;display:flex;gap:10px;align-items:center">
+                    <a href="#donate" class="pill cta-pill">Donate<span class="go"><svg class="ic">
+                                   <use href="#i-arrow-up" />
+                              </svg></span></a>
+                    <button id="menuBtn" class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false"
+                         aria-controls="navLinks">
+                         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"
+                              stroke-linecap="round" width="18" height="18">
+                              <path d="M3 6h14M3 14h14" />
+                         </svg>
+                    </button>
+               </div>
+          </div>
+     </header>
+
+     <!-- Intro -->
+     <div class="intro" id="intro" role="status" aria-label="Loading AG Care Ghana">
+          <div class="intro-name" id="introName">
+               <img class="intro-logo" src="https://www.agghana.org/_nuxt/logo.TuZ7AZUr.png" alt="AG Care Ghana logo">
+               <h2 id="introTitle" aria-label="AG Care Ghana"></h2>
+               <div class="intro-sub">Community &middot; Education &middot; Women's empowerment</div>
+          </div>
+          <button class="skip mono" id="skipBtn" type="button">Skip intro</button>
+     </div>
+     <div class="portal-ring" id="portalRing" aria-hidden="true"></div>
+
+     <div id="site">
+          <!-- Hero (layout follows the reference image) -->
+          <section id="home" class="hero">
+               <img class="hero-bg"
+                    src="https://images.pexels.com/photos/36667254/pexels-photo-36667254.jpeg?auto=compress&cs=tinysrgb&w=1800"
+                    alt="Children in school uniforms gathered outdoors in a Ghanaian neighbourhood">
+
+               <div class="hero-top">
+                    <span class="chip">Charity &middot; Community support &middot; Education &middot; Women
+                         empowerment</span>
+                    <h1>Touching Lives, <span>One at a Time</span></h1>
+               </div>
+
+               <div class="hero-row">
+                    <div class="glass hero-card">
+                         <div class="avatars" aria-label="12,400 lives touched">
+                              <img src="https://images.pexels.com/photos/14935332/pexels-photo-14935332.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop"
+                                   alt="">
+                              <img src="https://images.pexels.com/photos/18449719/pexels-photo-18449719.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop"
+                                   alt="">
+                              <img src="https://images.pexels.com/photos/3894376/pexels-photo-3894376.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop"
+                                   alt="">
+                              <img src="https://images.pexels.com/photos/36537041/pexels-photo-36537041.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop"
+                                   alt="">
+                              <img src="https://images.pexels.com/photos/13086664/pexels-photo-13086664.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop"
+                                   alt="">
+                              <span class="count">12k+</span>
+                              <span class="lbl">Lives touched</span>
+                         </div>
+                         <p>Fostering Hope, Dignity and Opportunity - equally for all</p>
+                         <div class="acts">
+                              <a href="#partner" data-interest="Corporate partnership" class="btn btn-glass">Partner
+                                   with Us</a>
+                              <a href="#donate" class="btn btn-yellow">Donate<span class="go"><svg class="ic">
+                                             <use href="#i-arrow-up" />
+                                        </svg></span></a>
+                         </div>
+                    </div>
+
+                    <a href="#projects" class="glass feat-card" style="display:block">
+                         <div class="pic"><img class="ph"
+                                   src="https://images.pexels.com/photos/28646079/pexels-photo-28646079.jpeg?auto=compress&cs=tinysrgb&w=900"
+                                   alt="A young girl writing in a classroom"></div>
+                         <h3>Girls' Learning Hub</h3>
+                         <p>A safe study centre with mentors, books and evening classes for girls preparing for exams.
+                         </p>
+                    </a>
+
+                    <figure class="tall t1" style="margin:0">
+                         <img class="ph"
+                              src="https://images.pexels.com/photos/36537041/pexels-photo-36537041.jpeg?auto=compress&cs=tinysrgb&w=600"
+                              alt="A woman carrying produce at a market in Accra">
+                         <figcaption><b>Community support</b>Meals and hygiene</figcaption>
+                    </figure>
+                    <figure class="tall t2" style="margin:0">
+                         <img class="ph"
+                              src="https://images.pexels.com/photos/3869639/pexels-photo-3869639.jpeg?auto=compress&cs=tinysrgb&w=600"
+                              alt="Two women working together on a laptop">
+                         <figcaption><b>Women empowerment</b>Skills that last</figcaption>
+                    </figure>
+               </div>
+          </section>
+     </div>
+
+     <main>
+          <!-- Impact -->
+          <div class="impact">
+               <div class="impact-card" data-r="zoom">
+                    <div class="stat"><b><span class="count" data-to="12400">12,400</span><sup>+</sup></b><span>Lives
+                              touched through our programs</span></div>
+                    <div class="stat"><b><span class="count" data-to="2670">2,670</span></b><span>Girls supported to
+                              stay in school</span></div>
+                    <div class="stat"><b><span class="count" data-to="520"
+                                   data-suffix="k">520k</span><sup>+</sup></b><span>Meals shared with families</span>
+                    </div>
+                    <div class="stat"><b><span class="count" data-to="1200">1,200</span></b><span>Women mentored and
+                              trained</span></div>
+               </div>
+               <p class="note" data-r>Sample figures. Replace with your verified numbers.</p>
+          </div>
+
+          <!-- About -->
+          <section class="sec" id="about">
+               <div class="wrap about">
+                    <div>
+                         <p class="eyebrow mono" data-r>About Us</p>
+                         <h2 data-r data-d="1">Hope grows fastest when a whole community is lifted together.</h2>
+                         <p class="lead" data-r data-d="2">AG Care Ghana is a non-profit that works alongside families,
+                              schools and local leaders. We meet urgent needs today and build the skills and
+                              opportunities that last, with a special focus on girls and women.</p>
+                         <div class="pillars">
+                              <div class="pillar" data-r data-d="2"><span class="thumb"><img class="ph"
+                                             src="https://images.pexels.com/photos/13699252/pexels-photo-13699252.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop"
+                                             alt="A family walking through a market in Accra"></span>
+                                   <div><strong>Charity</strong>
+                                        <p>Relief and care for households in need.</p>
+                                   </div>
+                              </div>
+                              <div class="pillar" data-r data-d="3"><span class="thumb"><img class="ph"
+                                             src="https://images.pexels.com/photos/17464173/pexels-photo-17464173.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop"
+                                             alt="A community celebration in Accra"></span>
+                                   <div><strong>Community support</strong>
+                                        <p>Food, health and safe spaces that neighbours share.</p>
+                                   </div>
+                              </div>
+                              <div class="pillar" data-r data-d="4"><span class="thumb"><img class="ph"
+                                             src="https://images.pexels.com/photos/34211747/pexels-photo-34211747.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop"
+                                             alt="Students in uniform in a classroom"></span>
+                                   <div><strong>Education</strong>
+                                        <p>Fees, kits and mentors that keep children learning.</p>
+                                   </div>
+                              </div>
+                              <div class="pillar" data-r data-d="5"><span class="thumb"><img class="ph"
+                                             src="https://images.pexels.com/photos/3869650/pexels-photo-3869650.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop"
+                                             alt="Two women collaborating at a laptop"></span>
+                                   <div><strong>Women empowerment</strong>
+                                        <p>Skills, savings and leadership for lasting independence.</p>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="art" data-r="right">
+                         <img class="ph"
+                              src="https://images.pexels.com/photos/31763369/pexels-photo-31763369.jpeg?auto=compress&cs=tinysrgb&w=1100"
+                              alt="African children and elders learning together outdoors">
+                         <div class="float a"><img
+                                   src="https://images.pexels.com/photos/39523812/pexels-photo-39523812.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop"
+                                   alt="">
+                              <div><small>Sample</small><strong>2,670 girls in school</strong></div>
+                         </div>
+                         <div class="float b"><img
+                                   src="https://images.pexels.com/photos/3894376/pexels-photo-3894376.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop"
+                                   alt="">
+                              <div><small>Sample</small><strong>1,200 women trained</strong></div>
+                         </div>
+                    </div>
+               </div>
+          </section>
+
+          <!-- Programs -->
+          <section class="sec tint" id="programs">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>Our Programs</p>
+                              <h2 data-r data-d="1">Four ways your support reaches people.</h2>
+                         </div>
+                         <p data-r data-d="2">Choose a program to see what a gift makes possible. Every program can be
+                              sponsored monthly or as a one-time gift.</p>
+                    </div>
+                    <div class="progs" id="progs" data-r>
+                         <article class="prog" tabindex="0" aria-label="Charity and relief">
+                              <img class="ph"
+                                   src="https://images.pexels.com/photos/36611201/pexels-photo-36611201.jpeg?auto=compress&cs=tinysrgb&w=1000"
+                                   alt="A woman shopping at a market stall with fresh produce">
+                              <div class="vt"><span>Charity and relief</span></div>
+                              <div class="full">
+                                   <span class="tag mono">Program 01</span>
+                                   <div>
+                                        <h3>Charity and relief</h3>
+                                        <p>Emergency packs, medical support and shelter help for households facing a
+                                             crisis, delivered quickly through trusted local volunteers.</p>
+                                        <div class="meta" style="margin-top:18px"><a class="btn mono" href="#donate"
+                                                  data-give data-program="charity">Sponsor this program</a><span
+                                                  class="price">From $20 a pack</span></div>
+                                   </div>
+                              </div>
+                         </article>
+                         <article class="prog" tabindex="0" aria-label="Community support">
+                              <img class="ph"
+                                   src="https://images.pexels.com/photos/36537192/pexels-photo-36537192.jpeg?auto=compress&cs=tinysrgb&w=1000"
+                                   alt="A busy market day in Accra">
+                              <div class="vt"><span>Community support</span></div>
+                              <div class="full">
+                                   <span class="tag mono">Program 02</span>
+                                   <div>
+                                        <h3>Community support</h3>
+                                        <p>Monthly food and hygiene packs, health outreach and safe gathering spaces
+                                             that keep neighbourhoods strong and connected.</p>
+                                        <div class="meta" style="margin-top:18px"><a class="btn mono" href="#donate"
+                                                  data-give data-program="community">Sponsor this program</a><span
+                                                  class="price">From $25 a family</span></div>
+                                   </div>
+                              </div>
+                         </article>
+                         <article class="prog active" tabindex="0" aria-label="Education">
+                              <img class="ph"
+                                   src="https://images.pexels.com/photos/39523812/pexels-photo-39523812.jpeg?auto=compress&cs=tinysrgb&w=1000"
+                                   alt="Children holding up school supplies in a classroom">
+                              <div class="vt"><span>Education</span></div>
+                              <div class="full">
+                                   <span class="tag mono">Program 03</span>
+                                   <div>
+                                        <h3>Education</h3>
+                                        <p>School fees, learning kits, uniforms and mentors so that every child can
+                                             start the term and finish the year.</p>
+                                        <div class="meta" style="margin-top:18px"><a class="btn mono" href="#donate"
+                                                  data-give data-program="education">Sponsor this program</a><span
+                                                  class="price">From $40 a child</span></div>
+                                   </div>
+                              </div>
+                         </article>
+                         <article class="prog" tabindex="0" aria-label="Women empowerment">
+                              <img class="ph"
+                                   src="https://images.pexels.com/photos/3894376/pexels-photo-3894376.jpeg?auto=compress&cs=tinysrgb&w=1000"
+                                   alt="African women collaborating around a laptop">
+                              <div class="vt"><span>Women empowerment</span></div>
+                              <div class="full">
+                                   <span class="tag mono">Program 04</span>
+                                   <div>
+                                        <h3>Women empowerment</h3>
+                                        <p>Skills training, small business support and savings groups that turn a first
+                                             step into lasting independence.</p>
+                                        <div class="meta" style="margin-top:18px"><a class="btn mono" href="#donate"
+                                                  data-give data-program="women">Sponsor this program</a><span
+                                                  class="price">From $120 a seat</span></div>
+                                   </div>
+                              </div>
+                         </article>
+                    </div>
+               </div>
+          </section>
+
+          <!-- Give -->
+          <section class="sec give" id="donate">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>Donate</p>
+                              <h2 data-r data-d="1">See what your gift does before you give it.</h2>
+                         </div>
+                         <p data-r data-d="2">Pick an amount and a focus. The panel shows what that gift can fund, so
+                              sponsors know exactly where their support lands.</p>
+                    </div>
+                    <div class="give-grid">
+                         <div class="panel" data-r="left">
+                              <div>
+                                   <span class="field-label mono">Frequency</span>
+                                   <div class="seg" id="seg" data-v="monthly" role="radiogroup"
+                                        aria-label="Giving frequency">
+                                        <span class="thumb"></span>
+                                        <button type="button" role="radio" aria-checked="false"
+                                             data-freq="once">One-time</button>
+                                        <button type="button" role="radio" aria-checked="true"
+                                             data-freq="monthly">Monthly</button>
+                                   </div>
+                              </div>
+                              <div>
+                                   <span class="field-label mono">Amount (USD)</span>
+                                   <div class="amounts" id="amounts">
+                                        <button type="button" class="amt" data-amt="25"
+                                             aria-pressed="false">$25</button>
+                                        <button type="button" class="amt" data-amt="50" aria-pressed="true">$50</button>
+                                        <button type="button" class="amt" data-amt="100"
+                                             aria-pressed="false">$100</button>
+                                        <button type="button" class="amt" data-amt="250"
+                                             aria-pressed="false">$250</button>
+                                   </div>
+                                   <div class="custom"><span>$</span><input id="customAmt" type="number"
+                                             inputmode="numeric" min="5" max="100000" step="1"
+                                             placeholder="Other amount" aria-label="Other amount in US dollars"></div>
+                              </div>
+                              <div>
+                                   <span class="field-label mono">Focus</span>
+                                   <div class="chips-row" id="focus">
+                                        <button type="button" class="pchip" data-program="all" aria-pressed="true">Where
+                                             it is needed most</button>
+                                        <button type="button" class="pchip" data-program="education"
+                                             aria-pressed="false">Education</button>
+                                        <button type="button" class="pchip" data-program="women"
+                                             aria-pressed="false">Women empowerment</button>
+                                        <button type="button" class="pchip" data-program="community"
+                                             aria-pressed="false">Community support</button>
+                                        <button type="button" class="pchip" data-program="charity"
+                                             aria-pressed="false">Charity and relief</button>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="summary" data-r="right">
+                              <div>
+                                   <span class="lab mono">Your gift</span>
+                                   <div class="gift"><span id="giftAmt">$50</span><small id="giftFreq">a month</small>
+                                   </div>
+                              </div>
+                              <hr>
+                              <div>
+                                   <span class="lab mono">It can fund</span>
+                                   <div class="fund-n" style="margin-top:10px"><b id="fundN">2</b><span
+                                             id="fundTxt">children with school supplies</span></div>
+                              </div>
+                              <div class="dots" id="dots" aria-hidden="true"></div>
+                              <p class="year" id="yearTxt"></p>
+                              <button class="btn btn-yellow mono" id="checkout" type="button">Continue to
+                                   checkout</button>
+                              <p class="status" id="giveStatus" role="status" aria-live="polite"></p>
+                         </div>
+                    </div>
+                    <p class="note" style="color:rgba(255,255,255,.6)" data-r>Sample unit costs. Set your real costs in
+                         the page settings.</p>
+               </div>
+          </section>
+
+          <!-- Where it goes + Tiers -->
+          <section class="sec" id="partner">
+               <div class="wrap">
+                    <div class="alloc">
+                         <div>
+                              <p class="eyebrow mono" data-r>Transparency</p>
+                              <h2 data-r data-d="1">Where every dollar goes.</h2>
+                              <p class="lead" data-r data-d="2" style="margin-top:20px">Sponsors give with confidence
+                                   when they can see the split. We publish how funds are used and report back on
+                                   results.</p>
+                         </div>
+                         <div data-r="right">
+                              <div class="abar" id="abar" role="img"
+                                   aria-label="82 percent programs, 12 percent operations, 6 percent fundraising">
+                                   <div class="s1" data-w="82">82%</div>
+                                   <div class="s2" data-w="12">12%</div>
+                                   <div class="s3" data-w="6">6%</div>
+                              </div>
+                              <ul class="legend">
+                                   <li><i style="background:var(--blue)"></i>
+                                        <div><strong>Programs, 82%</strong>
+                                             <p>Direct delivery of education, relief, community and women's programs.
+                                             </p>
+                                        </div>
+                                   </li>
+                                   <li><i style="background:var(--yellow)"></i>
+                                        <div><strong>Operations, 12%</strong>
+                                             <p>Field staff, transport, safeguarding and reporting.</p>
+                                        </div>
+                                   </li>
+                                   <li><i style="background:var(--black)"></i>
+                                        <div><strong>Fundraising, 6%</strong>
+                                             <p>Campaigns and the care we give to our sponsors.</p>
+                                        </div>
+                                   </li>
+                              </ul>
+                              <p class="note">Sample split. Replace with your audited figures.</p>
+                         </div>
+                    </div>
+
+                    <div style="margin-top:clamp(56px,8vw,96px)">
+                         <div class="sec-head" style="margin-bottom:0">
+                              <div>
+                                   <p class="eyebrow mono" data-r>Partner with Us</p>
+                                   <h2 data-r data-d="1">Sponsorship that fits you or your organisation.</h2>
+                              </div>
+                              <p data-r data-d="2">Individuals, companies, schools and congregations all sponsor through
+                                   AG Care Ghana. Pick a level, or talk to us about a custom partnership.</p>
+                         </div>
+                         <div class="tiers">
+                              <div class="tier" data-r data-d="1">
+                                   <div class="tpic"><img class="ph"
+                                             src="https://images.pexels.com/photos/14909652/pexels-photo-14909652.jpeg?auto=compress&cs=tinysrgb&w=800"
+                                             alt="School children in blue uniforms"></div>
+                                   <span class="name mono">Friend</span>
+                                   <div class="price">$25<small>a month</small></div>
+                                   <p class="desc">For individuals who want steady, simple impact.</p>
+                                   <ul>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Supports a family food and hygiene pack each month</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Quarterly impact summary by email</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Optional name on our supporters list</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Pause or cancel at any time</li>
+                                   </ul>
+                                   <a class="btn btn-line mono" href="#donate" data-give data-amount="25"
+                                        data-freq="monthly" data-program="community">Become a Friend</a>
+                              </div>
+                              <div class="tier hot" data-r data-d="2">
+                                   <div class="tpic"><img class="ph"
+                                             src="https://images.pexels.com/photos/17464173/pexels-photo-17464173.jpeg?auto=compress&cs=tinysrgb&w=800"
+                                             alt="A community celebration in Accra"></div>
+                                   <span class="badge mono">Core sponsor</span>
+                                   <span class="name mono">Champion</span>
+                                   <div class="price">$100<small>a month</small></div>
+                                   <p class="desc">For sponsors who want to follow a program closely.</p>
+                                   <ul>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Everything in Friend</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Choose the program you sponsor</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Progress reports with project photos</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Invitation to our annual community day</li>
+                                   </ul>
+                                   <a class="btn btn-yellow mono" href="#donate" data-give data-amount="100"
+                                        data-freq="monthly" data-program="education">Become a Champion</a>
+                              </div>
+                              <div class="tier" data-r data-d="3">
+                                   <div class="tpic"><img class="ph"
+                                             src="https://images.pexels.com/photos/3894375/pexels-photo-3894375.jpeg?auto=compress&cs=tinysrgb&w=800"
+                                             alt="Women in a lively business discussion"></div>
+                                   <span class="name mono">Partner</span>
+                                   <div class="price">Custom<small>from $1,000 a month</small></div>
+                                   <p class="desc">For companies, schools, foundations and clubs.</p>
+                                   <ul>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Co-branded impact campaigns</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Employee volunteering days</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Site visits and an annual impact review</li>
+                                        <li><svg class="ic">
+                                                  <use href="#i-check" />
+                                             </svg>Reporting shaped around your CSR goals</li>
+                                   </ul>
+                                   <a class="btn btn-blue mono" href="#contact"
+                                        data-interest="Corporate partnership">Partner with Us</a>
+                              </div>
+                         </div>
+                         <div class="marquee" data-r>
+                              <p class="marquee-cap mono">Who sponsors with us</p>
+                              <div class="track" aria-hidden="true" id="track"></div>
+                         </div>
+                    </div>
+               </div>
+          </section>
+
+          <!-- How it works -->
+          <section class="sec how">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>How sponsorship works</p>
+                              <h2 data-r data-d="1">From your gift to a changed life, in four steps.</h2>
+                         </div>
+                         <p data-r data-d="2">You always know where your support is going and what it achieved.</p>
+                    </div>
+                    <div class="steps" id="steps">
+                         <div class="line"><i id="stepLine"></i></div>
+                         <div class="step" data-r data-d="1">
+                              <div class="n">1</div>
+                              <div class="spic"><img class="ph"
+                                        src="https://images.pexels.com/photos/14935332/pexels-photo-14935332.jpeg?auto=compress&cs=tinysrgb&w=600"
+                                        alt="Smiling children in school uniforms"></div>
+                              <h3>Choose a focus</h3>
+                              <p>Pick a program or a project, or let us direct your gift where the need is greatest.
+                              </p>
+                         </div>
+                         <div class="step" data-r data-d="2">
+                              <div class="n">2</div>
+                              <div class="spic"><img class="ph"
+                                        src="https://images.pexels.com/photos/36392318/pexels-photo-36392318.jpeg?auto=compress&cs=tinysrgb&w=600"
+                                        alt="A market scene in Accra"></div>
+                              <h3>Give your way</h3>
+                              <p>Give once or monthly. Change the amount or pause whenever you need to.</p>
+                         </div>
+                         <div class="step" data-r data-d="3">
+                              <div class="n">3</div>
+                              <div class="spic"><img class="ph"
+                                        src="https://images.pexels.com/photos/31773583/pexels-photo-31773583.jpeg?auto=compress&cs=tinysrgb&w=600"
+                                        alt="Young children learning in a colourful classroom"></div>
+                              <h3>Get updates</h3>
+                              <p>Receive progress reports with the numbers, stories and photos from the field.</p>
+                         </div>
+                         <div class="step" data-r data-d="4">
+                              <div class="n">4</div>
+                              <div class="spic"><img class="ph"
+                                        src="https://images.pexels.com/photos/36667254/pexels-photo-36667254.jpeg?auto=compress&cs=tinysrgb&w=600"
+                                        alt="Children gathered in a sunny Ghanaian neighbourhood"></div>
+                              <h3>See the change</h3>
+                              <p>Join community days and site visits to meet the people your support reaches.</p>
+                         </div>
+                    </div>
+               </div>
+          </section>
+
+          <!-- Projects -->
+          <section class="sec" id="projects">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>Ongoing Projects</p>
+                              <h2 data-r data-d="1">Fund a project from start to finish.</h2>
+                         </div>
+                         <p data-r data-d="2">Each project has a clear goal and a live progress bar. Help us close the
+                              gap.</p>
+                    </div>
+                    <div class="projects">
+                         <article class="proj" data-r data-d="1">
+                              <div class="pic"><img class="ph"
+                                        src="https://images.pexels.com/photos/28646079/pexels-photo-28646079.jpeg?auto=compress&cs=tinysrgb&w=900"
+                                        alt="A young girl writing in a classroom"></div>
+                              <div class="body">
+                                   <h3>Girls' Learning Hub</h3>
+                                   <p>A safe study centre with mentors, books and evening classes for girls preparing
+                                        for exams.</p>
+                                   <div class="meter" role="progressbar" aria-valuenow="72" aria-valuemin="0"
+                                        aria-valuemax="100" aria-label="Girls' Learning Hub funding"><i data-fill="72"
+                                             style="width:72%"></i></div>
+                                   <div class="fig"><span><b>$17,300</b> raised</span><span>Goal $24,000</span></div>
+                                   <a class="btn btn-blue mono" href="#donate" data-give data-program="education">Fund
+                                        this project</a>
+                              </div>
+                         </article>
+                         <article class="proj" data-r data-d="2">
+                              <div class="pic"><img class="ph"
+                                        src="https://images.pexels.com/photos/13086664/pexels-photo-13086664.jpeg?auto=compress&cs=tinysrgb&w=900"
+                                        alt="A woman and child carrying goods in an Accra market"></div>
+                              <div class="body">
+                                   <h3>Community Meals and Hygiene</h3>
+                                   <p>Monthly food and hygiene packs for families, delivered with local volunteer teams.
+                                   </p>
+                                   <div class="meter" role="progressbar" aria-valuenow="64" aria-valuemin="0"
+                                        aria-valuemax="100" aria-label="Community Meals and Hygiene funding"><i
+                                             data-fill="64" style="width:64%"></i></div>
+                                   <div class="fig"><span><b>$9,600</b> raised</span><span>Goal $15,000</span></div>
+                                   <a class="btn btn-blue mono" href="#donate" data-give data-program="community">Fund
+                                        this project</a>
+                              </div>
+                         </article>
+                         <article class="proj" data-r data-d="3">
+                              <div class="pic"><img class="ph"
+                                        src="https://images.pexels.com/photos/3869649/pexels-photo-3869649.jpeg?auto=compress&cs=tinysrgb&w=900"
+                                        alt="A team of African women in a meeting"></div>
+                              <div class="body">
+                                   <h3>Women's Enterprise Fund</h3>
+                                   <p>Start-up grants and business coaching for women launching small enterprises.</p>
+                                   <div class="meter" role="progressbar" aria-valuenow="43" aria-valuemin="0"
+                                        aria-valuemax="100" aria-label="Women's Enterprise Fund funding"><i
+                                             data-fill="43" style="width:43%"></i></div>
+                                   <div class="fig"><span><b>$12,900</b> raised</span><span>Goal $30,000</span></div>
+                                   <a class="btn btn-blue mono" href="#donate" data-give data-program="women">Fund this
+                                        project</a>
+                              </div>
+                         </article>
+                    </div>
+                    <p class="note" data-r>Sample projects and figures. Replace with your own.</p>
+               </div>
+          </section>
+
+          <!-- News -->
+          <section class="sec tint" id="news">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>News &amp; Impact</p>
+                              <h2 data-r data-d="1">Stories and updates from the field.</h2>
+                         </div>
+                         <p data-r data-d="2">Short reports on what our sponsors have made possible, as it happens.</p>
+                    </div>
+                    <div class="news">
+                         <a class="nitem feat" href="#news" data-r data-d="1">
+                              <div class="nimg"><img class="ph"
+                                        src="https://images.pexels.com/photos/32806426/pexels-photo-32806426.jpeg?auto=compress&cs=tinysrgb&w=1100"
+                                        alt="Children in school uniforms walking across a grassy field"></div>
+                              <div class="nbody">
+                                   <div class="nmeta mono"><span class="tag">Sample story</span><span>Oct 2026</span>
+                                   </div>
+                                   <h3>Girls' Learning Hub opens its doors for a new term</h3>
+                                   <p>Evening classes, mentors and a quiet study space are now open to more girls in the
+                                        community.</p><span class="more">Read the update <svg class="ic">
+                                             <use href="#i-arrow" />
+                                        </svg></span>
+                              </div>
+                         </a>
+                         <div class="side">
+                              <a class="nitem" href="#news" data-r data-d="2">
+                                   <div class="nimg"><img class="ph"
+                                             src="https://images.pexels.com/photos/13699252/pexels-photo-13699252.jpeg?auto=compress&cs=tinysrgb&w=800"
+                                             alt="A family walking through a street market in Accra"></div>
+                                   <div class="nbody">
+                                        <div class="nmeta mono"><span class="tag">Sample story</span><span>Sep
+                                                  2026</span></div>
+                                        <h3>Meal drive reaches new neighbourhoods</h3>
+                                        <p>Volunteer teams expanded monthly food and hygiene packs to more families.</p>
+                                        <span class="more">Read the update <svg class="ic">
+                                                  <use href="#i-arrow" />
+                                             </svg></span>
+                                   </div>
+                              </a>
+                              <a class="nitem" href="#news" data-r data-d="3">
+                                   <div class="nimg"><img class="ph"
+                                             src="https://images.pexels.com/photos/30690402/pexels-photo-30690402.jpeg?auto=compress&cs=tinysrgb&w=800"
+                                             alt="Smiling African businesswomen working with laptops"></div>
+                                   <div class="nbody">
+                                        <div class="nmeta mono"><span class="tag">Sample story</span><span>Sep
+                                                  2026</span></div>
+                                        <h3>Women's cohort graduates and starts businesses</h3>
+                                        <p>A new group completed training and received their first start-up support.</p>
+                                        <span class="more">Read the update <svg class="ic">
+                                                  <use href="#i-arrow" />
+                                             </svg></span>
+                                   </div>
+                              </a>
+                         </div>
+                    </div>
+               </div>
+          </section>
+
+          <!-- Get involved -->
+          <section class="sec involve" id="get-involved">
+               <div class="wrap">
+                    <div class="sec-head">
+                         <div>
+                              <p class="eyebrow mono" data-r>Get Involved</p>
+                              <h2 data-r data-d="1">There is a place for you in this work.</h2>
+                         </div>
+                         <p data-r data-d="2">Not everyone gives in the same way. Pick the way that suits you.</p>
+                    </div>
+                    <div class="ways">
+                         <a class="way" href="#contact" data-interest="Volunteering" data-r data-d="1">
+                              <div class="wpic"><img class="ph"
+                                        src="https://images.pexels.com/photos/17464216/pexels-photo-17464216.jpeg?auto=compress&cs=tinysrgb&w=800"
+                                        alt="A young boy holding a box on a street in Accra"></div>
+                              <h3>Volunteer</h3>
+                              <p>Give your time and skills at community days, classrooms and training sessions.</p><span
+                                   class="lnk">Offer your time <svg class="ic">
+                                        <use href="#i-arrow" />
+                                   </svg></span>
+                         </a>
+                         <a class="way" href="#contact" data-interest="Fundraising for AG Care Ghana" data-r data-d="2">
+                              <div class="wpic"><img class="ph"
+                                        src="https://images.pexels.com/photos/36537041/pexels-photo-36537041.jpeg?auto=compress&cs=tinysrgb&w=800"
+                                        alt="A woman at a busy market in Accra"></div>
+                              <h3>Fundraise</h3>
+                              <p>Run a challenge, a school drive or a workplace campaign and rally others to give.</p>
+                              <span class="lnk">Start a campaign <svg class="ic">
+                                        <use href="#i-arrow" />
+                                   </svg></span>
+                         </a>
+                         <a class="way" href="#contact" data-interest="Corporate partnership" data-r data-d="3">
+                              <div class="wpic"><img class="ph"
+                                        src="https://images.pexels.com/photos/3869641/pexels-photo-3869641.jpeg?auto=compress&cs=tinysrgb&w=800"
+                                        alt="Women having a productive meeting"></div>
+                              <h3>Partner</h3>
+                              <p>Bring your organisation on board with a sponsorship that grows with your goals.</p>
+                              <span class="lnk">Partner with us <svg class="ic">
+                                        <use href="#i-arrow" />
+                                   </svg></span>
+                         </a>
+                    </div>
+               </div>
+          </section>
+
+          <!-- Contact -->
+          <section class="sec" id="contact">
+               <div class="wrap contact">
+                    <div>
+                         <p class="eyebrow mono" data-r>Contact Us</p>
+                         <h2 data-r data-d="1">Let's talk about your support.</h2>
+                         <p class="lead" data-r data-d="2" style="margin-top:20px">Ask about sponsorship, a partnership
+                              or a visit. We will help you find the right fit.</p>
+                         <div class="cinfo">
+                              <div data-r data-d="2"><span class="mono">Email</span><strong>hello@risecare.org</strong>
+                              </div>
+                              <div data-r data-d="3"><span
+                                        class="mono">Partnerships</span><strong>partners@risecare.org</strong></div>
+                         </div>
+                         <p class="note">Sample contact details. Replace with your own.</p>
+                    </div>
+                    <form class="form" id="contactForm" data-r="right" novalidate>
+                         <div class="two">
+                              <label><span class="mono">Full name</span><input id="cName" name="name" type="text"
+                                        autocomplete="name" placeholder="Your name" required></label>
+                              <label><span class="mono">Email</span><input id="cEmail" name="email" type="email"
+                                        autocomplete="email" placeholder="you@example.com" required></label>
+                         </div>
+                         <label><span class="mono">I'm interested in</span>
+                              <select id="cInterest" name="interest">
+                                   <option>Sponsoring a program</option>
+                                   <option>Corporate partnership</option>
+                                   <option>Volunteering</option>
+                                   <option>Fundraising for AG Care Ghana</option>
+                                   <option>General question</option>
+                              </select>
+                         </label>
+                         <label><span class="mono">Message</span><textarea id="cMsg" name="message"
+                                   placeholder="Tell us how you would like to help"></textarea></label>
+                         <button class="btn btn-blue mono" type="submit">Send message</button>
+                         <p class="status" id="formStatus" role="status" aria-live="polite"></p>
+                    </form>
+               </div>
+          </section>
+     </main>
+
+     <!-- Footer -->
+     <footer id="footer" class="ag-footer pt-16 md:pt-24 text-slate-800 w-full relative">
+          <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+               <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16">
+
+                    <div class="lg:col-span-5 space-y-6">
+                         <div class="flex items-center gap-3">
+                              <img class="foot-logo" src="https://www.agghana.org/_nuxt/logo.TuZ7AZUr.png"
+                                   alt="AG Care Ghana logo">
+                              <span class="text-xl font-bold tracking-tight text-slate-900">AG Care Ghana</span>
+                         </div>
+
+                         <div class="space-y-3 max-w-md">
+                              <h3 class="text-2xl font-bold text-slate-900 tracking-tight">Your partner in community
+                                   impact</h3>
+                              <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                                   Touching lives, fostering hope, dignity, and opportunity equally for all across
+                                   vulnerable communities worldwide.
+                              </p>
+                         </div>
+
+                         <div class="pt-2">
+                              <a href="#get-involved"
+                                   class="inline-flex items-center gap-2.5 bg-slate-900 hover:bg-black text-white px-6 py-3 rounded-full text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-200 group">
+                                   <svg class="w-4 h-4 fill-current text-lime-400 group-hover:scale-110 transition-transform"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                             d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                   </svg>
+                                   <span>Support AG Care Ghana</span>
+                              </a>
+                         </div>
+
+                         <div class="pt-6 text-l text-slate-500 font-bold space-y-2">
+                              <div>© 2026 AG Care Ghana · All rights reserved</div>
+                              <div class="flex items-center gap-1.5 font-bold text-slate-600">
+                                   <span>Built with</span>
+                                   <span class="text-blue-500">Precision</span>
+                                   <span>by</span>
+                                   <span class="inline-flex items-center gap-1 text-blue-500 font-bold">
+                                        <a href="http://elpi.dev" target="_blank" rel="noopener">eLPi.dev</a>
+                                   </span>
+                              </div>
+                         </div>
+                    </div>
+
+                    <div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 pt-2">
+                         <div>
+                              <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Menu</h4>
+                              <ul class="space-y-3 text-sm text-slate-600">
+                                   <li><a href="#home" class="footer-link inline-block">Home</a></li>
+                                   <li><a href="#about" class="footer-link inline-block">About Us</a></li>
+                                   <li><a href="#programs" class="footer-link inline-block">Programs</a></li>
+                                   <li><a href="#stories" class="footer-link inline-block">Impact Stories</a></li>
+                                   <li><a href="#updates" class="footer-link inline-block">Updates</a></li>
+                              </ul>
+                         </div>
+
+                         <div>
+                              <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Navigation</h4>
+                              <ul class="space-y-3 text-sm text-slate-600">
+                                   <li><a href="#contact" class="footer-link inline-block">Contact</a></li>
+                                   <li><a href="#roadmap" class="footer-link inline-block">Roadmap</a></li>
+                                   <li><a href="#privacy" class="footer-link inline-block">Privacy policy</a></li>
+                                   <li><a href="#terms" class="footer-link inline-block">Terms of service</a></li>
+                                   <li><a href="#transparency" class="footer-link inline-block">Financial Reports</a>
+                                   </li>
+                              </ul>
+                         </div>
+
+                         <div class="col-span-2 sm:col-span-1">
+                              <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Our Focus</h4>
+                              <ul class="space-y-3 text-sm text-slate-600">
+                                   <li><a href="#programs" class="footer-link inline-block">Education Support</a></li>
+                                   <li><a href="#programs" class="footer-link inline-block">Women Empowerment</a></li>
+                                   <li><a href="#programs" class="footer-link inline-block">Health & Nutrition</a></li>
+                                   <li><a href="#volunteer" class="footer-link inline-block">Volunteer Hub</a></li>
+                                   <li><a href="#donate" class="footer-link inline-block">Direct Giving</a></li>
+                              </ul>
+                         </div>
+                    </div>
+               </div>
+          </div>
+
+          <div class="w-full flex justify-center items-end overflow-hidden pointer-events-none relative z-10">
+               <h2 class="giant-ag-care text-center tracking-tighter">AG CARE</h2>
+          </div>
+     </footer>
+
+     <a class="fab mono" id="fab" href="donate.html"><svg class="ic" aria-hidden="true">
+               <use href="#i-heart" />
+          </svg>Donate</a>
+
+     <script>
+          (function () {
+               var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+               var $ = function (id) { return document.getElementById(id); };
+               var qsa = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+               /* ---------- Settings: edit these for real data ---------- */
+               var CFG = {
+                    programs: {
+                         all: { unit: 25, one: 'person reached across our programs', many: 'people reached across our programs' },
+                         education: { unit: 40, one: 'child with school supplies and fee support for a term', many: 'children with school supplies and fee support for a term' },
+                         women: { unit: 120, one: 'woman in a skills and business training cohort', many: 'women in skills and business training cohorts' },
+                         community: { unit: 25, one: 'family with a food and hygiene pack for a month', many: 'families with food and hygiene packs for a month' },
+                         charity: { unit: 20, one: 'household with an emergency relief pack', many: 'households with emergency relief packs' }
+                    },
+                    partners: ['Companies', 'Schools', 'Congregations', 'Foundations', 'Clubs and societies', 'Professional associations', 'Families', 'Alumni groups']
+               };
+
+               /* Photos that fail to load keep a blue gradient placeholder instead of a broken icon. */
+               qsa('img.ph').forEach(function (img) {
+                    img.addEventListener('error', function () { img.style.opacity = '0'; });
+               });
+               qsa('.logo-img, .foot-logo, .intro-logo').forEach(function (img) {
+                    img.addEventListener('error', function () { img.style.display = 'none'; });
+               });
+
+               /* ---------- Nav ---------- */
+               var topnav = $('topnav');
+               var moreBtn = $('moreBtn'), moreMenu = $('moreMenu');
+               function setMore(open) { moreBtn.setAttribute('aria-expanded', open ? 'true' : 'false'); moreMenu.hidden = !open; }
+               moreBtn.addEventListener('click', function (e) { e.stopPropagation(); setMore(moreMenu.hidden); });
+               document.addEventListener('click', function (e) { if (!moreMenu.contains(e.target)) setMore(false); });
+               var menuBtn = $('menuBtn'), navLinks = $('navLinks');
+               function closeMenu() { navLinks.dataset.open = 'false'; menuBtn.setAttribute('aria-expanded', 'false'); }
+               menuBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    var open = navLinks.dataset.open !== 'true';
+                    navLinks.dataset.open = open ? 'true' : 'false';
+                    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+               });
+               document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { setMore(false); closeMenu(); } });
+               qsa('#navLinks a').forEach(function (a) { a.addEventListener('click', function () { setMore(false); closeMenu(); }); });
+               document.addEventListener('click', function (e) { if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) closeMenu(); });
+
+               var fab = $('fab'), bar = $('progressBar'), ticking = false;
+               var inDonate = false;
+               function onScroll() {
+                    var y = window.scrollY || document.documentElement.scrollTop;
+                    topnav.dataset.scrolled = y > 40 ? 'true' : 'false';
+                    var max = document.documentElement.scrollHeight - window.innerHeight;
+                    bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0) + ')';
+                    fab.classList.toggle('show', y > 520 && !inDonate);
+                    ticking = false;
+               }
+               window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+
+               /* ---------- Programs panels ---------- */
+               var progs = qsa('.prog');
+               function activate(p) { progs.forEach(function (x) { x.classList.toggle('active', x === p); }); }
+               progs.forEach(function (p) {
+                    p.addEventListener('mouseenter', function () { if (window.innerWidth > 900) activate(p); });
+                    p.addEventListener('focus', function () { if (window.innerWidth > 900) activate(p); });
+                    p.addEventListener('click', function () { if (window.innerWidth > 900) activate(p); });
+               });
+
+               /* ---------- Marquee ---------- */
+               (function () {
+                    var one = CFG.partners.map(function (p) { return '<span>' + p + '</span>'; }).join('');
+                    $('track').innerHTML = one + one;
+               })();
+
+               /* ---------- Give widget ---------- */
+               var state = { freq: 'monthly', amount: 50, program: 'all' };
+               var shownN = 0, tweenId = 0;
+               function money(n) { return '$' + Number(n).toLocaleString('en-US'); }
+               function tweenNumber(el, to) {
+                    var from = shownN, t0 = performance.now(), id = ++tweenId;
+                    if (reduce || from === to) { el.textContent = to; shownN = to; return; }
+                    (function f(now) {
+                         if (id !== tweenId) return;
+                         var p = Math.min(1, (now - t0) / 380), e = 1 - Math.pow(1 - p, 3);
+                         el.textContent = Math.round(from + (to - from) * e);
+                         if (p < 1) requestAnimationFrame(f); else shownN = to;
+                    })(t0);
+               }
+               var dotsEl = $('dots');
+               for (var di = 0; di < 12; di++) { var dd = document.createElement('i'); dd.style.setProperty('--k', di); dotsEl.appendChild(dd); }
+               var dotNodes = qsa('i', dotsEl), moreDots = document.createElement('em');
+               dotsEl.appendChild(moreDots);
+               function renderGive() {
+                    var cfg = CFG.programs[state.program];
+                    var amt = state.amount;
+                    var n = Math.floor(amt / cfg.unit);
+                    $('giftAmt').textContent = money(amt);
+                    $('giftFreq').textContent = state.freq === 'monthly' ? 'a month' : 'one-time';
+                    var show = Math.max(1, n);
+                    tweenNumber($('fundN'), show);
+                    $('fundTxt').textContent = n < 1 ? 'Pools with other gifts to fund 1 ' + cfg.one : (n === 1 ? cfg.one : cfg.many);
+                    var lit = Math.min(12, show);
+                    dotNodes.forEach(function (d, i) {
+                         var on = i < lit;
+                         if (on && !d.classList.contains('on')) { d.classList.remove('on'); void d.offsetWidth; }
+                         d.classList.toggle('on', on);
+                    });
+                    moreDots.textContent = show > 12 ? '+' + (show - 12) + ' more' : '';
+                    $('yearTxt').textContent = state.freq === 'monthly' ? 'Over 12 months: ' + money(amt * 12) + ', funding about ' + (show * 12).toLocaleString('en-US') + ' in total.' : 'A single gift that starts working right away.';
+                    $('giveStatus').textContent = '';
+               }
+               function setAmount(v, fromCustom) {
+                    state.amount = v;
+                    qsa('.amt').forEach(function (b) { b.setAttribute('aria-pressed', String(Number(b.dataset.amt) === v && !fromCustom)); });
+                    if (!fromCustom) $('customAmt').value = '';
+                    renderGive();
+               }
+               function setFreq(f) {
+                    state.freq = f;
+                    $('seg').dataset.v = f;
+                    qsa('#seg button').forEach(function (b) { b.setAttribute('aria-checked', String(b.dataset.freq === f)); });
+                    renderGive();
+               }
+               function setProgram(p) {
+                    if (!CFG.programs[p]) return;
+                    state.program = p;
+                    qsa('#focus .pchip').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.program === p)); });
+                    renderGive();
+               }
+               qsa('.amt').forEach(function (b) { b.addEventListener('click', function () { setAmount(Number(b.dataset.amt), false); }); });
+               $('customAmt').addEventListener('input', function (e) {
+                    var v = parseInt(e.target.value, 10);
+                    if (v > 0) setAmount(Math.min(v, 100000), true);
+               });
+               qsa('#seg button').forEach(function (b) { b.addEventListener('click', function () { setFreq(b.dataset.freq); }); });
+               qsa('#focus .pchip').forEach(function (b) { b.addEventListener('click', function () { setProgram(b.dataset.program); }); });
+               $('checkout').addEventListener('click', function () {
+                    $('giveStatus').textContent = 'Preview only. Connect a payment provider to take gifts on this page.';
+               });
+               qsa('[data-give]').forEach(function (a) {
+                    a.addEventListener('click', function () {
+                         if (a.dataset.program) setProgram(a.dataset.program);
+                         if (a.dataset.amount) setAmount(Number(a.dataset.amount), false);
+                         if (a.dataset.freq) setFreq(a.dataset.freq);
+                    });
+               });
+               qsa('[data-interest]').forEach(function (a) {
+                    a.addEventListener('click', function () {
+                         var sel = $('cInterest');
+                         for (var i = 0; i < sel.options.length; i++) { if (sel.options[i].text === a.dataset.interest) sel.selectedIndex = i; }
+                    });
+               });
+               renderGive();
+               shownN = 2; $('fundN').textContent = '2';
+
+               /* ---------- Contact form (preview) ---------- */
+               $('contactForm').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    var st = $('formStatus');
+                    var name = $('cName').value.trim(), email = $('cEmail').value.trim();
+                    if (!name || !/^\S+@\S+\.\S+$/.test(email)) { st.textContent = 'Please add your name and a valid email address.'; return; }
+                    st.textContent = 'Preview only. This form is not connected to an inbox yet, so nothing was sent.';
+               });
+
+               /* ---------- Scroll reveals, counters, fills ---------- */
+               function fmt(n, suffix) { return n.toLocaleString('en-US') + (suffix || ''); }
+               function runCount(el) {
+                    var to = Number(el.dataset.to), suf = el.dataset.suffix || '';
+                    if (reduce) { el.textContent = fmt(to, suf); return; }
+                    var t0 = performance.now(), dur = 1800;
+                    (function f(now) {
+                         var p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 4);
+                         el.textContent = fmt(Math.round(to * e), suf);
+                         if (p < 1) requestAnimationFrame(f);
+                    })(t0);
+               }
+               function setupReveals() {
+                    if (reduce || !('IntersectionObserver' in window)) return;
+                    var vh = window.innerHeight;
+                    var io = new IntersectionObserver(function (entries) {
+                         entries.forEach(function (en) {
+                              if (!en.isIntersecting) return;
+                              var el = en.target;
+                              io.unobserve(el);
+                              if (el.hasAttribute('data-r')) { el.classList.remove('pre'); el.classList.add('in'); }
+                              if (el.classList.contains('count')) runCount(el);
+                              if (el.dataset.fill) el.style.width = el.dataset.fill + '%';
+                              if (el.dataset.w) el.style.width = el.dataset.w + '%';
+                              if (el.id === 'stepLine') el.style.width = '100%';
+                         });
+                    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+                    qsa('[data-r]').forEach(function (el) {
+                         el.style.setProperty('--d', (Number(el.dataset.d || 0) * 90) + 'ms');
+                         if (el.getBoundingClientRect().top > vh * 0.96) el.classList.add('pre');
+                         io.observe(el);
+                    });
+                    qsa('.count').forEach(function (el) {
+                         if (el.getBoundingClientRect().top > vh * 0.96) { el.textContent = '0' + (el.dataset.suffix || ''); }
+                         io.observe(el);
+                    });
+                    qsa('[data-fill]').forEach(function (el) { el.style.width = '0%'; io.observe(el); });
+                    qsa('#abar > div').forEach(function (el) { el.style.width = '0%'; io.observe(el); });
+                    io.observe($('stepLine'));
+                    new IntersectionObserver(function (en) { inDonate = en[0].isIntersecting; onScroll(); }, { threshold: 0.05 }).observe($('donate'));
+               }
+               function setupReduced() {
+                    if (!reduce) return;
+                    qsa('[data-fill]').forEach(function (el) { el.style.width = el.dataset.fill + '%'; });
+                    qsa('#abar > div').forEach(function (el) { el.style.width = el.dataset.w + '%'; });
+                    $('stepLine').style.width = '100%';
+               }
+
+               /* ---------- Active section highlight ---------- */
+               function setupActive() {
+                    if (!('IntersectionObserver' in window)) return;
+                    var map = {};
+                    qsa('#navLinks a[data-sec]').forEach(function (a) { map[a.dataset.sec] = a; });
+                    var obs = new IntersectionObserver(function (entries) {
+                         entries.forEach(function (en) {
+                              if (en.isIntersecting) {
+                                   Object.keys(map).forEach(function (k) { map[k].dataset.active = String(k === en.target.id); });
+                              }
+                         });
+                    }, { rootMargin: '-45% 0px -50% 0px' });
+                    Object.keys(map).forEach(function (k) { var s = $(k); if (s) obs.observe(s); });
+                    map.home.dataset.active = 'true';
+               }
+
+               /* ---------- Intro and portal ---------- */
+               var intro = $('intro'), ringEl = $('portalRing'), site = $('site'), nameEl = $('introName');
+               var title = $('introTitle'), idx = 0;
+               'AG Care Ghana'.split(' ').forEach(function (w) {
+                    var word = document.createElement('span');
+                    word.className = 'word';
+                    w.split('').forEach(function (ch) {
+                         var s = document.createElement('span');
+                         s.className = 'ch';
+                         s.style.setProperty('--i', idx++);
+                         s.textContent = ch;
+                         word.appendChild(s);
+                    });
+                    idx++;
+                    title.appendChild(word);
+               });
+               var started = false, timer = null;
+               function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+               function finish() {
+                    intro.hidden = true;
+                    ringEl.style.display = 'none';
+                    site.style.transform = '';
+                    site.style.filter = '';
+                    document.body.classList.remove('intro-lock');
+                    topnav.dataset.show = 'true';
+                    onScroll();
+               }
+               function openPortal() {
+                    if (started) return;
+                    started = true;
+                    clearTimeout(timer);
+                    $('skipBtn').style.display = 'none';
+                    if (reduce) { finish(); return; }
+                    var vw = window.innerWidth, vh = window.innerHeight;
+                    var maxR = Math.hypot(vw, vh) / 2 + 40;
+                    var dur = 1700, t0 = performance.now();
+                    ringEl.style.opacity = 1;
+                    (function frame(now) {
+                         var p = Math.min(1, (now - t0) / dur), e = ease(p);
+                         var r = e * maxR;
+                         intro.style.setProperty('--r', r + 'px');
+                         ringEl.style.width = ringEl.style.height = (r * 2) + 'px';
+                         ringEl.style.opacity = p < .85 ? 1 : (1 - p) / .15;
+                         nameEl.style.transform = 'scale(' + (1 + e * 3.2) + ')';
+                         nameEl.style.opacity = Math.max(0, 1 - e * 1.6);
+                         site.style.transform = 'scale(' + (1.65 - .65 * e) + ')';
+                         site.style.filter = 'blur(' + (12 * (1 - e)).toFixed(2) + 'px)';
+                         if (p < 1) requestAnimationFrame(frame); else finish();
+                    })(t0);
+               }
+
+               function start() {
+                    setupReveals();
+                    setupReduced();
+                    setupActive();
+                    onScroll();
+                    if (reduce) { finish(); return; }
+                    window.scrollTo(0, 0);
+                    document.body.classList.add('intro-lock');
+                    site.style.transform = 'scale(1.65)';
+                    site.style.filter = 'blur(12px)';
+                    $('skipBtn').addEventListener('click', openPortal);
+                    timer = setTimeout(openPortal, 3300);
+               }
+               start();
+          })();
+     </script>
+</body>
+
+</html>

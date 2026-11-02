@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AG Care - Modern Footer Component</title>
+    <!-- Google Fonts for modern aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#e8e7e1',
+                            dark: '#0f172a',
+                            subtle: '#64748b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for precise visual fidelity */
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f0eb;
+            margin: 0;
+            padding: 0;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* Footer Container with subtle background image overlay */
+        .ag-footer {
+            position: relative;
+            background-color: #e6e5df;
+            background-image:
+                radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.7) 0%, rgba(230, 229, 223, 0.4) 70%),
+                url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center bottom;
+            background-blend-mode: overlay;
+            overflow: hidden;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Top soft gradient mask for smooth blend */
+        .ag-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, #f1f0eb 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Bottom haze fog layer behind giant text */
+        .ag-footer::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to top, rgba(230, 229, 223, 0.95) 0%, rgba(230, 229, 223, 0.6) 50%, transparent 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Giant Watermark Typography touching the very bottom */
+        .giant-ag-care {
+            font-size: clamp(5.5rem, 18.5vw, 23rem);
+            font-weight: 800;
+            line-height: 0.76;
+            letter-spacing: -0.05em;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            user-select: none;
+            margin-bottom: -0.04em;
+            /* Touch exact bottom edge */
+            white-space: nowrap;
+        }
+
+        /* Hover links styling */
+        .footer-link {
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: #000000;
+            transform: translateX(2px);
+        }
+
+        /* Code modal overlay */
+        .code-modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Optional Page Header/Hero area to contextualize footer -->
+    <div class="flex-grow flex flex-col items-center justify-center p-8 text-center min-h-[40vh]">
+        <span
+            class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4">Preview
+            Mode</span>
+        <h1 class="text-3xl md:text-5xl font-extrabold text-slate-800 tracking-tight">AG Care Foundation</h1>
+        <p class="text-slate-600 max-w-xl mt-3 text-base">Touching lives, fostering hope, dignity, and opportunity
+            equally for all across vulnerable communities.</p>
+        <button onclick="toggleCodeModal()"
+            class="mt-6 inline-flex items-center gap-2 bg-slate-900 hover:bg-black text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+            </svg>
+            View Pure HTML Code
+        </button>
+    </div>
+
+    <!-- MAIN FOOTER COMPONENT -->
+    <footer id="contact" class="ag-footer pt-16 md:pt-24 text-slate-800 w-full relative">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16">
+
+                <!-- Left Column: Brand Info & CTA -->
+                <div class="lg:col-span-5 space-y-6">
+                    <!-- Brand Badge Header -->
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white shadow-md">
+                            <!-- AG Care Sun/Care Icon -->
+                            <svg class="w-6 h-6" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 22a11 11 0 0 1 22 0z" fill="#d9fb6e" />
+                                <path d="M16 3v3M6.5 8l2 2M25.5 8l-2 2" stroke="#fff" stroke-width="2.2"
+                                    stroke-linecap="round" />
+                                <path d="M3 26.5h26" stroke="#fff" stroke-width="2.4" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold tracking-tight text-slate-900">AG Care</span>
+                    </div>
+
+                    <!-- Tagline & Description -->
+                    <div class="space-y-3 max-w-md">
+                        <h3 class="text-2xl font-bold text-slate-900 tracking-tight">Your partner in community impact
+                        </h3>
+                        <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                            Touching lives, fostering hope, dignity, and opportunity equally for all across vulnerable
+                            communities worldwide.
+                        </p>
+                    </div>
+
+                    <!-- Action Pill Button (Pill style like image) -->
+                    <div class="pt-2">
+                        <a href="#get-involved"
+                            class="inline-flex items-center gap-2.5 bg-slate-900 hover:bg-black text-white px-6 py-3 rounded-full text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-200 group">
+                            <svg class="w-4 h-4 fill-current text-lime-400 group-hover:scale-110 transition-transform"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                            <span>Support AG Care</span>
+                        </a>
+                    </div>
+
+                    <!-- Copyright & Credit Details -->
+                    <div class="pt-6 text-xs text-slate-500 space-y-2">
+                        <div>© 2026 AG Care Foundation · All rights reserved</div>
+                        <div class="flex items-center gap-1.5 font-medium text-slate-600">
+                            <span>Built with</span>
+                            <span class="text-blue-500">💙</span>
+                            <span>by</span>
+                            <span class="inline-flex items-center gap-1 text-slate-900 font-semibold">
+                                <img class="w-4 h-4 rounded-full object-cover"
+                                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
+                                    alt="Team member">
+                                AG Care Team
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Columns: Links Navigation -->
+                <div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 pt-2">
+
+                    <!-- Column 1: Menu -->
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Menu</h4>
+                        <ul class="space-y-3 text-sm text-slate-600">
+                            <li><a href="#home" class="footer-link inline-block">Home</a></li>
+                            <li><a href="#about" class="footer-link inline-block">About Us</a></li>
+                            <li><a href="#programs" class="footer-link inline-block">Programs</a></li>
+                            <li><a href="#stories" class="footer-link inline-block">Impact Stories</a></li>
+                            <li><a href="#updates" class="footer-link inline-block">Updates</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 2: Navigation -->
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Navigation</h4>
+                        <ul class="space-y-3 text-sm text-slate-600">
+                            <li><a href="#contact" class="footer-link inline-block">Contact</a></li>
+                            <li><a href="#roadmap" class="footer-link inline-block">Roadmap</a></li>
+                            <li><a href="#privacy" class="footer-link inline-block">Privacy policy</a></li>
+                            <li><a href="#terms" class="footer-link inline-block">Terms of service</a></li>
+                            <li><a href="#transparency" class="footer-link inline-block">Financial Reports</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 3: Our Focus -->
+                    <div class="col-span-2 sm:col-span-1">
+                        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Our Focus</h4>
+                        <ul class="space-y-3 text-sm text-slate-600">
+                            <li><a href="#programs" class="footer-link inline-block">Education Support</a></li>
+                            <li><a href="#programs" class="footer-link inline-block">Women Empowerment</a></li>
+                            <li><a href="#programs" class="footer-link inline-block">Health & Nutrition</a></li>
+                            <li><a href="#volunteer" class="footer-link inline-block">Volunteer Hub</a></li>
+                            <li><a href="#donate" class="footer-link inline-block">Direct Giving</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- GIANT OVERSIZED TYPOGRAPHY AT THE BOTTOM -->
+        <div class="w-full flex justify-center items-end overflow-hidden pointer-events-none relative z-10">
+            <h2 class="giant-ag-care text-center tracking-tighter">AG CARE</h2>
+        </div>
+    </footer>
+
+    <!-- Code View Modal -->
+    <div id="codeModal"
+        class="code-modal fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none">
+        <div
+            class="bg-slate-900 text-slate-200 rounded-2xl max-w-4xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-slate-700 overflow-hidden">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950">
+                <span class="text-sm font-semibold text-slate-300">Clean HTML Code for Footer</span>
+                <div class="flex items-center gap-3">
+                    <button onclick="copyCode()" id="copyBtn"
+                        class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition-all flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        Copy Snippet
+                    </button>
+                    <button onclick="toggleCodeModal()"
+                        class="text-slate-400 hover:text-white text-xl leading-none">&times;</button>
+                </div>
+            </div>
+            <div class="p-6 overflow-y-auto font-mono text-xs leading-relaxed text-emerald-400 bg-slate-950">
+                <pre id="codeSnippet"><code>&lt;footer id="contact" class="ag-footer pt-16 md:pt-24 text-slate-800 w-full relative overflow-hidden"&gt;
+  &lt;div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10"&gt;
+    &lt;div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16"&gt;
+      
+      &lt;!-- Left Column: Brand Info & CTA --&gt;
+      &lt;div class="lg:col-span-5 space-y-6"&gt;
+        &lt;div class="flex items-center gap-3"&gt;
+          &lt;div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white"&gt;
+            &lt;svg class="w-6 h-6" viewBox="0 0 32 32" fill="none"&gt;
+              &lt;path d="M5 22a11 11 0 0 1 22 0z" fill="#d9fb6e" /&gt;
+              &lt;path d="M16 3v3M6.5 8l2 2M25.5 8l-2 2" stroke="#fff" stroke-width="2.2" stroke-linecap="round" /&gt;
+              &lt;path d="M3 26.5h26" stroke="#fff" stroke-width="2.4" stroke-linecap="round" /&gt;
+            &lt;/svg&gt;
+          &lt;/div&gt;
+          &lt;span class="text-xl font-bold tracking-tight text-slate-900"&gt;AG Care&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;div class="space-y-3 max-w-md"&gt;
+          &lt;h3 class="text-2xl font-bold text-slate-900 tracking-tight"&gt;Your partner in community impact&lt;/h3&gt;
+          &lt;p class="text-slate-600 text-sm md:text-base leading-relaxed"&gt;
+            Touching lives, fostering hope, dignity, and opportunity equally for all across vulnerable communities worldwide.
+          &lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class="pt-2"&gt;
+          &lt;a href="#get-involved" class="inline-flex items-center gap-2.5 bg-slate-900 hover:bg-black text-white px-6 py-3 rounded-full text-sm font-semibold shadow-lg transition-all"&gt;
+            &lt;span&gt;Support AG Care&lt;/span&gt;
+          &lt;/a&gt;
+        &lt;/div&gt;
+
+        &lt;div class="pt-6 text-xs text-slate-500 space-y-2"&gt;
+          &lt;div&gt;&copy; 2026 AG Care Foundation &amp;middot; All rights reserved&lt;/div&gt;
+          &lt;div class="flex items-center gap-1.5 font-medium text-slate-600"&gt;
+            &lt;span&gt;Built with 💙 by AG Care Team&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Right Columns: Links --&gt;
+      &lt;div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 pt-2"&gt;
+        &lt;div&gt;
+          &lt;h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4"&gt;Menu&lt;/h4&gt;
+          &lt;ul class="space-y-3 text-sm text-slate-600"&gt;
+            &lt;li&gt;&lt;a href="#home" class="hover:text-black"&gt;Home&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#about" class="hover:text-black"&gt;About Us&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#programs" class="hover:text-black"&gt;Programs&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#stories" class="hover:text-black"&gt;Impact Stories&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+          &lt;h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4"&gt;Navigation&lt;/h4&gt;
+          &lt;ul class="space-y-3 text-sm text-slate-600"&gt;
+            &lt;li&gt;&lt;a href="#contact" class="hover:text-black"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#privacy" class="hover:text-black"&gt;Privacy policy&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#terms" class="hover:text-black"&gt;Terms of service&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#transparency" class="hover:text-black"&gt;Financial Reports&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+          &lt;h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4"&gt;Our Focus&lt;/h4&gt;
+          &lt;ul class="space-y-3 text-sm text-slate-600"&gt;
+            &lt;li&gt;&lt;a href="#programs" class="hover:text-black"&gt;Education Support&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#programs" class="hover:text-black"&gt;Women Empowerment&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#programs" class="hover:text-black"&gt;Health &amp; Nutrition&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#volunteer" class="hover:text-black"&gt;Volunteer Hub&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- GIANT BOTTOM TYPOGRAPHY --&gt;
+  &lt;div class="w-full flex justify-center items-end overflow-hidden pointer-events-none"&gt;
+    &lt;h2 class="text-[18vw] font-extrabold leading-[0.76] tracking-tighter text-white/80 -mb-[0.04em] whitespace-nowrap"&gt;
+      AG CARE
+    &lt;/h2&gt;
+  &lt;/div&gt;
+&lt;/footer&gt;</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleCodeModal() {
+            const modal = document.getElementById('codeModal');
+            if (modal.classList.contains('opacity-0')) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function copyCode() {
+            const snippet = document.getElementById('codeSnippet').innerText;
+            navigator.clipboard.writeText(snippet).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerText = 'Copied!';
+                setTimeout(() => {
+                    btn.innerText = 'Copy Snippet';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

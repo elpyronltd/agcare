@@ -1,0 +1,524 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Rise Care Foundation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: white frame around a rounded sky hero; a white name intro opens into it like a portal; hero = nav, headline, CTAs, then a 3D cylinder of floating impact cards drifting left to right over clouds.
+   This page commits to one look (daylight sky), so all colours are explicit tokens on :root. */
+:root {
+  --paper: #ffffff;
+  --sky-top: #0a58d6;
+  --sky-mid: #1a7cf0;
+  --sky-low: #4aa6ff;
+  --sky-haze: #8fd0ff;
+  --ink: #0b2a55;
+  --lime: #d9fb6e;
+  --snow: #ffffff;
+  --snow-dim: rgba(255, 255, 255, .68);
+  --glass: rgba(6, 44, 110, .55);
+  --font-display: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--paper); color: var(--ink); }
+body {
+  font-family: var(--font-display);
+  padding-inline: 10px;
+  padding-block: 10px;
+  min-height: 100%;
+}
+body.intro-lock { overflow: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+
+/* ---------- Site (hero) ---------- */
+.site { transform-origin: 50% 40%; will-change: transform, filter; }
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  background:
+    radial-gradient(120% 60% at 50% 105%, var(--sky-haze) 0%, rgba(143, 208, 255, 0) 60%),
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 38%, var(--sky-low) 78%, var(--sky-haze) 100%);
+  color: var(--snow);
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 720px;
+}
+.clouds { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.cloud-layer { position: absolute; inset: 0; animation: drift var(--dur, 70s) ease-in-out infinite alternate; }
+.puff {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .96) 0%, rgba(255, 255, 255, .85) 32%, rgba(255, 255, 255, 0) 70%);
+}
+@keyframes drift { from { transform: translateX(-3%); } to { transform: translateX(3%); } }
+
+/* Nav */
+.nav {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 28px 0;
+}
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 500; font-size: 1.15rem; letter-spacing: -.02em; justify-self: start; }
+.brand svg { width: 30px; height: 30px; flex: none; }
+.links { display: flex; align-items: center; gap: 30px; list-style: none; margin: 0; padding: 0; }
+.links > li { position: relative; }
+.mono { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .14em; }
+.links a, .links .more-btn { color: var(--snow); padding: 8px 2px; opacity: .92; background: none; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.links a:hover, .links .more-btn:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+.caret { width: 9px; height: 9px; transition: transform .2s; }
+.more-btn[aria-expanded="true"] .caret { transform: rotate(180deg); }
+.dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  translate: -50% 0;
+  min-width: 210px;
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 24px 50px -16px rgba(0, 30, 100, .55);
+}
+.dropdown a { display: block; color: var(--ink); padding: 11px 14px; border-radius: 10px; opacity: 1; text-decoration: none !important; }
+.dropdown a:hover { background: #e9f2ff; }
+.nav-right { justify-self: end; display: flex; align-items: center; gap: 10px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  height: 46px; padding: 0 22px; border-radius: 999px; border: 0; cursor: pointer;
+  white-space: nowrap;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-lime { background: var(--lime); color: var(--ink); box-shadow: 0 8px 24px -10px rgba(217, 251, 110, .9); }
+.btn-lime.small { height: 40px; padding: 0 18px; }
+.btn-glass { background: var(--glass); color: #d6e8ff; border: 1px solid rgba(255, 255, 255, .2); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.btn .go { width: 30px; height: 30px; border-radius: 50%; background: var(--ink); display: grid; place-items: center; margin-right: -12px; }
+.btn .go svg { width: 13px; height: 13px; }
+.menu-btn { display: none; width: 42px; height: 42px; border-radius: 50%; background: var(--glass); border: 1px solid rgba(255, 255, 255, .25); cursor: pointer; place-items: center; }
+.menu-btn svg { width: 18px; height: 18px; }
+
+/* Hero copy */
+.copy { position: relative; z-index: 3; text-align: center; padding: clamp(40px, 6vw, 72px) 20px 0; display: flex; flex-direction: column; align-items: center; }
+h1 {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(2.5rem, 6.6vw, 4.6rem);
+  line-height: 1.02;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+h1 .dim { color: var(--snow-dim); display: block; }
+.lede { margin: 22px 0 0; max-width: 40ch; font-size: clamp(.95rem, 1.5vw, 1.05rem); line-height: 1.55; color: rgba(255, 255, 255, .88); text-wrap: balance; }
+.cta { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; justify-content: center; }
+
+/* Carousel */
+.stage { position: relative; z-index: 2; margin-top: auto; padding-top: 18px; }
+.scene { position: relative; width: 100%; }
+.scaler { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; transform-origin: 0 0; }
+.ring { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-style: preserve-3d; animation: spin 90s linear infinite; }
+.stage:hover .ring { animation-play-state: paused; }
+@keyframes spin {
+  from { transform: translateZ(calc(var(--R) * -1)) rotateY(0deg); }
+  to { transform: translateZ(calc(var(--R) * -1)) rotateY(360deg); }
+}
+.card {
+  position: absolute; left: 0; top: 0;
+  width: 170px;
+  border-radius: 18px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #fff;
+  color: var(--ink);
+  padding: 13px;
+  box-shadow: 0 22px 40px -14px rgba(0, 30, 100, .55);
+  font-size: 11px;
+  line-height: 1.35;
+}
+.card .lab { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: #5b7aa8; }
+.card .big { font-size: 34px; font-weight: 500; letter-spacing: -.04em; line-height: 1.05; margin-top: 4px; }
+.card .ttl { font-size: 13px; font-weight: 500; letter-spacing: -.02em; line-height: 1.2; }
+.card svg { display: block; width: 100%; height: auto; }
+.row { display: flex; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 10px; background: #eef5ff; margin-top: 6px; }
+.row i { width: 18px; height: 18px; border-radius: 50%; background: var(--sky-mid); flex: none; display: grid; place-items: center; }
+.row i svg { width: 9px; height: 9px; }
+.row span { flex: 1; font-weight: 500; }
+.row b { font-family: var(--font-mono); font-weight: 500; font-size: 9px; color: #2a8a4a; }
+.bar { height: 6px; border-radius: 4px; background: #dce9ff; margin-top: 8px; overflow: hidden; }
+.bar > div { height: 100%; width: 74%; background: linear-gradient(90deg, var(--sky-mid), #5ab3ff); border-radius: 4px; }
+.photo { padding: 0; background: linear-gradient(165deg, #ffc27a 0%, #ff7f5a 48%, #1f7a4c 100%); position: relative; }
+.chips { position: absolute; left: 10px; right: 10px; bottom: 10px; display: flex; gap: 6px; }
+.chip { flex: 1; background: rgba(255, 255, 255, .94); border-radius: 10px; padding: 6px 8px; }
+.chip small { display: block; font-size: 8.5px; color: #5b7aa8; }
+.chip strong { font-size: 13px; font-weight: 500; letter-spacing: -.02em; }
+.dark { background: #0c1630; color: #fff; }
+.dark .quote { font-size: 15px; line-height: 1.22; letter-spacing: -.03em; color: #8493b3; font-weight: 500; }
+.dark .quote em { font-style: normal; color: #fff; }
+.dark .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 3px solid var(--lime); vertical-align: -1px; margin: 0 2px; }
+.glass { background: linear-gradient(160deg, rgba(255, 255, 255, .34), rgba(255, 255, 255, .14)); border: 1px solid rgba(255, 255, 255, .45); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: #fff; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.glass .plus { width: 34px; height: 34px; border-radius: 50%; background: #fff; display: grid; place-items: center; margin-bottom: 6px; }
+.glass .plus svg { width: 14px; height: 14px; }
+.glass small { opacity: .85; font-size: 9.5px; }
+.tags { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0 10px; }
+.tags span { padding: 4px 9px; border-radius: 999px; background: #eef5ff; font-weight: 500; font-size: 10px; }
+.tags span.on { background: var(--ink); color: #fff; }
+.ringwrap { position: relative; width: 84px; margin: 10px auto 8px; }
+.ringwrap b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 19px; font-weight: 500; letter-spacing: -.03em; }
+
+.tagline { position: relative; z-index: 3; text-align: center; padding: 6px 20px 26px; color: rgba(255, 255, 255, .92); }
+
+/* ---------- Intro ---------- */
+.intro {
+  position: fixed; inset: 0; z-index: 100;
+  background: #fff;
+  display: grid; place-items: center;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent var(--r, 0px), #000 calc(var(--r, 0px) + 2px));
+  mask-image: radial-gradient(circle at 50% 50%, transparent var(--r, 0px), #000 calc(var(--r, 0px) + 2px));
+}
+.intro[hidden] { display: none !important; }
+.intro-name {
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+  color: var(--ink);
+  transform-origin: 50% 50%;
+}
+.intro-name h2 {
+  margin: 0; display: flex; flex-wrap: wrap; justify-content: center; column-gap: .3em;
+  font-weight: 500; font-size: clamp(2.2rem, 8vw, 5.2rem); letter-spacing: -.045em; line-height: 1;
+  text-align: center; padding-inline: 16px;
+}
+.word { display: inline-flex; overflow: hidden; padding-bottom: .12em; }
+.ch { display: inline-block; transform: translateY(110%); opacity: 0; animation: rise .9s cubic-bezier(.2, .8, .2, 1) forwards; animation-delay: calc(var(--i) * 55ms + 250ms); }
+@keyframes rise { to { transform: none; opacity: 1; } }
+.sun { width: clamp(60px, 11vw, 110px); height: auto; overflow: visible; }
+.sun .arc { fill: var(--lime); transform-origin: 50% 100%; transform: translateY(100%); animation: sunrise 1.1s cubic-bezier(.2, .8, .2, 1) 1.1s forwards; }
+.sun .ray { stroke: #0a58d6; stroke-width: 3; stroke-linecap: round; opacity: 0; animation: fadein .6s ease 1.9s forwards; }
+.sun .ground { stroke: #0a58d6; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw .9s ease .9s forwards; }
+@keyframes sunrise { to { transform: none; } }
+@keyframes fadein { to { opacity: 1; } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.intro-sub { font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: #5b7aa8; opacity: 0; animation: fadein .8s ease 1.7s forwards; }
+.portal-ring {
+  position: fixed; left: 50%; top: 50%; z-index: 101; pointer-events: none;
+  width: 0; height: 0; translate: -50% -50%; border-radius: 50%;
+  border: 3px solid var(--lime);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, .7), 0 0 50px 14px rgba(30, 120, 255, .65), inset 0 0 50px 10px rgba(30, 120, 255, .5);
+  opacity: 0;
+}
+.skip { position: fixed; z-index: 102; right: 18px; bottom: 16px; background: none; border: 0; cursor: pointer; color: #5b7aa8; padding: 8px; }
+.skip:hover { color: var(--ink); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .nav { grid-template-columns: 1fr auto; padding: 16px 16px 0; }
+  .links { display: none; position: absolute; top: calc(100% + 10px); left: 16px; right: 16px; flex-direction: column; align-items: stretch; gap: 0; padding: 10px; border-radius: 18px; background: rgba(8, 40, 100, .92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 24px 50px -16px rgba(0, 30, 100, .7); }
+  .links.open { display: flex; }
+  .links > li > a, .links .more-btn { width: 100%; padding: 13px 10px; justify-content: space-between; }
+  .dropdown { position: static; translate: none; background: rgba(255, 255, 255, .08); box-shadow: none; margin-top: 4px; }
+  .dropdown a { color: #fff; }
+  .dropdown a:hover { background: rgba(255, 255, 255, .12); }
+  .menu-btn { display: grid; }
+  .nav-right .btn-lime { display: none; }
+  .hero { min-height: 640px; }
+}
+@media (max-width: 480px) {
+  .btn { height: 44px; padding: 0 18px; }
+  .btn .go { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ring, .cloud-layer { animation: none; }
+  .ch, .sun .arc, .sun .ray, .sun .ground, .intro-sub { animation-duration: .01s; animation-delay: 0s; }
+}
+</style>
+
+<div class="intro" id="intro" role="status" aria-label="Loading Rise Care Foundation">
+  <div class="intro-name" id="introName">
+    <svg class="sun" viewBox="0 0 120 70" aria-hidden="true">
+      <path class="arc" d="M24 58a36 36 0 0 1 72 0z"/>
+      <line class="ray" x1="60" y1="4" x2="60" y2="-6"/>
+      <line class="ray" x1="22" y1="18" x2="14" y2="10"/>
+      <line class="ray" x1="98" y1="18" x2="106" y2="10"/>
+      <line class="ground" x1="8" y1="60" x2="112" y2="60" pathLength="100"/>
+    </svg>
+    <h2 id="introTitle" aria-label="Rise Care Foundation"></h2>
+    <div class="intro-sub">Community &middot; Education &middot; Women's empowerment</div>
+  </div>
+  <button class="skip mono" id="skipBtn" type="button">Skip intro</button>
+</div>
+<div class="portal-ring" id="portalRing" aria-hidden="true"></div>
+
+<div class="site" id="site">
+  <section class="hero" id="hero">
+    <div class="clouds" id="clouds" aria-hidden="true"></div>
+
+    <header class="nav">
+      <a class="brand" href="#home" aria-label="Rise Care Foundation home">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M5 22a11 11 0 0 1 22 0z" fill="#d9fb6e"/>
+          <path d="M16 3v3M6.5 8l2 2M25.5 8l-2 2" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M3 26.5h26" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+        Rise Care
+      </a>
+      <ul class="links mono" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#programs">Our Programs</a></li>
+        <li><a href="#news">News &amp; Impact</a></li>
+        <li>
+          <button class="more-btn mono" id="moreBtn" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="moreMenu">
+            More Links
+            <svg class="caret" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 3.5 5 7l3.5-3.5"/></svg>
+          </button>
+          <ul class="dropdown" id="moreMenu" hidden>
+            <li><a href="#get-involved">Get Involved</a></li>
+            <li><a href="#projects">Ongoing Projects</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="#partner">Partner with Us</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="nav-right">
+        <a class="btn btn-lime small mono" href="#donate">Donate</a>
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+          <svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h14M3 14h14"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="copy">
+      <h1>Touching Lives, <span class="dim">One at a Time</span></h1>
+      <p class="lede">Fostering Hope, Dignity and Opportunity - equally for all</p>
+      <div class="cta">
+        <a class="btn btn-glass mono" href="#partner">Partner with Us</a>
+        <a class="btn btn-lime mono" href="#donate">Donate
+          <span class="go"><svg viewBox="0 0 14 14" fill="none" stroke="#d9fb6e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5l7-7M4.5 3.5h6v6"/></svg></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="scene" id="scene">
+        <div class="scaler" id="scaler"><div class="ring" id="ring"></div></div>
+      </div>
+    </div>
+    <p class="tagline mono">Charity &middot; Community support &middot; Education &middot; Women empowerment</p>
+  </section>
+</div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ---------- Clouds ---------- */
+  function buildClouds() {
+    var host = $('clouds');
+    host.innerHTML = '';
+    var layers = [
+      { dur: 90, opacity: .9, puffs: [
+        [-8, 64, 380, 240], [12, 76, 520, 260], [34, 84, 460, 220], [58, 80, 560, 260], [80, 72, 500, 250], [100, 66, 420, 230],
+        [-4, 22, 300, 130], [4, 12, 260, 110]
+      ]},
+      { dur: 60, opacity: .75, puffs: [
+        [6, 92, 360, 170], [28, 96, 420, 180], [50, 94, 380, 170], [74, 96, 440, 190], [96, 92, 360, 170],
+        [90, 26, 240, 90]
+      ]}
+    ];
+    layers.forEach(function (L, li) {
+      var layer = document.createElement('div');
+      layer.className = 'cloud-layer';
+      layer.style.setProperty('--dur', L.dur + 's');
+      layer.style.opacity = L.opacity;
+      if (li === 1) layer.style.animationDirection = 'alternate-reverse';
+      L.puffs.forEach(function (p) {
+        var d = document.createElement('div');
+        d.className = 'puff';
+        d.style.left = 'calc(' + p[0] + '% - ' + p[2] / 2 + 'px)';
+        d.style.top = 'calc(' + p[1] + '% - ' + p[3] / 2 + 'px)';
+        d.style.width = p[2] + 'px';
+        d.style.height = p[3] + 'px';
+        layer.appendChild(d);
+      });
+      host.appendChild(layer);
+    });
+  }
+
+  /* ---------- Card designs (sample figures, replace with real ones) ---------- */
+  var check = '<svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.2l2 2L8 3"/></svg>';
+  var designs = [
+    { h: 215, html:
+      '<div class="lab">Lives touched</div><div class="big">12.4k</div>' +
+      '<svg viewBox="0 0 144 90" style="margin-top:8px"><defs><linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b9bff"/><stop offset="1" stop-color="#0a58d6"/></linearGradient></defs>' +
+      '<g fill="url(#gb)"><rect x="2" y="58" width="14" height="30" rx="4"/><rect x="22" y="48" width="14" height="40" rx="4"/><rect x="42" y="52" width="14" height="36" rx="4"/><rect x="62" y="36" width="14" height="52" rx="4"/><rect x="82" y="40" width="14" height="48" rx="4"/><rect x="102" y="22" width="14" height="66" rx="4"/></g>' +
+      '<rect x="122" y="6" width="14" height="82" rx="4" fill="#d9fb6e"/></svg>' +
+      '<div class="lab" style="margin-top:8px">Sample figures</div>' },
+    { h: 236, html:
+      '<div class="lab">Education fund</div><div class="ttl" style="margin-top:3px">Scholarships</div><div class="bar"><div></div></div>' +
+      '<div class="row"><i>' + check + '</i><span>School fees</span><b>FUNDED</b></div>' +
+      '<div class="row"><i>' + check + '</i><span>Learning kits</span><b>FUNDED</b></div>' +
+      '<div class="row"><i>' + check + '</i><span>Uniforms</span><b>FUNDED</b></div>' +
+      '<div class="row"><i style="background:#9fb8dc"></i><span>Library</span><b style="color:#7a8fb0">OPEN</b></div>' },
+    { h: 206, cls: 'photo', html:
+      '<svg viewBox="0 0 170 206" preserveAspectRatio="xMidYMid slice" style="height:100%">' +
+      '<circle cx="132" cy="38" r="34" fill="#ffe2a8" opacity=".55"/>' +
+      '<path d="M30 160c4-34 28-50 55-50s51 16 55 50v46H30z" fill="#f6e7cf"/>' +
+      '<path d="M62 126l23 22 23-22c8 6 14 14 17 24H45c3-10 9-18 17-24z" fill="#d9fb6e"/>' +
+      '<rect x="74" y="96" width="22" height="26" rx="10" fill="#6b3d26"/>' +
+      '<ellipse cx="85" cy="78" rx="25" ry="29" fill="#7a4a2e"/>' +
+      '<path d="M58 74c-2-26 14-40 30-40 20 0 34 14 30 40-6-14-18-20-30-20S64 60 58 74z" fill="#1f1410"/>' +
+      '<circle cx="85" cy="42" r="26" fill="#1f1410"/>' +
+      '<ellipse cx="85" cy="78" rx="23" ry="27" fill="#7a4a2e"/>' +
+      '<path d="M62 70c4-16 14-22 24-22 12 0 21 8 23 22-8-8-14-10-24-10s-16 2-23 10z" fill="#1f1410"/>' +
+      '<path d="M76 90q9 7 18 0" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>' +
+      '</svg>' +
+      '<div class="chips"><div class="chip"><small>Girls in school</small><strong>2,670</strong></div><div class="chip"><small>Mentors</small><strong>1,200</strong></div></div>' },
+    { h: 192, html:
+      '<div class="ttl">Impact in every community</div>' +
+      '<svg viewBox="0 0 144 100" style="margin-top:12px"><defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b9bff" stop-opacity=".55"/><stop offset="1" stop-color="#3b9bff" stop-opacity="0"/></linearGradient></defs>' +
+      '<g stroke="#e3edff" stroke-width="1"><path d="M0 20h144M0 45h144M0 70h144M0 95h144"/></g>' +
+      '<path d="M0 84L20 76 40 80 62 58 84 62 106 36 144 14V95H0z" fill="url(#ga)"/>' +
+      '<path d="M0 84L20 76 40 80 62 58 84 62 106 36 144 14" fill="none" stroke="#1a7cf0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<circle cx="144" cy="14" r="4" fill="#d9fb6e" stroke="#0a58d6" stroke-width="2"/></svg>' },
+    { h: 204, cls: 'dark', html:
+      '<div class="quote"><em>Hope</em> <span class="dot"></span> that combines <em>Education, Empowerment</em> and <em>Community</em> support</div>' },
+    { h: 176, cls: 'glass', html:
+      '<div class="plus"><svg viewBox="0 0 14 14" stroke="#0a58d6" stroke-width="2.2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></div>' +
+      '<div class="ttl" style="font-size:15px">Skills training</div><small>Join a women\'s cohort</small>' },
+    { h: 216, html:
+      '<div class="lab">Where we work</div>' +
+      '<div class="tags"><span class="on">Education</span><span>Health</span><span>Livelihoods</span><span>Mentorship</span></div>' +
+      '<div class="lab">Meals shared</div><div class="big" style="font-size:32px">520k+</div>' +
+      '<div class="bar"><div style="width:88%;background:linear-gradient(90deg,#d9fb6e,#8fd94a)"></div></div>' },
+    { h: 192, cls: 'dark', html:
+      '<div class="lab" style="color:#8fa6d4">Monthly giving</div>' +
+      '<div class="ringwrap"><svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#24335a" stroke-width="9"/>' +
+      '<circle cx="42" cy="42" r="34" fill="none" stroke="#d9fb6e" stroke-width="9" stroke-linecap="round" stroke-dasharray="158 214" transform="rotate(-90 42 42)"/></svg><b>74%</b></div>' +
+      '<div class="ttl" style="text-align:center">Goal reached</div>' }
+  ];
+  var dy = [0, -8, 6, -4, 10, -10, 4, -6];
+
+  var N = 24, W = 170;
+  var cards = [];
+  function buildCards() {
+    var ring = $('ring');
+    for (var i = 0; i < N; i++) {
+      var d = designs[(i * 3) % 8];
+      var c = document.createElement('div');
+      c.className = 'card' + (d.cls ? ' ' + d.cls : '');
+      c.style.height = d.h + 'px';
+      c.innerHTML = d.html;
+      c.dataset.a = (i * 360 / N);
+      c.dataset.dy = dy[i % 8];
+      ring.appendChild(c);
+      cards.push(c);
+    }
+  }
+
+  function layout() {
+    var vw = $('hero').clientWidth;
+    var s = Math.min(1.15, Math.max(0.55, vw / 1300));
+    var R = (W + 22) / (2 * Math.sin(Math.PI / N));
+    $('scene').style.perspective = Math.round(1100 * s) + 'px';
+    $('scene').style.height = Math.round(300 * s) + 'px';
+    $('scaler').style.transform = 'scale(' + s + ')';
+    $('ring').style.setProperty('--R', R + 'px');
+    cards.forEach(function (c) {
+      c.style.transform = 'rotateY(' + c.dataset.a + 'deg) translateZ(' + R + 'px) translate(-50%, calc(-50% + ' + c.dataset.dy + 'px))';
+    });
+  }
+
+  /* ---------- Nav behaviour ---------- */
+  var moreBtn = $('moreBtn'), moreMenu = $('moreMenu');
+  function setMore(open) { moreBtn.setAttribute('aria-expanded', open ? 'true' : 'false'); moreMenu.hidden = !open; }
+  moreBtn.addEventListener('click', function (e) { e.stopPropagation(); setMore(moreMenu.hidden); });
+  document.addEventListener('click', function (e) { if (!moreMenu.contains(e.target)) setMore(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { setMore(false); closeMenu(); } });
+  var menuBtn = $('menuBtn'), navLinks = $('navLinks');
+  function closeMenu() { navLinks.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }
+  menuBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = !navLinks.classList.contains('open');
+    navLinks.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  /* ---------- Intro and portal ---------- */
+  var intro = $('intro'), ringEl = $('portalRing'), site = $('site'), nameEl = $('introName');
+  var title = $('introTitle');
+  var idx = 0;
+  'Rise Care Foundation'.split(' ').forEach(function (w) {
+    var word = document.createElement('span');
+    word.className = 'word';
+    w.split('').forEach(function (ch) {
+      var s = document.createElement('span');
+      s.className = 'ch';
+      s.style.setProperty('--i', idx++);
+      s.textContent = ch;
+      word.appendChild(s);
+    });
+    idx++;
+    title.appendChild(word);
+  });
+
+  var done = false, started = false, timer = null;
+  function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function finish() {
+    done = true;
+    intro.hidden = true;
+    ringEl.style.display = 'none';
+    site.style.transform = '';
+    site.style.filter = '';
+    document.body.classList.remove('intro-lock');
+  }
+  function openPortal() {
+    if (started) return;
+    started = true;
+    clearTimeout(timer);
+    $('skipBtn').style.display = 'none';
+    if (reduce) { finish(); return; }
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var maxR = Math.hypot(vw, vh) / 2 + 40;
+    var dur = 1700, t0 = performance.now();
+    ringEl.style.opacity = 1;
+    (function frame(now) {
+      var p = Math.min(1, (now - t0) / dur), e = ease(p);
+      var r = e * maxR;
+      intro.style.setProperty('--r', r + 'px');
+      ringEl.style.width = ringEl.style.height = (r * 2) + 'px';
+      ringEl.style.opacity = p < .85 ? 1 : (1 - p) / .15;
+      nameEl.style.transform = 'scale(' + (1 + e * 3.2) + ')';
+      nameEl.style.opacity = Math.max(0, 1 - e * 1.6);
+      site.style.transform = 'scale(' + (1.65 - .65 * e) + ')';
+      site.style.filter = 'blur(' + (12 * (1 - e)).toFixed(2) + 'px)';
+      if (p < 1) requestAnimationFrame(frame); else finish();
+    })(t0);
+  }
+
+  function start() {
+    buildClouds();
+    buildCards();
+    layout();
+    window.addEventListener('resize', layout);
+    if (reduce) { finish(); return; }
+    document.body.classList.add('intro-lock');
+    site.style.transform = 'scale(1.65)';
+    site.style.filter = 'blur(12px)';
+    $('skipBtn').addEventListener('click', openPortal);
+    timer = setTimeout(openPortal, 3300);
+  }
+  if (document.fonts && document.fonts.ready) { start(); } else { start(); }
+})();
+</script>
+
+</body></html>
